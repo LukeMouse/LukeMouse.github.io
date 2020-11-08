@@ -1,0 +1,186 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">C++及Windows异常处理（try，catch; __try,__finally; __try, __except）—— 一道笔试题引起的探究 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>from(<a href="http://shijuanfeng.blogbus.com/logs/178616871.html">http://shijuanfeng.blogbus.com/logs/178616871.html</a>) <hr/>
+ 题目： <pre class="fragment">void test()
+{
+    int * p = 0x00000000;       //   pointer   to   NULL 
+    puts("hello");
+    __try
+    {
+        puts("in try");
+        __try
+        {
+            puts("in try"); 
+            *p = 13;         //   causes   an   access   violation   exception; 
+        }
+        __finally
+        { 
+            puts("in finally"); 
+        } 
+    }
+    __except(puts("in filter "), 1)
+    { 
+        puts( "in except "); 
+    } 
+    puts("world"); 
+}
+输出结果：
+/*
+hello
+in try
+in try
+in filter
+in finally
+in except
+world
+*/
+</pre> </dd></dl>
+<p>上面的题目，我把答案列了出来。常用Ｃ＋＋的朋友，应该没见过__try这种形式的语句，下面我把try，catch; __try,__finally; __try, __except这三对异常处理使用标示逐一说明.</p>
+<p>本文参考了如下博文：</p>
+<ol type="1">
+<li><a href="http://www.cnblogs.com/wenziqi/archive/2010/08/26/1809074.html">http://www.cnblogs.com/wenziqi/archive/2010/08/26/1809074.html</a></li>
+<li><a href="http://blog.csdn.net/lvwenshuai/article/details/6163342">http://blog.csdn.net/lvwenshuai/article/details/6163342</a></li>
+<li><a href="http://topic.csdn.net/t/20030527/10/1838724.html">http://topic.csdn.net/t/20030527/10/1838724.html</a></li>
+<li><a href="http://zhidao.baidu.com/question/183400727.html">http://zhidao.baidu.com/question/183400727.html</a></li>
+</ol>
+<h1><a class="anchor" id="cpptry"></a>
+C++ 异常处理：try，catch</h1>
+<pre class="fragment">try
+{
+    // 可能出错的语句
+    // 如果有错，就——
+    throw ... // 初始化一个异常对象（exception object）
+}
+catch( 类型名 [形参名] ) /* 异常说明符（exception specifier）*/
+{
+}    
+catch( 类型名 [形参名] )
+{     
+}
+</pre> <p>C++的异常处理很简单，就是如上的三个关键字，注意C++中throw，catch之后没有Java等语言中的finally。</p>
+<p>Q: 为何C++不提供“finally”结构？ </p>
+<p>A: 因为C++提供了另一种机制，完全可以取代finally，而且这种机制几乎总要比finally工作得更好：就是——“分配资源即初始化”。（见《The C++ Programming Language》14.4节）基本的想法是，用一个局部对象来封装一个资源，这样一来局部对象的析构函数就可以自动释放资源。这样，程序员就不会“忘记释放资源”了。 [译注：因为C++的对象“生命周期”机制替他记住了 :O) ] 下面是一个例子：</p>
+<pre class="fragment">class File_handle {
+        FILE* p;
+    public:
+        File_handle(const char* n, const char* a)
+            { p = fopen(n,a); if (p==0) throw Open_error(errno); }
+        File_handle(FILE* pp)
+            { p = pp; if (p==0) throw Open_error(errno); }
+ 
+        ~File_handle() { fclose(p); }
+ 
+        operator FILE*() { return p; }
+ 
+        // ...
+};
+
+void f(const char* fn)
+{
+    File_handle f(fn,"rw");    // open fn for reading and writing
+    // use file through f
+}
+</pre><p>在一个系统中，每一样资源都需要一个“资源局柄”对象，但我们不必为每一个资源都写一个“finally”语句。在实作的系统中，资源的获取和释放的次数远远多于资源的种类，所以“资源分配即初始化”机制产生的代码要比“finally”机制少。</p>
+<p>好了，接下来，看另外两组异常模型机制，它们是Windows系列操作系统平台上提供的SEH模型，也就是说在C++中调用的时候，其实是调用Windows的API SEH,又称结构化异常处理.是设计Windows操作系统时提出一个种处理异常的方法。</p>
+<h1><a class="anchor" id="tryexcept"></a>
+__try, __except</h1>
+<p>这组异常处理机制和C++的很相像，只是关键字是except而不是catch。catch 和 except 的一点不同： catch关键字后面往往好像接受一个函数参数一样，可以是各种类型的异常数据对象；但是__except关键字则不同，它后面跟的却是一个表达式（可以是各种类型的表达式）。下面是一个例子：</p>
+<pre class="fragment">void main()
+{
+    puts("hello");
+    // 定义受监控的代码模块
+    __try
+    {
+        puts("in try");
+    }
+    //定义异常处理模块
+    __except(1)
+    {
+        puts("in except");
+    }
+    puts("world");
+}
+</pre><ol type="1">
+<li>受监控的代码模块被执行（也即__try定义的模块代码）；</li>
+<li>如果上面的代码执行过程中，没有出现异常的话，那么控制流将转入到__except子句之后的代码模块中；</li>
+<li>否则，如果出现异常的话，那么控制流将进入到__except后面的表达式中，也即首先计算这个表达式的值，之后再根据这个值，来决定做出相应的处理。 </li>
+</ol>
+<p>__except后面的取值如下：</p>
+<ol type="1">
+<li>EXCEPTION_CONTINUE_EXECUTION (–1) 异常被忽略，控制流将在异常出现的点之后，继续恢复运行。</li>
+<li>EXCEPTION_CONTINUE_SEARCH (0) 异常不被识别，也即当前的这个__except模块不是这个异常错误所对应的正确的异常处理模块。系统将继续到上一层的try-except域中继续查找一个恰当的__except模块。</li>
+<li>EXCEPTION_EXECUTE_HANDLER (1) 异常已经被识别，也即当前的这个异常错误，系统已经找到了并能够确认，这个__except模块就是正确的异常处理模块。控制流将进入到__except模块中。 </li>
+</ol>
+<h2><a class="anchor" id="littcon"></a>
+小结：</h2>
+<ol type="1">
+<li>C++异常模型用try-catch语法定义，而SEH异常模型则用try-except语法；</li>
+<li>与C++异常模型相似，try-except也支持多层的try-except嵌套</li>
+<li>与C++异常模型不同的是，try-except模型中，一个try块只能是有一个except块；而C++异常模型中，一个try块可以有多个catch块</li>
+<li>与C++异常模型相似，try-except模型中，查找搜索异常模块的规则也是逐级向上进行的。但是稍有区别的是，C++异常模型是按照异常对象的类型来进行匹配查找的；而try-except模型则不同，它通过一个表达式的值来进行判断。如果表达式的值为1（EXCEPTION_EXECUTE_HANDLER），表示找到了异常处理模块；如果值为0（EXCEPTION_CONTINUE_SEARCH），表示继续向上一层的try-except域中继续查找其它可能匹配的异常处理模块；如果值为-1（EXCEPTION_CONTINUE_EXECUTION），表示忽略这个异常，注意这个值一般很少用，因为它很容易导致程序难以预测的结果，例如，死循环，甚至导致程序的崩溃等</li>
+<li>__except关键字后面跟的表达式，它可以是各种类型的表达式，例如，它可以是一个函数调用，或是一个条件表达式，或是一个逗号表达式，或干脆就是一个整型常量等等。最常用的是一个函数表达式，并且通过利用GetExceptionCode()或GetExceptionInformation ()函数来获取当前的异常错误信息，便于程序员有效控制异常错误的分类处理</li>
+<li>SEH异常处理模型中，异常被划分为两大类：系统异常和软件异常。其中软件异常通过RaiseException()函数抛出。RaiseException()函数的作用类似于C++异常模型中的throw语句。 </li>
+</ol>
+<p>详细的请参看：http://www.cnblogs.com/wenziqi/archive/2010/08/26/1809074.html</p>
+<h1><a class="anchor" id="tryfina"></a>
+__try, __finally</h1>
+<p>try-finally语句的语法与try-except很类似，稍有不同的是，__finally后面没有一个表达式，这是因为try- finally语句的作用不是用于异常处理，所以它不需要一个表达式来判断当前异常错误的种类。另外，与try-except语句类似，try- finally也可以是多层嵌套的，并且一个函数内可以有多个try-finally语句，不管它是嵌套的，或是平行的。当然，try-finally多层嵌套也可以是跨函数的。最关键的一点： “不管在何种情况下，在离开当前的作用域时，finally块区域内的代码都将会被执行到”</p>
+<pre class="fragment">void tmain()
+{
+    puts("hello");
+    __try
+    {
+        puts("__try块中");
+ 
+        // 注意，下面return语句直接让函数返回了
+        return;
+    }
+    __finally
+    {
+        puts("__finally块中");
+    }
+ 
+    puts("world");
+｝
+上面的程序运行结果如下： 
+hello 
+__try块中 
+__finally块中 
+Press any key to continue
+</pre> <h2><a class="anchor" id="litconc"></a>
+小结：</h2>
+<p>__finally块被执行的流程时，无外乎三种情况:</p>
+<ol type="1">
+<li>第一种就是顺序执行到__finally块区域内的代码，这种情况很简单，容易理解；</li>
+<li>第二种就是goto语句或return语句引发的程序控制流离开当前__try块作用域时，系统自动完成对__finally块代码的调用；</li>
+<li>第三种就是由于在__try块中出现异常时，导致程序控制流离开当前__try块作用域，这种情况下也是由系统自动完成对__finally块的调用。 </li>
+</ol>
+<p>无论是第 2种，还是第3种情况，毫无疑问，它们都会引起很大的系统开销，编译器在编译此类程序代码时，它会为这两种情况准备很多的额外代码。一般第2种情况，被称为“局部展开（LocalUnwinding）”；第3种情况，被称为“全局展开（GlobalUnwinding）”。在后面阐述SEH实现的时候会详细分析到这一点。第3种情况，也即由于出现异常而导致的“全局展开”，对于程序员而言，这也许是无法避免的，因为你在利用异常处理机制提高程序可靠健壮性的同时，不可避免的会引起性能上其它的一些开销。呵呵！这世界其实也算瞒公平的，有得必有失。</p>
+<p>到此，本文开头的那段代码的结果就没有任何悬念了，O(∩_∩)O哈哈~，每天进步一点点 </p>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

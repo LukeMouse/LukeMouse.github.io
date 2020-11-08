@@ -1,0 +1,64 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">编译openssl </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>李进安 <hr/>
+ </dd></dl>
+<h1><a class="anchor" id="prep1"></a>
+编译前的准备</h1>
+<ol type="1">
+<li>到https://www.openssl.org/source/下载最新版本的openssl，当前版本是openssl-1.0.2a。</li>
+<li>下载安装nasm（MSYS_MinGW_GCC_452_x86-x64中包含） </li>
+</ol>
+<h1><a class="anchor" id="cmpwin32"></a>
+使用vs2008编译32位版本</h1>
+<ol type="1">
+<li>将下载后的压缩包解压到C:\openssl-1.0.2，如之前已经解压过请删除原来的版本。</li>
+<li>开始-》所有程序-》Microsoft Visual Studio 2008-》Visual Studio Tools-》Visual Studio 2008 Command Prompt，启动32位编译环境</li>
+<li>cd /d "C:\openssl-1.0.2a"切换到openssl路径</li>
+<li>配置输出版本位置 perl Configure VC-WIN32 --prefix=c:\openssl\Win32</li>
+<li>生成编译脚本 ms\do_nasm</li>
+<li>编辑ms\ntdll.mak替换的所有/Zi为Z7，修改INSTALLTOP值为INSTALLTOP=c:\openssl\x64\dll，编译代码 nmake -f ms\ntdll.mak 该命令生成动态库，默认使用的是MD</li>
+<li>编辑ms\ntdll.mak替换的所有/Zi为Z7，修改INSTALLTOP值为INSTALLTOP=c:\openssl\x64\Static，编译代码 nmake -f ms\nt.mak 该命令生成静态库，默认使用的是MT</li>
+<li>想生成使用静态链接运行时库的动态库则采用下面方法，复制一个ntdll.mak并命名为ntdll_mt.mak,修改里面的 “CFLAG= /MD /Ox ..............” 为/MT ,然后重新编译，执行 nmake -f ms/ntdll_mt.mak</li>
+<li>想生成使用动态链接运行时库的静态库则采用下面方法，复制一个nt.mak并命名为nt_md.mak,修改里面的 “CFLAG= /MT /Ox ..............” 为/MD ,然后重新编译 ，执行 nmake -f ms/nt_md.mak</li>
+<li>测试编译结果 nmake -f ms\ntdll.mak test</li>
+<li>安装 nmake -f ms\ntdll.mak install </li>
+</ol>
+<h1><a class="anchor" id="cmpwin64"></a>
+使用vs2008编译x64位版本</h1>
+<ol type="1">
+<li>将下载后的压缩包解压到C:\openssl-1.0.2，如之前已经解压过请删除原来的版本。</li>
+<li>开始-》所有程序-》Microsoft Visual Studio 2008-》Visual Studio Tools-》Visual Studio 2008 x64 Cross Tools Command Prompt，启动64位编译环境</li>
+<li>cd /d "C:\openssl-1.0.2"切换到openssl路径</li>
+<li>配置输出版本位置 perl Configure VC-WIN64A --prefix=c:\openssl\x64</li>
+<li>生成编译脚本 ms\do_win64a</li>
+<li>编辑ms\ntdll.mak替换的所有/Zi为Z7，修改INSTALLTOP值为INSTALLTOP=c:\openssl\x64\dll，编译代码 nmake -f ms\ntdll.mak</li>
+<li>测试编译结果 nmake -f ms\ntdll.mak test</li>
+<li>安装 nmake -f ms\ntdll.mak install </li>
+</ol>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

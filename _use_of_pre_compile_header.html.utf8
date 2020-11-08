@@ -1,0 +1,52 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">预编译头文件的作用 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>未知 (CSDN: <a href="http://blog.csdn.net/gjt19910817/article/details/7200702">http://blog.csdn.net/gjt19910817/article/details/7200702</a>)(<a href="http://blog.csdn.net/btooth/article/details/980251">http://blog.csdn.net/btooth/article/details/980251</a>) <hr/>
+ </dd></dl>
+<p>今天在改一个很大的程序，慢慢看，慢慢改。突然发现一个.c文件，里面什么也没有，就几个头文件，我一看，我靠，这不是把简单的问题搞复杂了吗，随手删掉那个c文件。结果不能编译了，我靠：fatal error C1083: Cannot open precompiled header file: \'Debug/v13_3.pch\': No such file or directory 怎么rebuild all都不行。上网查了一下，才搞懂了：如果工程很大，头文件很多，而有几个头文件又是经常要用的，那么</p>
+<ol type="1">
+<li>把这些头文件全部写到一个头文件里面去，比如写到preh.h</li>
+<li>写一个preh.c，里面只一句话：#include "preh.h"</li>
+<li>对于preh.c，在project setting里面设置creat precompiled headers，对于其他.c文件，设置use precompiled header file. </li>
+</ol>
+<p>我试了一下，效果很明显，不用precompiled header，编译一次我可以去上个厕所，用 precompiled header，编译的时候，我可以站起来伸个懒腰，活动活动就差不多啦。</p>
+<p>预编译头的概念：所谓的预编译头就是把一个工程中的那一部分代码,预先编译好放在一个文件里(通常是以.pch为扩展名的)，这个文件就称为预编译头文件这些预先编译好的代码可以是任何的C/C++代码，甚至是inline的函数，但是必须是稳定的，在工程开发的过程中不会被经常改变。如果这些代码被修改，则需要重新编译生成预编译头文件。注意生成预编译头文件是很耗时间的。同时你得注意预编译头文件通常很大，通常有6-7M大。注意及时清理那些没有用的预编译头文件。也许你会问：现在的编译器都有Time stamp的功能，编译器在编译整个工程的时候，它只会编译那些经过修改的文件，而不会去编译那些从上次编译过，到现在没有被修改过的文件。那么为什么还要预编译头文件呢？答案在这里，我们知道编译器是以文件为单位编译的，一个文件经过修改后，会重新编译整个文件，当然在这个文件里包含的所有头文件中的东西（.eg Macro, Preprocesser）都要重新处理一遍。VC的预编译头文件保存的正是这部分信息。以避免每次都要重新处理这些头文件。</p>
+<p>预编译头的作用：根据上文介绍，预编译头文件的作用当然就是提高便宜速度了，有了它你没有必要每次都编译那些不需要经常改变的代码。编译性能当然就提高了。预编译头的使用：要使用预编译头，我们必须指定一个头文件，这个头文件包含我们不会经常改变的代码和其他的头文件，然后我们用这个头文件来生成一个预编译头文件（.pch文件）想必大家都知道StdAfx.h这个文件。很多人都认为这是VC提供的一个“系统级别”的，编译器带的一个头文件。其实不是的，这个文件可以是任何名字的。我们来考察一个典型的由AppWizard生成的MFC Dialog Based程序的预编译头文件。（因为AppWizard会为我们指定好如何使用预编译头文件，默认的是StdAfx.h，这是VC起的名字）。我们会发现这个头文件里包含了以下的头文件：</p>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;afxwin.h&gt;</span>         <span class="comment">// MFC 核心组件和标准组件</span></div><div class="line"><span class="preprocessor">#include &lt;afxext.h&gt;</span>         <span class="comment">// MFC 扩展</span></div><div class="line"><span class="preprocessor">#include &lt;afxdisp.h&gt;</span>        <span class="comment">// MFC 自动化类</span></div><div class="line"></div><div class="line"><span class="preprocessor">#ifndef _AFX_NO_OLE_SUPPORT</span></div><div class="line"><span class="preprocessor">#include &lt;afxdtctl.h&gt;</span>           <span class="comment">// MFC 对 Internet Explorer 4 公共控件的支持</span></div><div class="line"><span class="preprocessor">#endif</span></div><div class="line"><span class="preprocessor">#ifndef _AFX_NO_AFXCMN_SUPPORT</span></div><div class="line"><span class="preprocessor">#include &lt;afxcmn.h&gt;</span>             <span class="comment">// MFC 对 Windows 公共控件的支持</span></div><div class="line"><span class="preprocessor">#endif // _AFX_NO_AFXCMN_SUPPORT</span></div><div class="line"></div><div class="line"><span class="preprocessor">#include &lt;afxcontrolbars.h&gt;</span>     <span class="comment">// 功能区和控件条的 MFC 支持预编译头文件的作用 </span></div></div><!-- fragment --><p>这些正是使用MFC的必须包含的头文件，当然我们不太可能在我们的工程中修改这些头文件的，所以说他们是稳定的。那么我们如何指定它来生成预编译头文件。我们知道一个头文件是不能编译的。所以我们还需要一个cpp文件来生成.pch文件。这个文件默认的就是StdAfx.cpp。在这个文件里只有一句代码就是：#include “Stdafx.h”。原因是理所当然的，我们仅仅是要它能够编译而已?D?D?D也就是说，要的只是它的.cpp的扩展名。</p>
+<p>我们可以用/Yc编译开关来指定StdAfx.cpp来生成一个.pch文件，通过/Fp编译开关来指定生成的pch文件的名字。打开project-&gt;Setting-&gt;C/C++ 对话框。把Category指向Precompiled Header。在左边的树形视图里选择整个工程 Project Options(右下角的那个白的地方)可以看到 /Fp“debug/PCH.pch”，这就是指定生成的.pch文件的名字，默认的通常是&lt;工程名&gt;.pch（我的示例工程名就是PCH）。然后，在左边的树形视图里选择StdAfx.cpp.//这时只能选一个cpp文件！这时原来的Project Option变成了 Source File Option（原来是工程，现在是一个文件，当然变了）。在这里我们可以看到/Yc开关，/Yc的作用就是指定这个文件来创建一个 Pch文件。/Yc后面的文件名是那个包含了稳定代码的头文件，一个工程里只能有一个文件的可以有YC开关。VC就根据这个选项把 StdAfx.cpp编译成一个Obj文件和一个PCH文件。然后我们再选择一个其它的文件来看看，//其他cpp文件在这里，Precomplier 选择了 Use ???一项，头文件是我们指定创建PCH文件的stdafx.h文件。事实上，这里是使用工程里的设置，（如图1）/Yu”stdafx.h”。这样，我们就设置好了预编译头文件。也就是说，我们可以使用预编译头功能了。</p>
+<p>以下是注意事项：</p><ol type="1">
+<li>如果使用了/Yu，就是说使用了预编译，我们在每个.cpp文件的最开头，我强调一遍是最开头，包含你指定产生pch文件的.h文件（默认是stdafx.h）不然就会有问题。如果你没有包含这个文件，就告诉你Unexpected file end. 如果你不是在最开头包含的，你自己试以下就知道了，绝对有很惊人的效果?.. fatal error C1010: unexpected end of file while looking for precompiled header directive Generating Code...</li>
+<li>如果你把pch文件不小心丢了，编译的时候就会产生很多的不正常的行为。根据以上的分析，你只要让编译器生成一个pch文件。也就是说把 stdafx.cpp（即指定/Yc的那个 cpp文件）从新编译一遍。当然你可以傻傻的 Rebuild All。简单一点就是选择那个cpp文件，按一下Ctrl + F7就可以了。不然可是很浪费时间的哦。</li>
+</ol>
+<hr/>
+ <p>许多初学 VC 的朋友也许都为那么一个问题困扰过：为什么所有的 cpp 都必须 #include "stdafx.h,也许请教了别的高手之后，他们会告诉你，这是预编译头，必须包含。可是，这到底是为什么呢？预编译头有什么用呢？这得从头文件的编译原理讲起。其实头文件并不神秘，它的全部作用，就是把自己的所有内容直接“粘贴”到相应的 #include 语句处。如果不相信的话，不妨做个实验，将一个 cpp 中的所有 #include 语句删掉，并将它包含的文件粘贴到相应的位置，你会发现，文件的编译和运行都完全没有受到影响。其实，编译器在编译你的程序的时候，所做的第一件事，也就是展开所有的 #include 语句和 #define 语句。</p>
+<p>头文件的出现，固然给书写程序带来了很大方便。可是到了 Windows 时代后，慢慢就呈现出一些问题了。几乎所有的 Windows 程序都必须包含 windows.h，而那个文件却硕大无比，将它展开后往所有文件中一粘贴，编译的时候立刻慢得像只蜗牛。到了 MFC 时代后，情况更为恶劣了。毕竟 C 风格的 Windows 头文件里面包含的还仅仅是函数定义和宏，编译难度不算太大，而 MFC 库里面的头文件可都是类声明啊！更何况，一个最简单的工程，都会生成大量的类，需要用到大量的函数。如果工程稍微复杂一些，编译难度可想而知！</p>
+<p>但是，人们惊奇地发现，虽然用到的头文件又多又杂，但是在一个工程中，总有那么一堆头文件，是几乎所有 cpp 都必须包含的。那么，可不可以把这些头文件提取出来，只编译一编，然后所有其它 cpp 就都能使用呢？没错，这就是预编译头的思想都由来！实践证明，使用了预编译头技术后，编译速度大大提高了。可以到你的工程目录下的Debug 或 Release 目录中看一看，里面有一个体积极为硕大的 .pch 文件，那就是传说中的“编译之后的预编译头”。</p>
+<p>使用了预编译头技术后，虽然带来了极大地方便，但也造成了一个问题：由于它假定预编译头中包含过的头文件会在所有 cpp 中使用，因此它在编译你的 cpp 的时候，就会将预编译头中已经编译完的部分加载到内存中。如果它突然发现你的 cpp 居然没有包含预编译头，它就会很郁闷，因为它不知道该如何将已编译完的部分从内存中请出去，整个编译过程就会失败。</p>
+<p>因此，如果你使用了预编译头技术，就必须在所有的 cpp 中包含预编译头。MFC 工程中为你建立了一个默认的预编译头 stdafx.h，如果你愿意，也可以在自己的工程中使用其它文件名作为你的预编译头，如果你觉得有必要。</p>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

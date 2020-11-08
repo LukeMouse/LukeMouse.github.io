@@ -1,0 +1,219 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">小老鼠常用函数收集 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>李进安 <hr/>
+ </dd></dl>
+<h1><a class="anchor" id="roundfunc"></a>
+四舍五入函数</h1>
+<pre class="fragment">#include &lt;math.h&gt;
+long round(const double numFloat)
+{
+    return (numFloat &gt; 1e-6) ?
+        static_cast&lt;long&gt;(floor(numFloat + 0.5)) :
+    static_cast&lt;long&gt;(ceil(numFloat - 0.5));
+}
+</pre> <h1><a class="anchor" id="savefile"></a>
+将信息写入本地文件</h1>
+<pre class="fragment">void SaveICSData(const std::string&amp; strXMLJobInfo)
+{
+    SYSTEMTIME stTime;
+    GetLocalTime(&amp;stTime);
+
+    TCHAR szCurPath[MAX_PATH] = {0};
+    GetModuleFileName(NULL, szCurPath, MAX_PATH);
+    PathRemoveFileSpec(szCurPath);
+    PathAppend(szCurPath, _T("SnapICS"));
+    // 确保文件夹路径存在
+    SHCreateDirectoryEx(NULL, szCurPath, NULL);
+
+    TCHAR szAssist[MAX_PATH] = {0};
+    _stprintf_s(szAssist, MAX_PATH,
+        _T("%s\\%.4d_%.2d_%.2d_%.2d_%.2d_%.2d_%.3d.xml"),
+        szCurPath,stTime.wYear, stTime.wMonth, stTime.wDay,
+        stTime.wHour, stTime.wMinute, stTime.wSecond, stTime.wMilliseconds);
+
+    std::ofstream fInfo;
+    fInfo.open(szAssist, std::ios_base::out|std::ios_base::binary);
+    fInfo.write(strXMLJobInfo.c_str(), strXMLJobInfo.size());
+    fInfo.close();
+}
+</pre> <h1><a class="anchor" id="openImage"></a>
+打开图片文件</h1>
+<pre class="fragment">    CFileDialog dlg(TRUE, NULL, NULL,
+        OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT,
+        _T("Supported image format(*.jpg;*.bmp)|*.jpg;*.bmp"));
+
+    if (IDOK == dlg.DoModal())
+    {
+    }
+</pre> <h1><a class="anchor" id="readfile"></a>
+C++ 读取文件内容</h1>
+<pre class="fragment">    std::ifstream readFile;
+    readFile.open(filePathName,
+        std::ios_base::in|std::ios_base::binary);
+    if (0 == readFile)
+    {
+        return FALSE; //failed to open file
+    }
+
+    readFile.seekg(0, std::ios::end);
+    int fileSize = readFile.tellg(); // get file size
+    readFile.seekg(0);
+
+    // alloc buffer
+    char * buffer = new char[fileSize + 1];
+    memset(buffer, 0, fileSize + 1);
+    readFile.read(buffer, fileSize);
+    readFile.close();
+</pre> <h1><a class="anchor" id="trimspace"></a>
+去掉字符串前后的空格</h1>
+<pre class="fragment">void ParseFileLine(const std::string &amp; lineString, FileInfo *&amp; pInfo)
+{
+    size_t pos = lineString.find(',', 0);
+    std::string strAssist;
+    strAssist.assign(lineString.c_str(), pos);
+    strAssist = strAssist.substr(strAssist.find_first_not_of(' '),
+        strAssist.size());
+    pInfo-&gt;fileProbe = strAssist.substr(0,
+        strAssist.find_last_not_of(' ') + 1);
+    strAssist.assign(lineString.c_str(), pos+1,
+        lineString.size());
+    strAssist = strAssist.substr(strAssist.find_first_not_of(' '),
+        strAssist.size());
+    pInfo-&gt;fileGallery = strAssist.substr(0,
+        strAssist.find_last_not_of(' ') + 1);
+}
+</pre> <h1><a class="anchor" id="callnoconsol"></a>
+system调用命令行命令而不显示命令行窗口</h1>
+<pre class="fragment">#pragma comment( linker, "/subsystem:/"windows/" /entry:/"mainCRTStartup/"" ) // 设置入口地址  
+#include   &lt;windows.h&gt;     
+#include   &lt;stdio.h&gt;     
+  
+#define   COMMENDLINE   "ping 127.0.0.1"  
+  
+//调用命令行命令而不显示命令行窗口  
+BOOL system_hide(char* CommandLine)     
+{     
+    SECURITY_ATTRIBUTES   sa;     
+    HANDLE   hRead,hWrite;     
+  
+    sa.nLength   =   sizeof(SECURITY_ATTRIBUTES);     
+    sa.lpSecurityDescriptor   =   NULL;     
+    sa.bInheritHandle   =   TRUE;     
+    if   (!CreatePipe(&amp;hRead,&amp;hWrite,&amp;sa,0))       
+    {     
+        return   FALSE;     
+    }       
+  
+    STARTUPINFO   si;     
+    PROCESS_INFORMATION   pi;       
+    si.cb   =   sizeof(STARTUPINFO);     
+    GetStartupInfo(&amp;si);       
+    si.hStdError   =   hWrite;     
+    si.hStdOutput   =   hWrite;     
+    si.wShowWindow   =   SW_HIDE;     
+    si.dwFlags   =   STARTF_USESHOWWINDOW   |   STARTF_USESTDHANDLES;     
+    //关键步骤，CreateProcess函数参数意义请查阅MSDN     
+    if   (!CreateProcess(NULL, CommandLine, NULL,NULL,TRUE,NULL,NULL,NULL,&amp;si,&amp;pi))       
+    {     
+        return   FALSE;     
+    }     
+    CloseHandle(hWrite);     
+  
+    char   buffer[4096]   =   {0};     
+    DWORD   bytesRead;       
+    while(true)       
+    {     
+        memset(buffer,0,strlen(buffer));  
+        if(ReadFile(hRead,buffer,4095,&amp;bytesRead,NULL)==NULL)     
+            break;     
+        //buffer中就是执行的结果，可以保存到文本，也可以直接输出     
+        //printf(buffer);//这行注释掉就可以了     
+        Sleep(100);       
+    }       
+    return   TRUE;     
+}     
+  
+int main(int argc, char* argv[])     
+{     
+    system_hide(COMMENDLINE);//不显示命令窗口  
+    //system(COMMENDLINE);//显示命令行窗口  
+    return 0;     
+}  
+</pre> <h1><a class="anchor" id="getmac"></a>
+获取MAC地址相关信息</h1>
+<pre class="fragment">/**
+ * \brief 获取MAC地址与IP字符串，MAC与IP间用@分隔，两条记录间用#分隔
+ * \param[in,out] formatData MAC地址与IP字符串
+ * \return 获取成功返回TRUE
+ */
+BOOL GetMacByIpTable(std::wstring&amp; formatData)
+{
+    BYTE *pBuffer = new BYTE[sizeof(MIB_IPADDRTABLE)];
+    DWORD            dwSize = 0;
+
+    if (GetIpAddrTable((PMIB_IPADDRTABLE)pBuffer, &amp;dwSize, 0) == ERROR_INSUFFICIENT_BUFFER)
+    {
+        delete []pBuffer;
+        pBuffer = new BYTE[dwSize];
+    }
+
+    TCHAR errMsg[250];
+    DWORD dwRetVal;
+    if ((dwRetVal = GetIpAddrTable((PMIB_IPADDRTABLE)pBuffer, &amp;dwSize, 0)) != NO_ERROR) {
+        _stprintf_s(errMsg, 250, _T("GetIpAddrTable call failed with %d\n"), dwRetVal);
+        OutputDebugString(errMsg);
+        delete pBuffer;
+        return FALSE;
+    }
+
+    wchar_t macIP[100] = {};
+    MIB_IPADDRTABLE * pIPAddrTable = (MIB_IPADDRTABLE *)pBuffer;
+    for (DWORD i = 0; i &lt; pIPAddrTable-&gt;dwNumEntries; i++)
+    {
+        ULONG pulMac[2];
+        IPAddr ipAddr = pIPAddrTable-&gt;table[i].dwAddr;/*htonl(j+(ulHostIp&amp;ulHostMask))*/;
+        memset(pulMac, 0xff, sizeof(pulMac));
+        ULONG ulLen = 6;
+        HRESULT hr = SendARP(ipAddr, 0, pulMac, &amp;ulLen);
+        if (SUCCEEDED(hr) &amp;&amp; ulLen == 6)
+        {
+            PBYTE pbHexMac = (PBYTE)pulMac;
+            unsigned char* strIpAddr = (unsigned char*)(&amp;ipAddr);
+            swprintf_s(macIP, 100, L"#%02X-%02X-%02X-%02X-%02X-%02X@%d.%d.%d.%d#",
+                pbHexMac[0], pbHexMac[1], pbHexMac[2], pbHexMac[3], pbHexMac[4], pbHexMac[5],
+                strIpAddr[0], strIpAddr[1], strIpAddr[2], strIpAddr[3]);
+            formatData.append(macIP);
+            ZeroMemory(macIP, 100 * sizeof(wchar_t));
+        }
+    }
+    delete[]pBuffer;
+    pBuffer = nullptr;
+    return TRUE;
+}
+</pre> </div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

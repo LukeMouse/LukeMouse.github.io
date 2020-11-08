@@ -1,0 +1,193 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">日积月累 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>李进安 <hr/>
+ </dd></dl>
+<h1><a class="anchor" id="day0001"></a>
+2014年05月18日</h1>
+<p>今天修改了一个控件，由于想和之前的版本有一个区别，我修改了idl中的所有guid，但是奇怪的是控件注册过程中总是出现莫名其妙的问题，各种崩溃，控件也不能注册，经过各种猜测和检查代码发现，重新标识一个控件除了要修改idl中的guid，*Ctrl.cpp和*CtrlCtrl.cpp中的guid也要对应的进行修改，否则就会出现上面的问题，控件的学习还需要加强。</p>
+<h1><a class="anchor" id="day0002"></a>
+20150623</h1>
+<p>众安在线控件开发过程中遇到了一个非常奇怪的问题，活体检测完成后将采集到的图片的个数以事件的形式通知给调用对象，控件测试工具没有发现问题，但是使用网页测试时，始终不能获得事件，参考以前质检抓拍控件的代码，发现SendMessge替换成PostMessage后问题解决。Mark一下。</p>
+<h1><a class="anchor" id="day0003"></a>
+为控件设置焦点</h1>
+<p>为奔驰金融开发控件的过程中，由于不能控制控件的焦点，所以有时候不能完成图片的放缩，即使人为的指定焦点也不行，通过上网查询发现，除掉用SetFocus函数外，还需要在OnInitDialog函数中将返回值设置为FALSE。</p>
+<h1><a class="anchor" id="day0004"></a>
+获得jpeg图片的压缩率</h1>
+<p>Linear model Poly12: f(x,y) = p00 + p10*x + p01*y + p11*x*y + p02*y^2 Coefficients (with 95% confidence bounds): p00 = 0.186 (0.1463, 0.2257) p10 = -1.257e-05 (-1.423e-05, -1.091e-05) p01 = 0.0002184 (0.0002014, 0.0002354) p11 = 5.762e-10 (2.567e-10, 8.958e-10) p02 = -1.009e-08 (-1.143e-08, -8.747e-09) Goodness of fit: SSE: 4.548 R-square: 0.7872 Adjusted R-square: 0.7842 RMSE: 0.1274</p>
+<p>x = w * h y = image size in bytes z = ratio </p>
+<h1><a class="anchor" id="versionname"></a>
+Alpha、Beta、RC、GA版本的区别</h1>
+<ul>
+<li>Alpha：是内部测试版,一般不向外部发布,会有很多Bug.一般只有测试人员使用。</li>
+<li>Beta：也是测试版，这个阶段的版本会一直加入新的功能。在Alpha版之后推出。</li>
+<li>RC：(Release　Candidate) 顾名思义么 ! 用在软件上就是候选版本。系统平台上就是发行候选版本。RC版不会再加入新的功能了，主要着重于除错。</li>
+<li>GA:General Availability,正式发布的版本，在国外都是用GA来说明release版本的。</li>
+<li>RTM：(Release to Manufacture)是给工厂大量压片的版本，内容跟正式版是一样的，不过RTM版也有出限制、评估版的。但是和正式版本的主要程序代码都是一样的。</li>
+<li>OEM：是给计算机厂商随着计算机贩卖的，也就是随机版。只能随机器出货，不能零售。只能全新安装，不能从旧有操作系统升级。包装不像零售版精美，通常只有一面CD和说明书(授权书)。</li>
+<li>RVL：号称是正式版，其实RVL根本不是版本的名称。它是中文版/英文版文档破解出来的。</li>
+<li>EVAL：而流通在网络上的EVAL版，与“评估版”类似，功能上和零售版没有区别。</li>
+<li>RTL：Retail(零售版)是真正的正式版，正式上架零售版。在安装盘的i386文件夹里有一个eula.txt，最后有一行EULAID，就是你的版本。比如简体中文正式版是EULAID:WX.4_PRO_RTL_CN，繁体中文正式版是WX.4_PRO_RTL_TW。其中：如果是WX.开头是正式版，WB.开头是测试版。_PRE，代表家庭版；_PRO，代表专业版。</li>
+<li>α、β、λ常用来表示软件测试过程中的三个阶段，α是第一阶段，一般只供内部测试使用；β是第二个阶段，已经消除了软件中大部分的不完善之处，但仍有可能还存在缺陷和漏洞，一般只提供给特定的用户群来测试使用；λ是第三个阶段，此时产品已经相当成熟，只需在个别地方再做进一步的优化处理即可上市发行。 </li>
+</ul>
+<h1><a class="anchor" id="os32or64"></a>
+C++判断操作系统是32位还是64位</h1>
+<pre class="fragment">BOOL Is64Bit_OS()
+{
+    BOOL bRetVal = FALSE;
+    SYSTEM_INFO si = { 0 };
+    LPFN_PGNSI pGNSI = (LPFN_PGNSI) GetProcAddress(GetModuleHandle(_T("kernel32.dll")), "GetNativeSystemInfo");
+    if (pGNSI == NULL)
+    {
+        return FALSE;
+    }
+    pGNSI(&amp;si);
+    if (si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64 ||
+    si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_IA64 )
+    {
+        bRetVal = TRUE;
+    }
+    else
+    {
+         //32 位操作系统
+        _tprintf(_T("is 32 bit OS\r\n"));
+    }
+    return bRetVal;
+}
+</pre> <h1><a class="anchor" id="mericalfolder"></a>
+神奇的SysNative文件夹</h1>
+<p>其实%WINDIR%\SysNative文件夹是不存在的，它只是64位Windows系统提供的一种重定向机制。我们已经知道64位Windows通过System32和SysWoW64两件文件夹来区分64位和32位的系统文件，当32位的应用程序尝试访问System32文件夹的时候，系统会自动把它转到SysWoW64文件夹，这样32位应用程序在32位系统和64位系统就都可以运行了，（而不需要为了64位系统而把System32改成SysWoW64）。</p>
+<p>这样就出现了一个问题，32位的应用程序怎么访问真正的System32文件夹呢，即存放64位系统文件的文件夹？答案就是通过SysNative文件夹。这个文件夹并不存在，即在资源管理器中找不到，但当32位的应用程序尝试访问这个文件夹时，64位的Windows会把它重定向到真正的System32文件夹，从而提供了一种让32位应用程序访问64位系统文件的方法。</p>
+<h1><a class="anchor" id="win7desktop"></a>
+win7 重启后登陆变为默认桌面，无法读取原始数据</h1>
+<p>在出现问题的前一天晚上，只是进行了文档和网页阅览的简单操作，既没有安装软件，也没有修改注册表的举动。若是说优化软件，我的电脑里虽然有装，不过，一般都是关闭的。（包括后台）并且，同样的操作在之前并没有出现问题。而当晚关机的时候，也是正常关机的操作，不存在断电或电源强制关机。但是，到了第二天早上，一样的正常启动电脑，直到登陆窗口输入登陆密码之后都是与原先无异，但在欢迎标签之后本该进入的桌面却变成了默认的桌面。（记得当时右下角还有气泡提示user profile service 你=您已经使用系统的默认配置文件登陆）而且还有一点就是即使我使用TEMP的用户配置，系统依然默认我的用户为Administrator，并且拥有管理权限。反复重启多次，依然无法解决（试用了还原点，恢复上一次正常启动等手段）。</p>
+<p>此外，提供一个他人分析的步骤，希望可以从中找出原因.重点分析注册表项【HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList】对照网上另一解决方法：</p>
+<ol type="1">
+<li>开机按F8，从安全模式启动。</li>
+<li>按Windows+R，键入“regedit”,回车。</li>
+<li>进入：HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList，最后有两个文件夹，以“s-1-5...”开头的，一个有“.bak”后缀，一个没有。把这两个文件夹的名字互换。然后退出，重启电脑，问题就解决了。 </li>
+</ol>
+<p>附：如果还没有解决，继续以下步骤： </p>
+<ol type="1">
+<li>在新的那个带“.bak”后缀的文件夹中找到refcount，右键选modify，把值改为0，然后退出，重启。</li>
+<li>对照正常管理员账户 “State”子键的键值“0”，查看“高级系统设置”中“用户配置文件”一栏，正常账户状态为“本地”，而问题账户状态为“备份”。很明显State“8000”即为“备份”，State“0”为“本地”了。而不带“.bak”后缀的注册表项中"ProfileImagePath"子键的键值为“C:\Users\Temp”，而且仅有三四个子键。 </li>
+</ol>
+<p>笔者不知到是抽了还是有直觉，毫不犹豫直接把整个不带“.bak”后缀的注册表项删除，注销当前账户，登录问题账户，成功登录这时问题解决了，再查看注册表发现带“.bak”后缀的注册表项的“.bak”自动消失变成不带“.bak”的项，而且其下子键数量与刚开始一模一样，不过State变为了“0”，进入“高级系统设置”中“用户配置文件”一栏，两个账户状态均变“本地”了。</p>
+<p>问题反思："ProfileImagePath"子键的键值为“C:\Users\Temp”的注册表子项中子键数量明显比其他正常账户少，可能是对该项写入不完整导致不能通过“临时配置文件”登录，删除该项，登录时自动重建，“备份”状态转化为“本地”。总之，笔者最简单的解决方法就是：</p>
+<ol type="1">
+<li>开机按F8进入到安全模式，登录系统(如果只是标准账户有问题，管理员账户没问题就不要安全模式了)；</li>
+<li>打开注册表，找到带“.bak”的项（如【HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\ S-1-5-21-****-****-1000.bak】）不要动它。</li>
+<li>定位到带“.bak”的项上方一个不带“.bak”的项（如【HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\S-1-5-21-****-****-1000】），确认该项包含键值为“C:\Users\Temp”的子键"ProfileImagePath"，在左侧删除整个项，带“.bak”的项不要动，即可实现正常登录。 登录之后会发现带“.bak”的项自动去掉了“.bak“。 </li>
+</ol>
+<h1><a class="anchor" id="makecmd"></a>
+make编译指令</h1>
+<pre class="fragment">make -f GNUMakefile debug=0 static_libs=0 buildbits=64
+</pre><p> 说明： debug=0表示编译release版本，等于1表示编译debug版本，static_libs=0表示编译动态库，即.so文件，等于1表示编译静态库，即.a文件，buildbits=64表示编译64版本，（等于32表示编译32版本） </p>
+<h1><a class="anchor" id="csexception"></a>
+破坏缓冲区后字符串异常示例</h1>
+<pre class="fragment">void GetString(LPTSTR lpszString)
+{
+    LPTSTR pTemp = lpszString;
+    _tcscpy(pTemp, _T("破坏CString"));
+}
+
+void CCStringTestDlg::OnBnClickedTest()
+{
+    CString strTemp;
+    GetString((LPTSTR)(LPCTSTR)strTemp);
+    CString strDemo(_T(""));
+    MessageBox(strDemo);
+}
+</pre> <h1><a class="anchor" id="ca2w"></a>
+'CA2CT': identifier not found</h1>
+<p>用了好久的CA2CT最近发现了好多次“'CA2CT': identifier not found”，仔细查找了一下，要想使用该转换函数需要依次包含Windows.h、atlbase.h、atlconv.h</p>
+<h1><a class="anchor" id="sacp"></a>
+活动代码页编号</h1>
+<p>获取或设置Windows操作系统的活动代码页编号可以使用chcp命令，举例如下： </p><pre class="fragment">chcp 437 // 设置活动代码页为美语
+chcp 936 // 设置活动代码页为简体中文
+chcp 65001 // 设置活动代码页为UTF-8
+</pre> <h1><a class="anchor" id="Sleep01diff"></a>
+Sleep(0)与Sleep(1)的区别（From：http://www.cppblog.com/kesalin/）</h1>
+<p>有时候我们想让线程不被调度一定的时间，也就是说让线程睡眠一段时间。在 Win32中可以调用 Sleep，SleepEx 和 SwitchToThread 三个API。在托管代码中，我们可以调用静态方法 Thread.Sleep。 </p><pre class="fragment">VOID WINAPI Sleep(DWORD dwMilliseconds);
+DWORD WINAPI SleepEx(DWORD dwMilliseconds, BOOl bAlertable);
+BOOl WINAPI SwitchToThread();
+</pre> <p>Sleep 接口均带有表示睡眠时间长度的参数 timeout。调用以上提到的 Sleep 接口，会有条件地将调用线程从当前处理器上移除，并且有可能将它从线程调度器的可运行队列中移除。这个条件取决于调用 Sleep 时timeout 参数。</p>
+<p>当 timeout = 0， 即 Sleep(0)，如果线程调度器的可运行队列中有大于或等于当前线程优先级的就绪线程存在，操作系统会将当前线程从处理器上移除，调度其他优先级高的就绪线程运行；如果可运行队列中的没有就绪线程或所有就绪线程的优先级均低于当前线程优先级，那么当前线程会继续执行，就像没有调用 Sleep(0)一样。</p>
+<p>当 timeout &gt; 0 时，如：Sleep(1)，会引发线程上下文切换：调用线程会从线程调度器的可运行队列中被移除一段时间，这个时间段约等于 timeout 所指定的时间长度。为什么说约等于呢？是因为睡眠时间单位为毫秒，这与系统的时间精度有关。通常情况下，系统的时间精度为 10 ms，那么指定任意少于 10 ms但大于 0 ms 的睡眠时间，均会向上求值为 10 ms。</p>
+<p>而调用 SwitchToThread() 方法，如果当前有其他就绪线程在线程调度器的可运行队列中，始终会让出一个时间切片给这些就绪线程，而不管就绪线程的优先级的高低与否。</p>
+<p>由上面的分析可以看出，如果我们想让当前线程真正睡眠一下子，最好是调用 Sleep(1) 或 SwitchToThread()。</p>
+<h1><a class="anchor" id="linuxrmv"></a>
+去掉linux文本中的^M</h1>
+<p>Windows下的文本放到Linux环境下，经常会出现^M，尤其是源代码中，这常常造成代码编译不通过，一个可选的去掉^M方法为： </p><pre class="fragment">sed -i 's/^M//g' filename
+#注意：^M的输入方式是 Ctrl + v ，然后Ctrl + M
+</pre> <h1><a class="anchor" id="viewexportl"></a>
+Linux下查看动态库导出函数</h1>
+<p>nm *.so</p>
+<h1><a class="anchor" id="findfile"></a>
+Linux下查找指定文件名的文件</h1>
+<p>find / -name <em>XXX</em></p>
+<h1><a class="anchor" id="revertbmp"></a>
+从24位裸数据恢复DIB</h1>
+<p>下面是必填数据</p>
+<pre class="fragment">BITMAPINFOHEADER bmpHeader;
+bmpHeader.biSize = 40;
+bmpHeader.biBitCount = 24;
+bmpHeader.biWidth = 图像宽;
+bmpHeader.biHeight = 图像高;
+bmpHeader.biSizeImage = 0;
+bmpHeader.biCompression = 0;
+bmpHeader.biPlanes = 1;
+bmpHeader.biClrUsed = 0;
+bmpHeader.biClrImportant = 0;
+</pre> <h1><a class="anchor" id="relseafa"></a>
+要求编译出的程序有管理员权限才能运行</h1>
+<p>VS2008-&gt;project-&gt;property-&gt;Configuration Properties-&gt;Linker-&gt;Manifest File-&gt;UAC Execution Level Set to requireAdministrator </p>
+<h1><a class="anchor" id="linopcv"></a>
+linux下调用opencv的Makefile配置</h1>
+<p>gcc -Wall -g $(pkg-config &ndash;cflags opencv) XXX.c $(pkg-config &ndash;libs opencv) -o XXX </p>
+<h1><a class="anchor" id="neus"></a>
+给nexus添加仓库源</h1>
+<p>新版本的Spring框架没有在默认的maven仓库中，要想使用新版【3.0以上】，需要将新版本的仓库地址添加到nexus中，方法如下：</p>
+<ol type="1">
+<li>以admin方式登录nexus，点击server administration and configuration 按钮，点击Repository下面的Repositories</li>
+<li>点击Create repository按钮，新建一个仓库，在后面的页面中选择maven2(proxy)</li>
+<li>在提示的必填项中输入仓库名称、地址【spring-web仓库的地址为：https://mvnrepository.com/artifact/org.springframework/spring-webmvc】并选择存储块后点击Create repository按钮。 </li>
+</ol>
+<p>这样在pom.xml中添加 </p><pre class="fragment">&lt;!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-webmvc&lt;/artifactId&gt;
+    &lt;version&gt;4.3.6.RELEASE&lt;/version&gt;
+&lt;/dependency&gt;
+</pre><p> 就可以下载新版本的spring-webmvc的jar包了。 </p>
+<h1><a class="anchor" id="cppregfafsgs"></a>
+C++ 运算符优先级顺序表</h1>
+<center> <div class="image">
+<img src="cpppri.jpg" alt="cpppri.jpg"/>
+</div>
+ </center> </div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

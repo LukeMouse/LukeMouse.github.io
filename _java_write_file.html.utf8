@@ -1,0 +1,188 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">java写文件的方法 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>(from <a href="http://www.jb51.net/article/47062.htm">http://www.jb51.net/article/47062.htm</a>) <hr/>
+ </dd></dl>
+<h1><a class="anchor" id="jwf01"></a>
+FileWritter写入文件</h1>
+<p>FileWritter, 字符流写入字符到文件。默认情况下，它会使用新的内容取代所有现有的内容，然而，当指定一个true （布尔）值作为FileWritter构造函数的第二个参数，它会保留现有的内容，并追加新内容在文件的末尾。</p><ol type="1">
+<li>替换所有现有的内容与新的内容。 <pre class="fragment">new FileWriter(file);
+</pre></li>
+<li>保留现有的内容和附加在该文件的末尾的新内容。 <pre class="fragment">new FileWriter(file,true);
+</pre> </li>
+</ol>
+<p>追加文件示例 </p><pre class="fragment">package com.yiibai.file;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
+import java.io.IOException;
+
+public class AppendToFileExample 
+{
+    public static void main( String[] args )
+    { 
+        try{
+        String data = " This content will append to the end of the file";
+        File file =new File("javaio-appendfile.txt");
+
+        //if file doesnt exists, then create it
+        if(!file.exists()){
+            file.createNewFile();
+        }
+
+        //true = append file
+        FileWriter fileWritter = new FileWriter(file.getName(),true);
+        BufferedWriter bufferWritter = new BufferedWriter(fileWritter);
+        bufferWritter.write(data);
+        bufferWritter.close();
+
+        System.out.println("Done");
+
+        }catch(IOException e){
+           e.printStackTrace();
+        }
+    }
+}
+</pre> <h1><a class="anchor" id="jwf02"></a>
+二，BufferedWriter写入文件</h1>
+<p>缓冲字符（BufferedWriter ）是一个字符流类来处理字符数据。不同于字节流（数据转换成字节），你可以直接写字符串，数组或字符数据保存到文件。</p>
+<pre class="fragment">package com.yiibai.iofile;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class WriteToFileExample {
+ public static void main(String[] args) {
+  try {
+
+   String content = "This is the content to write into file";
+
+   File file = new File("/users/mkyong/filename.txt");
+
+   // if file doesnt exists, then create it
+   if (!file.exists()) {
+    file.createNewFile();
+   }
+
+   FileWriter fw = new FileWriter(file.getAbsoluteFile());
+   BufferedWriter bw = new BufferedWriter(fw);
+   bw.write(content);
+   bw.close();
+
+   System.out.println("Done");
+
+  } catch (IOException e) {
+   e.printStackTrace();
+  }
+ }
+}</pre> <h1><a class="anchor" id="jwf03"></a>
+三，FileOutputStream写入文件</h1>
+<p>文件输出流是一种用于处理原始二进制数据的字节流类。为了将数据写入到文件中，必须将数据转换为字节，并保存到文件。请参阅下面的完整的例子。</p>
+<pre class="fragment">package com.yiibai.io;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class WriteFileExample {
+ public static void main(String[] args) {
+
+  FileOutputStream fop = null;
+  File file;
+  String content = "This is the text content";
+
+  try {
+
+   file = new File("c:/newfile.txt");
+   fop = new FileOutputStream(file);
+
+   // if file doesnt exists, then create it
+   if (!file.exists()) {
+    file.createNewFile();
+   }
+
+   // get the content in bytes
+   byte[] contentInBytes = content.getBytes();
+
+   fop.write(contentInBytes);
+   fop.flush();
+   fop.close();
+
+   System.out.println("Done");
+
+  } catch (IOException e) {
+   e.printStackTrace();
+  } finally {
+   try {
+    if (fop != null) {
+     fop.close();
+    }
+   } catch (IOException e) {
+    e.printStackTrace();
+   }
+  }
+ }
+}
+
+//更新的JDK7例如，使用新的“尝试资源关闭”的方法来轻松处理文件。
+
+package com.yiibai.io;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class WriteFileExample {
+ public static void main(String[] args) {
+
+  File file = new File("c:/newfile.txt");
+  String content = "This is the text content";
+
+  try (FileOutputStream fop = new FileOutputStream(file)) {
+
+   // if file doesn't exists, then create it
+   if (!file.exists()) {
+    file.createNewFile();
+   }
+
+   // get the content in bytes
+   byte[] contentInBytes = content.getBytes();
+
+   fop.write(contentInBytes);
+   fop.flush();
+   fop.close();
+
+   System.out.println("Done");
+
+  } catch (IOException e) {
+   e.printStackTrace();
+  }
+ }
+}</pre> </div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

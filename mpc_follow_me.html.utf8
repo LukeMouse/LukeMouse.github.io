@@ -1,0 +1,38 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">MPC配置一起学 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>李进安 <hr/>
+ </dd></dl>
+<h1><a class="anchor" id="prefmp"></a>
+前言</h1>
+<p>在介绍MPC是什么之前，我想谈谈自己对软件开发的看法，软件开发是一个纷繁复杂，充满风险和极具挑战性的活动。随着软件工程的发展，一代代软件工作者开发总结出了各种规则，多种语言和纷杂的框架，然而这些似乎并没有给降低软件开发的复杂度带来太多的帮助，相反，软件开发人员需要掌握的东西更多了。过去的十几年间我一直在Windows下用C++做软件开发，直到去年才开始系统的在Linux下开发软件。在Windows下开发我还是非常赞同第一个公司（北京新洲协同技术有限公司）软件团队的观点：计算机能干的事情就不要让人去做，计算机通常比人可靠，因此那个团队中有自己的自动化编译系统，整个开发流程都纳入到脚本或程序管理中，自动同步代码，自动编译，自动发布，自动通知程序员修改bug。在接触到linux后，我被linux强大的命令所吸引，开始考虑在linux下做一些自动化的工作。</p>
+<p>由于以后很可能要在Linux下工作，或者编写跨平台的C++代码，这使我有了整理MPC使用经验的冲动，再加上曾经有自动化代码开发的冲动，我希望自己能坚持完成这篇介绍。</p>
+<h1><a class="anchor" id="whatMPC"></a>
+MPC是什么？</h1>
+<p>初次接触MPC是在曾经公司里的一个大牛给我们推荐使用TAO，实现我们的一个系统模块间通讯的方案时。TAO是基于一个知名的开源网络通信框架ACE之上对CORBA协议的实现。ACE是一个跨平台的C++封装库，由于代码要在多个平台上进行编译，所以ACE定义了自己的工程标识脚本。 </p>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

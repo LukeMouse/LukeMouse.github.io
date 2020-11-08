@@ -1,0 +1,68 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">在Emacs中打造python IDE </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><hr/>
+ <p>首先安装python-mode，官网地址为https://launchpad.net/python-mode，虽然上面说可以用package的方式进行安装，但是没有成功，最终从https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/python-mode-20161124.930.tar下载后将压缩包解压到/.emacs.d/elpa 下面，并在.emacs文件添加以下配置信息： </p><pre class="fragment">(setq auto-mode-alist
+ (cons '("//.py$" . python-mode) auto-mode-alist))
+
+(setq interpreter-mode-alist
+ (cons '("python" . python-mode)
+ interpreter-mode-alist))
+
+(autoload 'python-mode "python-mode" "Python editing mode." t)
+
+;;; add these lines if you like color-based syntax highlighting
+(global-font-lock-mode t)
+(setq font-lock-maximum-decoration t)
+(set-language-environment 'Chinese-GB)
+(set-keyboard-coding-system 'euc-cn)
+(set-clipboard-coding-system 'euc-cn)
+(set-terminal-coding-system 'euc-cn)
+(set-buffer-file-coding-system 'euc-cn)
+(set-selection-coding-system 'euc-cn)
+(modify-coding-system-alist 'process "*" 'euc-cn)
+(setq default-process-coding-system
+ '(euc-cn . euc-cn))
+(setq-default pathname-coding-system 'euc-cn)
+</pre> <h1><a class="anchor" id="styasnip"></a>
+安装YASnippet</h1>
+<p>在https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/yasnippet-20161221.1953.tar 下载压缩包后，解压到elpa下面，然后在.emacs中添加： </p><pre class="fragment">(require 'yasnippet)
+(yas/initialize)
+</pre> <h1><a class="anchor" id="istpl"></a>
+安装插件rope pymacs等</h1>
+<p>rope（下载地址https://pypi.python.org/pypi/rope）的安装相对简单，解压后直接执行:python setup.py install 即可，pymacs（下载地址https://github.com/pinard/Pymacs）需要执行以下两条命令才能完成安装 </p><pre class="fragment">python pppp -C ppppconfig.py Pymacs.py.in pppp.rst.in pymacs.el.in pymacs.rst.in contrib tests
+python setup.py install
+</pre><p> 在.emacs中增加如下脚本： </p><pre class="fragment">(autoload 'pymacs-apply "pymacs")
+(autoload 'pymacs-call "pymacs")
+(autoload 'pymacs-eval "pymacs" nil t)
+(autoload 'pymacs-exec "pymacs" nil t)
+(autoload 'pymacs-load "pymacs" nil t)
+</pre> <p>在https://pypi.python.org/pypi搜索ropemacs下载相应版本的ropemacs，解压后运行：python setup.py install进行安装，然后将下面的脚本添加到.emacs：</p>
+<pre class="fragment">(pymacs-load "ropemacs" "rope-")
+(setq ropemacs-enable-autoimport t)
+</pre> </div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

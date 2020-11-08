@@ -1,0 +1,37 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">如何安装并使用Windows Symbol </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><hr/>
+<ol type="1">
+<li>下载符合你所运行的Windows版本的Windows Symbol Package：http://www.microsoft.com/whdc/devtools/debugging/symbolpkg.mspx 安装路径随便你选，我一般就是默认的路径：C:/Windows/Symbols。当然这个东东不装也可以，不过我推荐安装，因为把所有的Symbol File都从Server上下载下来还是蛮花时间的，有了这个东东，大部分的Symbol File都可以直接在本地找到。</li>
+<li>安装最新版的Debugging Tools for Windows，下载地址如下：http://www.microsoft.com/whdc/devtools/debugging/default.mspx 这一步很重要，因为最近微软对WinDBG的更新非常频繁，即使你不用WinDBG，我们也需要WinDBG安装包里的两个文件（dbghelp.dll和symsrv.dll）来更新其他调试工具（譬如IDA和SoftICE）所附带的这两个文件，否则极易出现无法从微软Symbol Server上正确下载最新Symbol File的情况。</li>
+<li>添加环境变量_NT_SYMBOL_PATH，设定其值如下（当然如果你的Symbol Package不是安装在C:/Windows/Symbols目录下，请自行修改）： C:/WINDOWS/Symbols/16bit;C:/WINDOWS/Symbols/acm;C:/WINDOWS/Symbol/ax; C:/WINDOWS/Symbols/cnv;C:/WINDOWS/Symbols/com;C:/WINDOWS/Symbols/cpl; C:/WINDOWS/Symbols/dic;C:/WINDOWS/Symbols/dll;C:/WINDOWS/Symbols/drv; C:/WINDOWS/Symbols/ds;C:/WINDOWS/Symbols/exe;C:/WINDOWS/Symbols/iec; C:/WINDOWS/Symbols/ime;C:/WINDOWS/Symbols/ocx;C:/WINDOWS/Symbols/scr; C:/WINDOWS/Symbols/sys;C:/WINDOWS/Symbols/tpl;C:/WINDOWS/Symbols/tsp; C:/WINDOWS/Symbols/wpc;symsrv*symsrv.dll*C:/symserver*http://msdl.microsoft.com/download/symbols 这里最主要的是最后一个路径：symsrv*symsrv.dll*C:/symserver*http://msdl.microsoft.com/download/symbols，它表示如果在之前的路径，以及C:/symserver目录下都找不到所需要的Symbol File，就从微软的Symbol Server上下载之，并把下载下来的Symbol File保存到C:/symserver目录下（我用这个目录是为了和DriverStudio中附带的一个Symbol Retriever工具保持一致。</li>
+</ol>
+<p>4.用Debugging Tools for Windows安装目录下的dbghelp.dll和symsrv.dll文件覆盖第三方调试工具中所自带的这两个文件——如果有的话，譬如IDA，SoftICE，BoundsChecker，等等。确保这些调试工具中的这两个dll是最新版的。</p>
+<p>现在可以测试一下了，打开Symbol Retriever，随便添加一个dll，点击按钮Get Symbols，如果一切正常，稍后会弹出一个协议对话框，确认后过一会儿就可以看见这个文件的status变成Done，我们可以在C:/symserver/ntdll.pdb目录下找到ntdll.pdb，这就是我们想要的Symbol File。 </p>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

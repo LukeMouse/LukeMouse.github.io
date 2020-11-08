@@ -1,0 +1,187 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">用户方式中线程的同步 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>from(<a href="http://www.cnblogs.com/shipfi/archive/2005/08/31/227228.html">http://www.cnblogs.com/shipfi/archive/2005/08/31/227228.html</a>) <hr/>
+ </dd></dl>
+<h1><a class="anchor" id="thlu"></a>
+线程间的互锁</h1>
+<p>有时线程的某些步骤需要以原子的方式来进行操作，尤其涉及到线程对内存，资源的访问的时候。Windows中，解决这个问题的办法之一就是对线程中某些操作进行互锁。那么这些操作就会不被中断而进行。比如，使线程互锁以对某个变量值进行递增操作的函数： </p><pre class="fragment">LONG InterlockedExchangeAdd(PLONG plAddend,  LONG Increment);
+</pre> <p>举一例：</p>
+<pre class="fragment">long g_x=0;
+DWORD WINAPI ThreadFun1(PVOID pvParam)
+{
+    InterlockedExchangeAdd(&amp;g_x,1);
+}
+
+DWORD WINAPI ThreadFun2(PVOID pvParam)
+{
+    InterlockedExchangeAdd(&amp;g_x,2);
+}
+</pre> <p>通过这个小小的修改，g_x就可以以原子的方式来进行递增。不必清楚地了解互锁函数是如何工作的。重要的是要知道，无论编译器怎样生成代码，无论计算机中安装了多少个CPU，它们都能保证以原子操作方式来修改一个值。还必须保证传递给这些函数的变量地址正确地对齐，否则这些函数就会运行失败。还有几个修改变量的互锁函数如下所示： </p><pre class="fragment">//改变某个变量值
+LONG InterlockedExchange(PLONG plTarget, LONG lValue);
+//改变指针的值
+PVOID InterlockedExchangePointer(PVOID* ppvTarget, PVOID pvValue);
+</pre> <p>实现循环锁：可以用InterlockedExChange来实现循环锁的功能，所谓循环锁，就是在线程1中如果要对变量进行操作，要先查看这个变量（或资源）有没有被其它线程用到，如果是，则一直循环，则到其它线程放弃对该变量（或资源）的控制。如果否，直接可以对该变量（或资源）进行操作。如： </p><pre class="fragment">BOOL g_fResourceInUse = FALSE;
+void Func1()
+{
+    //Wait to access the resource.  等待资源
+    while(InterlockedExchange(&amp;g_fResourceInUse, TRUE) == TRUE)
+        Sleep(0);
+
+    //Access the resource.  //获取资源
+    ...//
+    //We no longer need to access the resource.
+    InterlockedExchange(&amp;g_fResourceInUse, FALSE);  //释放资源
+}
+</pre> <p>其它线程如要使用资源也如上代码所示。</p>
+<p>OK，while循环是循环运行的(假使本线程是ThreadA)，它将g_fResourceInUse中的值改为TRUE，并查看它的前一个值，以了解它是否是TRUE。如果是，则表示已经有线程（假使为ThreadB）使用了，它就要等待，直到ThreadB线程执行InterLockedExchange(&amp;g_fResourceInUse, FALSE); 操作，则ThreadA它就可以退出while循环，然后获取资源，并且，它对g_fResourceInUse设置为TURE，其它线程(假使ThreadC)如要使用，则将如刚才ThreadA般等待。直到ThreadA的InterlockedExchange(&amp;g_fResourceInUse, FALSE);执行完为止。</p>
+<h1><a class="anchor" id="kecods"></a>
+2.关键代码段</h1>
+<p>关键代码段是指这样一段代码，它可以在代码执行前，独占对某资源的访问权。这是能让若干代码能够“以原子方式”来使用资源的另一种方法。注意，关键代码段运行中仍是可以被系统撤销它的时间片，再调度给别的线程。但是，可调度线程有了变化，访问该线程需要使用的资源的其它任何线程将得不到调度。关键代码段的使用： </p><pre class="fragment">const int MAX_TIMES = 1000;
+int   g_nIndex = 0;
+DWORD g_dwTimes[MAX_TIMES];
+CRITICAL_SECTION g_cs;
+
+DWORD WINAPI FirstThread(PVOID pvParam)
+{
+   while(g_nIndex &lt; MAX_TIMES)
+   {
+      EnterCriticalSection(&amp;g_cs);
+      g_dwTimes[g_nIndex] = GetTickCount();
+      g_nIndex++;
+      LeaveCriticalSection(&amp;g_cs);
+   }
+   return(0);
+}
+DWORD WINAPI SecondThread(PVOID pvParam)
+{
+   while(g_nIndex &lt; MAX_TIMES)
+   {
+      EnterCriticalSection(&amp;g_cs);
+      g_nIndex++;
+      g_dwTimes[g_nIndex - 1] = GetTickCount();
+      LeaveCriticalSection(&amp;g_cs);
+   }
+   return(0);
+}
+</pre> <p>注：关键代码段有个CRITICAL_SECTION结构控制。然后用EnterCriticalSection与LeaveCriticalSection封装了要接触共享资源的代码。当无法用互锁函数来解决同步问题时，你应该试用关键代码段。关键代码段的优点在于它们的使用非常容易，它们在内部使用互锁函数，这样它们就能够迅速运行。</p>
+<h1><a class="anchor" id="proagn"></a>
+3.关于使用互锁与关键代码段的弊端与优点：</h1>
+<p>用互锁与关键代码段来实现线程的同步，称为用户方式的线程同步。它的优点是速度非常快，如果在程序中要强调效率问题，则使用以上两种方法来同步线程是比较好的。虽然用户方式的线程同步机制有速度快的优点，但是，很多时候是不适用的。例如，互锁函数只能在单值上运行，而且它无法是线程进入等待状态。虽然可以用关键代码段让线程进入等待状态，但是关键代码段只能对在同一个进程中的线程实施同步，而且，用关键代码段，很容易引起死锁，因为它的代码无法设置超时值。还有一种同步，就是用内核对象来实施同步。 </p>
+<h1><a class="anchor" id="kersync"></a>
+4.内核对象实施同步：</h1>
+<p>内核对象的适应性要远远胜于用户方式，唯一不足即是速度慢。内核对象中，有一个标志是通知状态标志，比如进程，它运行的时候，通知状态标志是末通知的，等到进程结束，即变成已通知状态。通知状态标志是个布尔值。不光进程，很多内核对象都有这个标志，比如线程，作业，文件，控制台输入，信标，互斥对象，事件，文件修改器等。</p>
+<p>同核对象的同步就是要介绍线程等待某个内核对象变为已通知状态的函数。然后讲述Windows提供的专门用来帮助实现线程同步的各种内核对象，如：事件，等待计数器，信标和互斥对象。当线程等待的某个内核对象处于末通知状态，则线程不可调度，如果该内核对象处于已通知状态，则变为可调度线程。OK，下面讲内核对象同步要使用的函数与方法。</p>
+<h1><a class="anchor" id="waitfun"></a>
+5.等待函数 WaitForSingleObject与WaitForMultipleObject</h1>
+<pre class="fragment">DWORD WaitForSingleObject(HANDLE hObject, DWORD dwMilliseconds);
+</pre> <p>其中，hObject就是一个能够支持被通知／末通知的内核对象。比如：</p>
+<pre class="fragment">WaitForSingleObject(hProcess, INFINITE);
+</pre> <p>就是告诉系统，等待到hProcess进程结束为止。第二个参数dwMilliseconds告诉系统，将永远等下去，直到对象变成通知状态。书上说：传递INFINITE有些危险。如果对象永远不变为已通知状态，那么调用线程永远不会被唤醒，它将永远处于死锁状态，不过，它不会浪费宝贵的CPU时间。可以为第二个参数传递一个值，表示等待多长时间。如果对象还没变成已通知状态，那么就换起线程。不要为第二个参数传递0，因为这样线程总是立即被唤醒。</p>
+<p>线程可以同时查看多个内核对象的通知状态，使用函数WaitForMultipleObjects函数：</p>
+<pre class="fragment">DWORD WaitForMultipleObjects(DWORD dwCount, CONST HANDLE* phObjects,BOOL fWaitAll, DWORD dwMilliseconds);
+</pre> <p>dwCount是想让线程查看内核对象的数量，phObjects是指向内核对象句柄数组的指针。可以以两种不同的方式来使用WaitForMultipleObjects函数。一种方式是让线程进入等待状态，直到指定内核对象中的任何一个变为已通知状态。另一种方式是让线程进入等待状态，直到所有指定的内核对象都变为已通知状态。fWaitAll参数告诉该函数，你想要让它使用何种方式。如果为该参数传递TRUE，那么在所有对象变为已通知状态之前，该函数将不允许调用线程运行。dwMilliseconds是设定时间，与上面的函数作用相同。</p>
+<h2><a class="anchor" id="calrec"></a>
+调用返回值：</h2>
+<p>对于有些内核对象来说，成功地调用WaitForSingleObject和WaitForMultipleObjects，实际上会改变对象的状态。成功地调用是指函数发现对象已经得到通知并且返回一个相对于WAIT_OBJECT_0的值。如果函数返回WAIT_TIMEOUT或WAIT_FAILED，那么调用就没有成功。如果函数调用没有成功，对象的状态就不可能改变。</p>
+<h1><a class="anchor" id="eveket"></a>
+6.事件内核对象</h1>
+<p>事件对象是最基本的对象，它包含引用计数，一个用于指定该事件是自动重置还是人工重置事件的布尔值，另一个用于指明该事件是处于未通知还是已通知状态。事件能够通知一个操作已完成。有两种事件，一种是人工重置事件，一种是自动重置事件。有什么区别呢？书上讲到：<em>当人工重置的事件得到通知时，等待该事件的所有线程均变为可调度线程。当一个自动重置的事件得到通知时，等待该事件的线程中只有一个线程变为可调度线程。</em></p>
+<p>什么时候该用事件对象？</p>
+<p>答：当一个线程执行初始化操作，然后通知另一个线程执行剩余的操作时，事件使用得最多。</p>
+<h2><a class="anchor" id="evecre"></a>
+事件对象的创建：</h2>
+<pre class="fragment">HANDLE CreateEvent(   PSECURITY_ATTRIBUTES psa,BOOL fManualReset,BOOL fInitialState,PCTSTR pszName);
+</pre> <p>参数中fManualReset是告诉系统是人工重置事件还是自动重置事件，fInitialState是表示初始化是已通知状态还是未通知状态。创建完成后返回事件对象的句柄，当然，也可以用OpenEvent(DWORD fdwAccess,BOOL fInherit,PCTSTR pszName); 来获得该对象。</p>
+<h2><a class="anchor" id="chgef"></a>
+改变事件的通知状态与末通知状态：</h2>
+<ul>
+<li>用SetEvent(HANDLE hEvent)设置事件为已通知状态。</li>
+<li>用ResetEvent(HANDLE hEvent)设置事件为未通知状态。 </li>
+</ul>
+<p>改变状态就是这么容易。例子：书上举了使用事件内核对象一例，特意摘入下来： </p><pre class="fragment">//定义事件Handle
+HANDLE g_hEvent;
+
+//主程序
+int WINAPI WinMain()
+{
+    //创建一个未通知状态的事件
+    g_hEvent = CreateEvent(NULL,TRUE,FALSE,NULL);
+
+    //启动线程，但是线程并不会运行，只会挂起，因为每个线程中都有WaitForSingleObject(g_hEvent..)的代码，而现在g_hEvent是未通知状态的。
+   HANDLE hThread[3];
+   DWORD dwThreadID;
+   hThread[0] = _beginthreadex(NULL, 0, WordCount, NULL, 0, &amp;dwThreadID);
+   hThread[1] = _beginthreadex(NULL, 0, SpellCheck, NULL, 0, &amp;dwThreadID);
+   hThread[2] = _beginthreadex(NULL, 0, GrammarCheck, NULL, 0, &amp;dwThreadID);
+
+   //打开文件并写入内存
+   OpenFileAndReadContentsIntoMemory( );
+
+   //以上操作执行完后，可以让线程启动了。设置线程为已通知状态
+    SetEvent(g_hEvent); //启动三个线程
+}
+
+DWORD WINAPI SpellCheck(PVOID pvParam)
+{
+   //Wait until the file's data is in memory.
+   WaitForSingleObject(g_hEvent, INFINITE);
+   //Access the memory block.  .....
+   return(0);
+}
+
+DWORD WINAPI GrammarCheck(PVOID pvParam)
+{
+   //Wait until the file's data is in memory.
+   WaitForSingleObject(g_hEvent, INFINITE);
+   //Access the memory block.  ......
+   return(0);
+}
+
+DWORD WINAPI WordCount(PVOID pvParam)
+{
+   //Wait until the file's data is in memory.
+   WaitForSingleObject(g_hEvent, INFINITE);
+   //Access the memory block.  .....
+   return(0);
+}
+</pre> <p>书上对这段代码的解释：<em>当这个进程启动时，它创建一个人工重置的未通知状态的事件，并且将句柄保存在一个全局变量中。这使得该进程中的其他线程能够非常容易地访问同一个事件对象。现在3个线程已经产生。这些线程要等待文件的内容读入内存，然后每个线程都要访问它的数据。一个线程进行单词计数，另一个线程运行拼写检查器，第三个线程运行语法检查器。这3个线程函数的代码的开始部分都相同，每个函数都调用WaitForSingleObject，这将使线程暂停运行，直到文件的内容由主线程读入内存为止。 </em></p>
+<p>一旦主线程将数据准备好，它就调用SetEvent，给事件发出通知信号。这时，系统就使所有这3个辅助线程进入可调度状态，它们都获得了CPU时间，并且可以访问内存块。注意，这3个线程都以只读方式访问内存。这就是所有3个线程能够同时运行的唯一原因。还要注意，如何计算机上配有多个CPU，那么所有3个线程都能够真正地同时运行，从而可以在很短的时间内完成大量的操作。</p>
+<p>如果该事件设置为自动重置，则三个线程都不能同时运行了，只有一个会被调度。其它两个就要等待，直到被调度的调用完毕，线程的代码也要加一句如下所示：</p>
+<pre class="fragment">DWORD WINAPI WordCount(PVOID pvParam)
+{
+   //Wait until the file's data is in memory.
+   WaitForSingleObject(g_hEvent, INFINITE);
+
+   //Access the memory block.
+   ...
+   SetEvent(g_hEvent);  //这句是把事件改为已通知状态，可以让其它使用该事件的线程被调度了。
+   return(0);
+}
+</pre> <p>其它的线程代码也如上所示。</p>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

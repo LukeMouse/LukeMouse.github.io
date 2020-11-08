@@ -1,0 +1,121 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">kerberos安装配置 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>fromweb(<a href="http://running.iteye.com/blog/963383">http://running.iteye.com/blog/963383</a>) <hr/>
+ </dd></dl>
+<h1><a class="anchor" id="inst_kerb"></a>
+安装步骤：</h1>
+<ul>
+<li>下载krb5-1.9 <pre class="fragment">http://web.mit.edu/kerberos/dist/krb5/1.9/krb5-1.9-signed.tar
+</pre></li>
+<li>解压 tar -xvf krb5-1.9.signed.tar 生成krb5-1.9.tar.gz 和krb5-1.9.tar.gz.asc 继续解压tar zxvf krb5-1.9.tar.gz</li>
+<li>编译 <pre class="fragment">cd krb5-1.9/src
+ ./configure
+make
+make install
+</pre> </li>
+</ul>
+<h1><a class="anchor" id="cfgcer"></a>
+配置kerberos</h1>
+<h2><a class="anchor" id="cfgkrb"></a>
+配置/etc/krb5.conf</h2>
+<p>这个是Kerberos最主要的配置文件，而且一定要放在/etc下 </p><pre class="fragment">[libdefaults]
+      default_realm = 360BUY.COM
+
+[realms]
+      360BUY.COM = {
+            kdc = m1.360buy.com
+            admin_server = m1.360buy.com
+            default_domain =360buy.com
+      }
+
+[logging]
+      kdc = FILE:/data/logs/krb5/krb5kdc.log
+      admin_server = FILE:/data/logs/krb5/kadmin.log
+      default = FILE:/data/logs/krb5/krb5lib.log
+</pre><ul>
+<li>[libdefaults]中的defalt_realm表示在不给出域的时候，默认采用这个</li>
+<li>[logging]中的是指定日志的位置</li>
+<li>[realms]是最重要的也是Kerberos中最难的概念。也称为kerberos域，表示KDC所管辖的范围，可以和DNS域名一样，也可以不一样 </li>
+</ul>
+<h2><a class="anchor" id="cfg_kdc"></a>
+配置/usr/local/var/krb5kdc/kdc.conf</h2>
+<p>由于上面安装时没有选择安装目录，所以默认的安装位置在/usr/local/var/krb5kdc </p><pre class="fragment">[kdcdefaults]
+      kdc_ports=750,88
+
+[realm]
+      360BUY.COM ={
+            database_name=/usr/local/var/krb5kdc/principal
+            admin_keytab=/usr/local/var/krb5kdc/kadm5.keytab
+            acl_file=/usr/local/var/krb5kdc/kadm5.acl
+            key_stash_file=/usr/local/var/krb5kdc/.k5.360BUY.COM
+            kdc_ports=750,88
+            max_life=10h 0m 0s
+            max_renewable_life=7d 0h 0m 0s
+      }</pre><p> 创建一个kerberos数据库 </p><pre class="fragment">/usr/local/sbin/kdb5_util create -r 360BUY.COM -s
+</pre><p> 会要求创建数据库的密码。并且创建/usr/local/var/krb5kdc/principal保存数据库文件 </p>
+<h1><a class="anchor" id="loginker"></a>
+登录kerberos</h1>
+<p>运行：/usr/local/sbin/kadmin.local</p><ul>
+<li>查看用户 listprincs</li>
+<li>添加用户 addprinc admin/admin@360BUY.COM</li>
+<li>删除用户 delprinc</li>
+<li>创建keytab文件 <pre class="fragment">ktadd -k /usr/local/var/krb5kdc/kadm5.keytab kadmin/admin kadmin/changepw
+</pre></li>
+<li>可以用kadd来增加用户的权限,注意kadm5.keytab的路径要与kdc.conf中的路径一致 </li>
+</ul>
+<h1><a class="anchor" id="othcfg"></a>
+其他配置</h1>
+<ul>
+<li>重启krb5kdc和kadmind进程 <pre class="fragment">/usr/local/sbin/kadmind
+/usr/local/sbin/krb5kdc
+</pre></li>
+<li>更改/etc/hosts文件 <pre class="fragment">添加对应的host
+192.168.101.201 m1.360buy.com kdc
+192.168.101.202 m2.360buy.com client
+并且需要修改对应的hostname
+</pre></li>
+<li>在KDC服务器上测试票据请求 <pre class="fragment">/usr/local/sbin/kadmin.local
+kadmin.local:addprinc winston@360BUY.COM
+提示创建密码，然后退出
+
+su winston
+$ kinit winston@360BUY.COM
+提示输入刚刚创建的密码
+
+$ klist 查看自己申请的票据
+</pre></li>
+<li>在Client端安装kerberos，同样需要编译，但是只需要配置文件/etc/krb5.conf，内容和服务器的一致</li>
+<li>测试KDC服务器申请票据 <pre class="fragment">su winston
+$ kinit winston@360BUY.COM
+提示输入刚刚创建的密码
+addprinc -randkey hdfs/sl.360buy.com@360BUY.COM
+ktadd -norandkey -k hdfs.keytab hdfs/s1.360buy.com host/master.360buy.com
+</pre> </li>
+</ul>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

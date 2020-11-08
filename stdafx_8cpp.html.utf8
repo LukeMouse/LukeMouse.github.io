@@ -1,0 +1,47 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_d0f2c36edb6a50530b794a1208b26ce9.html">RuralMouseNotes</a></li><li class="navelem"><a class="el" href="dir_ac683163d9dea956196ec4a7572d50dc.html">Debug</a></li><li class="navelem"><a class="el" href="dir_cfdab29e8040c9bd6f9e648046899983.html">Translation</a></li><li class="navelem"><a class="el" href="dir_3ead2789910fd6c434b29f2ea5981753.html">AppCrash</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">stdafx.cpp 文件参考</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="stdafx_8h_source.html">stdafx.h</a>&quot;</code><br />
+</div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> stdafx.cpp 的引用(Include)关系图:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="stdafx_8cpp__incl.png" border="0" usemap="#stdafx_8cpp" alt=""/></div>
+<map name="stdafx_8cpp" id="stdafx_8cpp">
+<area shape="rect"  title=" " alt="" coords="101,5,184,32"/>
+<area shape="rect"  href="stdafx_8h.html" title=" " alt="" coords="109,80,177,107"/>
+<area shape="rect"  href="targetver_8h.html" title=" " alt="" coords="5,155,88,181"/>
+<area shape="rect"  title=" " alt="" coords="112,155,173,181"/>
+<area shape="rect"  title=" " alt="" coords="198,155,261,181"/>
+</map>
+</div>
+</div></div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

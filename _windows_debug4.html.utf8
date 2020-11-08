@@ -1,0 +1,297 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">Windows调试技术第四部分&ndash;调试内存泄露（性能监视器） </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>shailesh91082 </dd></dl>
+<dl class="section date"><dt>日期</dt><dd>2014-02-14 <hr/>
+ </dd></dl>
+<h1><a class="anchor" id="intr4"></a>
+简介</h1>
+<p>本文介绍了调试Windows应用程序内存泄露的简便易行的方法，本文范围仅限于用户模式的调试。介绍了使用Perfmon进行最基本的调试。</p>
+<h1><a class="anchor" id="background4"></a>
+背景信息</h1>
+<p>内存泄露是本地代码最常见的问题，其主要原因是内存管理由应用程序本身完成。应用程序负责申请和释放内存。当一个应用程序动态申请内存，使用完后没有进行释放，该程序将产生内存泄露。这块内存不再被该应用程序使用，也不能被系统或其他应用程序使用。</p>
+<h1><a class="anchor" id="definition4"></a>
+定义</h1>
+<p>首先我们一起理解内存的本质。我们从“虚拟地址空间”开始，虚拟地址空间是一个应用程序可以使用的一段虚拟内存地址。每个进程的地址空间是私有的，除非它被共享。进程的任何操作（如内存分配、创建静态对象等）都在地址空间中进行。 </p>
+<p>所有的内容都在虚拟地址空间中，所有的四类内存段（代码段、栈段、数据段和堆段）都在虚拟地址空间中。参看下图：</p>
+<div class="image">
+<img src="WDT022.png" alt="WDT022.png"/>
+</div>
+<p>我们看到地址空间被划分为用户模式和系统模式两部分，这两种模式分别占用内存地址空间的2G大小。不同的是系统模式下的2G内存被系统内运行的所有进程共享，用户模式的内存只用于该内存（即所有分配的内存都在应用程序的虚拟地址空间中），这是进程的私有财产。例如，使用new分配的内存将被添加到用户模式空间。创建一个事件对象，互斥对象等将被添加到内核模式空间中，因为这些是内核模式的对象。</p>
+<p>我们接下来讨论一下，如何理解一个特定的API将会使用用户模式空间还是内核模式空间。如果API使用SECURITY_ATTRIBUTES作为参数，那么这意味着它将创建一个内核模式对象并且SECURITY_ATTRIBUTES将决定着它被其他进程获取的可能性。几个这类API的例子如下：</p>
+<pre class="fragment">HANDLE WINAPI CreateEvent(
+  _In_opt_  LPSECURITY_ATTRIBUTES lpEventAttributes,
+  _In_      BOOL bManualReset,
+  _In_      BOOL bInitialState,
+  _In_opt_  LPCTSTR lpName
+);
+
+HANDLE WINAPI CreateMutex(
+  _In_opt_  LPSECURITY_ATTRIBUTES lpMutexAttributes,
+  _In_      BOOL bInitialOwner,
+  _In_opt_  LPCTSTR lpName
+);
+</pre><p> CreateThread在这种结论下有些例外： </p><pre class="fragment">HANDLE WINAPI CreateThread(
+  _In_opt_   LPSECURITY_ATTRIBUTES lpThreadAttributes,
+  _In_       SIZE_T dwStackSize,
+  _In_       LPTHREAD_START_ROUTINE lpStartAddress,
+  _In_opt_   LPVOID lpParameter,
+  _In_       DWORD dwCreationFlags,
+  _Out_opt_  LPDWORD lpThreadId
+);
+</pre><p> 尽管线程是一个内核模式的对象，它创建时默认占用用户模式内存1M的空间。这意味着我们在32位的操作系统上最多可以创建2048个线程，因为这将占用全部的2G用户模式空间。默认堆栈大小可以使用Visual Studio项目设置进行修改，这将可以创建更多的线程。这是虚拟地址空间在32位操作系统上的常见分布。 </p>
+<p>接下来，虚拟地址空间被划分成页，每页大小为4KB，因此一个虚拟地址空间最多拥有1024*1024=1048576页。这样我们就知道了当我们超过了这个限制，我们的程序就会停止工作，因为没有更多的内存可以获取了。当我们的程序接近这一上限时，系统将会提示“虚拟内存过低”</p>
+<p>在64位操作系统上用户模式空间是6TB，内核模式空间是2TB。比起32位系统来进程可以有更多的空间来使用。这些知识内存的基础知识，想要详细了解内存，请参阅Windows Internals book</p>
+<h1><a class="anchor" id="memleakrea"></a>
+什么导致了内存泄露？</h1>
+<p>有三个最基本的原因：</p>
+<ol type="1">
+<li>增长的堆栈：内存申请了，但没有释放，即调用了new/malloc但没有调用delete/free，直接表现是内存不断增长，但没有下降，从而导致虚拟内存的增长，当超过某一界限，程序将会崩溃。 <pre class="fragment">int main()
+{
+    for(int i = 0; i &lt; 10; i++)
+    {
+    char* p = new char[100];
+    }
+    return 0;
+}
+</pre></li>
+<li>句柄泄露：这发生在各种不同的句柄被创建了，但没有释放，如文件句柄、线程句柄、进程句柄等。 <pre class="fragment">int main()
+{
+    HANDLE hEvent = NULL;
+    hEvent = CreateEvent(NULL, TRUE, FALSE, TEXT("WriteEvent"));
+    return 0;
+}
+</pre></li>
+<li>线程计数：发生在不断的创建线程，但线程工作完成后没有真正退出的情况，根据前面的叙述，默认情况下将会占用1M的用户模式空间，因此如果线程数持续的增长，并且不释放这将最终导致虚拟内存的增长。 </li>
+</ol>
+<h1><a class="anchor" id="debugTech"></a>
+调试技巧</h1>
+<p>调试内存泄露是一个非常复杂的问题，有多种像Rational Purify、Insure++等类似的工具可供选择，但是找到具体的泄露原因，需要大量的代码走查和对场景的全景把握。除此以外，大多数工具是需要付费的，且不是所有的公司都推行这些工具。因此在Windows操作系统上需要可以免费获取的工具来解决这一问题。</p>
+<p>简化检测是否有内存泄露首选和最便利的工具是“性能监视器“，性能监视器是Windows操作系统的内置工具，可用于检测应用程序或系统级别的各种参数，如：内存、CPU、磁盘等。</p>
+<p>考虑下面代码中的内存泄露问题:</p>
+<pre class="fragment">#include &lt;iostream&gt;
+#include &lt;Windows.h&gt;
+#include &lt;tchar.h&gt;
+#include &lt;string&gt;
+
+using namespace std;
+
+bool GetComputerName(wstring&amp; wstrCompName);
+bool fileread(const wstring&amp; filepath);
+bool GetUserName(wstring&amp; wstrUserName);
+
+int main()
+{
+    int nChoice = 0;
+    wstring wstrCompName;
+    wstring wstrUserName;
+    char ccontinue = '\0'; 
+
+    do
+    {
+        wcout&lt;&lt;L"Enter your choice"&lt;&lt;endl;
+        wcout&lt;&lt;L"1.Read Computer name"&lt;&lt;endl;
+        wcout&lt;&lt;L"2.Read User Name"&lt;&lt;endl;
+        cin&gt;&gt;nChoice;
+
+        switch(nChoice)
+        {
+        case 1:
+            GetComputerName(wstrCompName);
+            wcout&lt;&lt;L"Computer name read is"&lt;&lt;wstrCompName.c_str()&lt;&lt;endl;
+            break;
+        case 2:
+            GetUserName(wstrUserName);
+            wcout&lt;&lt;L"user name read is"&lt;&lt;wstrUserName.c_str()&lt;&lt;endl;
+            break;
+        default:
+            wcout&lt;&lt;L"Invalid option";
+        }
+        wcout&lt;&lt;"Do you want to continue Y or N";
+        cin&gt;&gt;ccontinue;
+    }while(ccontinue == 'y' || ccontinue == 'Y');
+    return 0;
+}
+
+
+
+bool GetComputerName(wstring&amp; wstrCompName)
+{
+    wchar_t* pwszCompName = NULL;
+    DWORD dwSize = 0;
+    bool bRet = false;
+
+    if (!GetComputerNameEx(ComputerNameDnsHostname, pwszCompName, &amp;dwSize))
+    {
+        if(GetLastError() != ERROR_MORE_DATA)
+        {
+            wcout&lt;&lt;L"GetComputerNameEx Failed with Error Code"&lt;&lt;GetLastError();
+            return false;
+        }
+        pwszCompName = new(std::nothrow) wchar_t[dwSize + 1];
+        if(pwszCompName == NULL)
+        {
+            wcout&lt;&lt;L"unable to allocate memory"&lt;&lt;endl;
+            return false;
+        }
+        memset(pwszCompName, L'\0', dwSize + 1);
+        if (!GetComputerNameEx(ComputerNameDnsHostname, pwszCompName, &amp;dwSize))
+        {   
+            wcou&lt;&lt;L"GetComputerNameEx Failed with Error Code"&lt;&lt;GetLastError();
+            return false;
+        }
+    }
+    char* test = new char[1024*1024];
+    wstrCompName.assign(pwszCompName);
+    return true;            
+}
+
+
+bool GetUserName(wstring&amp; wstrUserName)
+{
+    wchar_t* pwszUserName = NULL;
+    DWORD dwSize = 0;
+
+    if(!GetUserName(pwszUserName, &amp;dwSize))
+    {
+        if(GetLastError() != ERROR_INSUFFICIENT_BUFFER)     
+        {
+            wcout&lt;&lt;"GetUserName returned with Error"&lt;&lt;GetLastError();
+            return false;
+        }
+        pwszUserName = new(std::nothrow)wchar_t[dwSize + 1]();
+        if(pwszUserName == NULL)
+        {
+            return false;
+        }
+        if(!GetUserName(pwszUserName, &amp;dwSize))
+        {
+            if(pwszUserName)
+            {
+                delete [] pwszUserName;
+                pwszUserName = NULL;
+            }
+            wcout&lt;&lt;"GetUserName returned with Error"&lt;&lt;GetLastError();
+            return false;
+        }
+    }
+    wstrUserName.assign(pwszUserName);
+    if(pwszUserName)
+    {
+        delete [] pwszUserName;
+        pwszUserName = NULL;
+    }
+    return true;
+}
+</pre> <p>看完这段代码我们会发现函数GetComputerName中存在内存泄露，并且泄露有两处：一处是变量pwszCompName没有被释放，变量test也是这种情况。但事实并不总是这么简单，我们常会遇到更加复杂的情况。让我们逐步深入来修复这些问题。</p>
+<h2><a class="anchor" id="step1add"></a>
+第一步，在性能监视器中添加性能计数</h2>
+<ol type="1">
+<li>如下图所示启动性能监视工具 <div class="image">
+<img src="WDT023.png" alt="WDT023.png"/>
+</div>
+<div class="image">
+<img src="WDT024.png" alt="WDT024.png"/>
+</div>
+</li>
+<li>通过选择进程部分下面的参数，给应用程序添加性能计数 <div class="image">
+<img src="WDT025.png" alt="WDT025.png"/>
+</div>
+<div class="image">
+<img src="WDT026.png" alt="WDT026.png"/>
+</div>
+<div class="image">
+<img src="WDT027.png" alt="WDT027.png"/>
+</div>
+</li>
+<li>观察添加后的视图 <div class="image">
+<img src="WDT028.png" alt="WDT028.png"/>
+</div>
+</li>
+</ol>
+<h2><a class="anchor" id="stp2run"></a>
+第二步、运行实例并观察视图</h2>
+<p>在我们当前版本的程序中，选择选项1，然后观察“Private bytes"的增长，选择Y继续，再次选择选项1，然后观察"Private bytes"的增长；然后选择选项2，观察增长。我们发现仅在选择选项1的时候"Private bytes"会增长。private bytes的增长说明这段代码中有内存申请，并没有进行释放。换句话说，就是调用了new/malloc而没有对应的调用delete/free。下图是当前实例的截图，持续增长的Privite Bytes使用绿线表示。
+\image html WDT029.png "" </p>
+<h2><a class="anchor" id="stp3trace"></a>
+第三步、跟踪代码流程并修复问题</h2>
+<p>现在我们已经知道了问题出在了选择选项1，因此接下来我们应该跟踪相应的代码。让我们进入GetComputerName，会发现变量pwszCompName和test申请的内存都没有被释放，我们将上面的代码最终修改如下，以解决前面提到的问题。 </p><pre class="fragment">bool GetComputerName(wstring&amp; wstrCompName)
+{
+    wchar_t* pwszCompName = NULL;
+    DWORD dwSize = 0;
+    bool bRet = false;
+
+    if (!GetComputerNameEx(ComputerNameDnsHostname, pwszCompName, &amp;dwSize))
+    {
+        if(GetLastError() != ERROR_MORE_DATA)
+        {
+            wcout&lt;&lt;L"GetComputerNameEx Failed with Error Code"&lt;&lt;GetLastError();
+            return false;
+        }
+        pwszCompName = new(std::nothrow) wchar_t[dwSize + 1];
+        if(pwszCompName == NULL)
+        {
+            wcout&lt;&lt;L"unable to allocate memory"&lt;&lt;endl;
+            return false;
+        }
+        memset(pwszCompName, L'\0', dwSize + 1);
+        if (!GetComputerNameEx(ComputerNameDnsHostname, pwszCompName, &amp;dwSize))
+        {  
+            if(pwszCompName)
+            {
+                delete [] pwszCompName;
+                pwszCompName = NULL;
+            }               
+            wcout&lt;&lt;L"GetComputerNameEx Failed with Error Code"&lt;&lt;GetLastError();
+            return false;
+        }
+    }
+    char* test = new char[1024*1024];   
+    wstrCompName.assign(pwszCompName);
+        
+    if(test)
+    {
+        delete[] test;
+        test = NULL;
+    }
+    if(pwszCompName)
+    {
+        delete [] pwszCompName;
+        pwszCompName = NULL;
+    }
+    return true;            
+}
+</pre><h1><a class="anchor" id="summp4"></a>
+总结</h1>
+<p>前面的例子中我们观察了private bytes的增长，当它超过了4KB（在32位操作系统上）的限制后将最终导致Virtual Bytes的增长。类似的，我们也可以监控线程计数和句柄计数，采用相似的手段修复我们遇到的问题。</p>
+<h1><a class="anchor" id="refp4"></a>
+参考链接</h1>
+<ol type="1">
+<li><a href="https://technet.microsoft.com/en-in/sysinternals/bb963901.aspx">Windows Internals Book </a> </li>
+</ol>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

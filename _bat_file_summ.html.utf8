@@ -1,0 +1,67 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">批处理文件语法总结 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>李进安 </dd></dl>
+<dl class="section date"><dt>日期</dt><dd>2013-10-11 <hr/>
+ </dd></dl>
+<h1><a class="anchor" id="pathnull"></a>
+Batch command传入带空格的参数（文件路径等）</h1>
+<p>批处理的命令行是用空格作为参数分隔符的，遇到带空格的参数的时候就麻烦了，所以我们可以把参数用双引号包起来，但是这样又会引入新的问题，参数也会死死的记住这个引号，当我们拼接路径的时候，就麻烦了，比如 readygo.bat "c:\\pro files"，批处理文件里面做了这样的处理(set fileName=%1\test.txt),经过解析后，结果就变成了 fileName="c:\\pro files"\test.txt</p>
+<p>办法很简单：set fileName=%~1\test.txt，这样就去掉了双引号。</p>
+<p>注意，某些地方用到fileName的时候，有可能需要你再次包装："fileName"，这个看情况。 <a href="http://windowsitpro.com/article/server-management/how-do-i-pass-parameters-to-a-batch-file&ndash;13443">http://windowsitpro.com/article/server-management/how-do-i-pass-parameters-to-a-batch-file&amp;ndash;13443</a> Related: How to parse a batch parameter</p>
+<p>A. When you call a batch file, you can enter data after the command that the batch file refers to as %1, %2, etc. For example, in the batch file hello.bat, the following command @echo hello %1 boy would output hello john boy if you called it as hello john The following table outlines how you can modify the passed parameter.</p>
+<p>Parameter Description</p>
+<p>%1 The normal parameter. %~f1 Expands %1 to a fully qualified pathname. If you passed only a filename from the current directory, this parameter would also expand to the drive or directory. %~d1 Extracts the drive letter from %1. %~p1 Extracts the path from %1. %~n1 Extracts the filename from %1, without the extension. %~x1 Extracts the file extension from %1. %~s1 Changes the n and x options’ meanings to reference the short name. You would therefore use %~sn1 for the short filename and %~sx1 for the short extension.</p>
+<p>The following table shows how you can combine some of the parameters.</p>
+<p>Parameter Description %~dp1 Expands %1 to a drive letter and path only. %~sp1 For short path. %~nx1 Expands %1 to a filename and extension only.</p>
+<p>To see all the parameters in action, put them into the batch file testing.bat, as follows.</p>
+<p>@echo off<br />
+ echo fully qualified name %~f1<br />
+ echo drive %~d1<br />
+ echo path %~p1<br />
+ echo filename %~n1<br />
+ echo file extension %~x1<br />
+ echo short filename %~sn1<br />
+ echo short file extension %~sx1<br />
+ echo drive and directory %~dp1<br />
+ echo filename and extension %~nx1</p>
+<p>Then, run the file with a long filename. For example, the batch file run on the file c:\temp\longfilename.long would produce the following output.</p>
+<p>fully qualified name c:\TEMP\longfilename.long<br />
+ drive c:<br />
+ path \TEMP\<br />
+ filename longfilename<br />
+ file extension .long<br />
+ short filename LONGFI~1<br />
+ short file extension .LON<br />
+ drive and directory c:\TEMP\<br />
+ filename and extension longfilename.long</p>
+<p>This method also works on the second and subsequent parameters. You simply substitute the parameter for 1 (e.g., %~f2 for the second parameter’s fully qualified path name).</p>
+<p>Related: Using URLs in Batch Files</p>
+<p>The %0 parameter in a batch file holds information about the file when it runs and indicates which command extensions you can use with the file (e.g., %~dp0 gives the batch file’s drive and path).</p>
+<p>Learn more: How many parameters can I pass to batch file? </p>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

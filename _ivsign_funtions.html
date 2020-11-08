@@ -1,0 +1,152 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">人脸识别相关函数收集 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>李进安 <hr/>
+ </dd></dl>
+<h1><a class="anchor" id="fe"></a>
+特征提取</h1>
+<pre class="fragment">/**
+ \brief  Extract feature from file
+ \param[in] strFileName image path
+ \param[out] pbyFeatures  features, users should allocate memory before call this function 
+ \param[out] featureExtracted  if true, features extract rightly, else wrong.
+ \return Err_Code defined in "HISIGN_ErrorDef.h"
+*/
+int ExtractFeature(const string &amp;strFileName, BYTE *pbyFeatures, bool &amp;featureExtracted, HS_EyePointF &amp;eyePoint, HS_PointF &amp;mouthCenter )
+{
+    int nRetCode = HISIGN_ERR_NONE;  //&lt; return code
+    featureExtracted = false; 
+    BYTE *pbyGrayImage = NULL;
+    HS_FaceCandidate *pFaceCand = NULL;
+    try
+    {
+        /// Read image from file
+        //=====================================================================================
+        int nImageWidth, nImageHeight;
+        nRetCode = THIDGetGrayImageFromFile(strFileName.c_str(), &amp;pbyGrayImage, &amp;nImageWidth, &amp;nImageHeight);
+        if (nRetCode != THID_ERR_NONE)
+        {
+            cout &lt;&lt; "Can't read image from file:" &lt;&lt; strFileName &lt;&lt; endl;
+            throw nRetCode;
+        }
+
+        // Detection
+        //=====================================================================================
+        // allocate memory
+        pFaceCand = new HS_FaceCandidate[100];      
+        if (pFaceCand == NULL)
+        {
+            cout &lt;&lt; "Can't allocate memory!" &lt;&lt; endl;
+            throw HISIGN_ERR_MEMORYALLOC;
+        }
+        // Detection
+        int nFaceNum;
+        nRetCode = HS_FaceDetection(pbyGrayImage, nImageWidth, nImageHeight, 20, 
+            min(nImageWidth, nImageHeight), pFaceCand, &amp;nFaceNum);
+        if (nRetCode != HISIGN_ERR_NONE)
+        {
+            cout &lt;&lt; "Problem with face detection!" &lt;&lt; endl;
+            throw nRetCode;
+        }
+
+        if (nFaceNum &lt;= 0)
+        {
+            cout &lt;&lt; "No face detected!" &lt;&lt; endl;
+            throw nRetCode;
+        }
+
+        // find max size face 
+        int indexFace = 0;
+        HS_RECT rcFace;
+        rcFace.left = pFaceCand[0].trueleft;
+        rcFace.top = pFaceCand[0].truetop;
+        rcFace.right = pFaceCand[0].trueright;
+        rcFace.bottom = pFaceCand[0].truebottom;
+        for (int i=1; i&lt;nFaceNum; ++i)
+        {       
+            if (pFaceCand[i].trueright - pFaceCand[i].trueleft &gt; rcFace.right - rcFace.left)
+            {
+                rcFace.left = pFaceCand[i].trueleft;
+                rcFace.top = pFaceCand[i].truetop;
+                rcFace.right = pFaceCand[i].trueright;
+                rcFace.bottom = pFaceCand[i].truebottom;
+                indexFace = i;
+            }
+        }
+
+        // Eyes and mouth location 
+        //=====================================================================================
+        nRetCode = HS_LocateEyeAndMouthEx(pbyGrayImage, nImageWidth, nImageHeight, 
+            &amp;rcFace, &amp;eyePoint, &amp;mouthCenter);
+        if (nRetCode != HISIGN_ERR_NONE)
+        {
+            cout &lt;&lt; "Problem with eye and mouth location!" &lt;&lt; endl;
+            throw nRetCode;
+        }
+
+        //  Extract Feature and compare two features
+        //=====================================================================================
+        nRetCode = HS_FeatExtractByEyeAndMouthCenterEx(pbyGrayImage, nImageWidth, 
+            nImageHeight, &amp;eyePoint, &amp;mouthCenter, pbyFeatures);    
+        if (nRetCode != HISIGN_ERR_NONE)
+        {
+            cout &lt;&lt; "Problem with feature extraction!" &lt;&lt; endl;
+            throw nRetCode;
+        }
+
+        // free
+        //=====================================================================================
+        delete[] pFaceCand;
+        pFaceCand = NULL;
+        THIDFreeMemory(pbyGrayImage);
+        pbyGrayImage = NULL;
+
+        featureExtracted = true;
+    }
+    catch (const int &amp;nErrCode)
+    {
+        if (pbyGrayImage!=NULL)
+        {
+            delete[] pbyGrayImage;
+            pbyGrayImage = NULL;
+        }
+        if (pFaceCand!=NULL)
+        {
+            delete[] pFaceCand;
+            pFaceCand = NULL;
+        }
+        if (pbyGrayImage!=NULL)
+        {
+            THIDFreeMemory(pbyGrayImage);
+        }
+        nRetCode = nErrCode;
+    }
+
+    return nRetCode;
+}
+</pre> </div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

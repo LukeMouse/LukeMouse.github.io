@@ -1,0 +1,105 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">随笔 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><hr/>
+ <h1><a class="anchor" id="ld-ver"></a>
+ld版本太低</h1>
+<p>通过安装binutils解决。</p>
+<ol type="1">
+<li>cd ~/Src</li>
+<li>tar -zxvf binutils-2.26.tar.gz</li>
+<li>mkdir binutils-build</li>
+<li>cd binutils-build</li>
+<li>../binutils-2.26/configure</li>
+<li>make</li>
+<li>make install </li>
+</ol>
+<h1><a class="anchor" id="passport"></a>
+使指定端口（如8983）通过防火墙</h1>
+<ol type="1">
+<li>打开配置文件 emacs -nw /etc/sysconfig/iptables</li>
+<li>添加-A INPUT -m state &ndash;state NEW -m tcp -p tcp &ndash;dport 8983 -j ACCEPT 注不能添加在最后</li>
+<li>重启防火墙生效/etc/init.d/iptables restart </li>
+</ol>
+<h1><a class="anchor" id="mvnsingle"></a>
+使用mvn生成单一的jar包</h1>
+<p>将下面的plugin添加到pom.xml的build标签中，并修改相应的mainClass里面的内容为实际导出类；</p>
+<pre class="fragment">&lt;plugin&gt;
+  &lt;artifactId&gt;maven-assembly-plugin&lt;/artifactId&gt;
+  &lt;version&gt;2.4&lt;/version&gt;
+  &lt;configuration&gt;
+    &lt;archive&gt;
+      &lt;manifest&gt;
+        &lt;mainClass&gt;com.hisign.solr.DataImportor&lt;/mainClass&gt;
+      &lt;/manifest&gt;
+    &lt;/archive&gt;
+    &lt;descriptorRefs&gt;
+      &lt;descriptorRef&gt;
+        jar-with-dependencies
+      &lt;/descriptorRef&gt;
+    &lt;/descriptorRefs&gt;
+  &lt;/configuration&gt;
+&lt;/plugin&gt;
+</pre> <p>如果不希望依赖的JAR包变成CLASS的话,可以修改ASSEMBLY插件:</p>
+<ol type="1">
+<li>找到assembly在本地的地址,一般是c:/users/${your_login_name}/.m2/\org\apache\maven\plugins\maven-assembly-plugin\2.4</li>
+<li>用WINZIP或解压工具打开此目录下的maven-assembly-plugin-2.4.jar, 找到assemblies\jar-with-dependencies.xml</li>
+<li>把里面的UNPACK改成FALSE即可 </li>
+</ol>
+<h1><a class="anchor" id="playsound"></a>
+如何判断某设备能否播放wmv文件</h1>
+<p>PlaySound函数在没有装声卡驱动的机器上调用也会返回正常值，但是不会播放声音，因此需要预先判断目标机器是否已经安装了声卡驱动，由于PlaySound仅能用于播放wmv文件，因此，通过函数waveOutGetNumDevs可以判断是否可以播放，参考代码如下： </p><pre class="fragment">#include &lt;iostream&gt;
+#include &lt;Windows.h&gt;
+
+#pragma comment(lib, "Winmm.lib")
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+    UINT soundChannel = waveOutGetNumDevs();
+    if (soundChannel &gt; 0)
+    {
+        std::cout &lt;&lt; "Sound driver installed!" &lt;&lt; std::endl;
+    }
+    else
+    {
+        std::cout &lt;&lt; "No Sound driver Found!" &lt;&lt; std::endl;
+    }
+
+    system("pause");
+    return 0;
+}
+</pre> <h1><a class="anchor" id="delbig"></a>
+清理Temporary Internet Files</h1>
+<p>Win7下删除Temporary Internet Files的缓存目录Content.IE5</p>
+<h1><a class="anchor" id="hao169"></a>
+ie主页被hao.169x.cn劫持的解决办法</h1>
+<p>进入C:\Users\账户名\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\User Pinned\ TaskBar找到IE的快捷方式，在属性中将最后的hao.169x.cn删除 还有C:\Users\chris\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Accessories</p>
+<h1><a class="anchor" id="elpinr"></a>
+Eclipse安装插件</h1>
+<p>Eclipse安装Gradle插件: <a href="http://dist.springsource.com/release/TOOLS/gradle">http://dist.springsource.com/release/TOOLS/gradle</a> </p>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

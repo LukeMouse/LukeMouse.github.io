@@ -1,0 +1,41 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">在CentOS上安装clang </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><hr/>
+ <p>首先需要安装libstdC++和2.7以后版本的python，参考相应文章。</p><ol type="1">
+<li>下载llvm源码：wget <a href="http://llvm.org/releases/3.8.0/llvm-3.8.0.src.tar.xz">http://llvm.org/releases/3.8.0/llvm-3.8.0.src.tar.xz</a></li>
+<li>下载clang源码：wget <a href="http://llvm.org/releases/3.8.0/cfe-3.8.0.src.tar.xz">http://llvm.org/releases/3.8.0/cfe-3.8.0.src.tar.xz</a></li>
+<li>下载compiler-rt的源代码：wget <a href="http://llvm.org/releases/3.8.0/compiler-rt-3.8.0.src.tar.xz">http://llvm.org/releases/3.8.0/compiler-rt-3.8.0.src.tar.xz</a></li>
+</ol>
+<p>一不小心将(在/lib64下面执行了mv lib.so.6 lib.so.6.bak后果很严重)lib.so.6改名了，造成了系统不能使用先用 ldconfig -l -v /lib64/libc-2.13.so命令找到系统当前使用的libc的版本 LD_PRELOAD=/lib/libc-2.12.so;sodo ln -s /lib/libc-2.12.so /lib/libc.so.6</p>
+<p>scp <a href="#" onclick="location.href='mai'+'lto:'+'roo'+'t@'+'192'+'.1'+'68.'+'30'+'.49'; return false;">root@<span style="display: none;">.nosp@m.</span>192.<span style="display: none;">.nosp@m.</span>168.3<span style="display: none;">.nosp@m.</span>0.49</a>:/lib64/libm-2.12.so /lib64/libm-2.12.so</p>
+<p>../gcc-5.4.0/configure &ndash;prefix=/usr &ndash;disable-multilib &ndash;enable-checking=release &ndash;enable-languages=c,c++</p>
+<p>./clang: /lib64/libc.so.6: version &lsquo;GLIBC_2.15&rsquo; not found (required by ./clang) ./clang: /lib64/libc.so.6: version &lsquo;GLIBC_2.14&rsquo; not found (required by ./clang)</p>
+<p>./clang: /usr/lib64/libstdc++.so.6: version &lsquo;GLIBCXX_3.4.14&rsquo; not found (required by ./clang) ./clang: /usr/lib64/libstdc++.so.6: version &lsquo;GLIBCXX_3.4.18&rsquo; not found (required by ./clang) ./clang: /usr/lib64/libstdc++.so.6: version &lsquo;CXXABI_1.3.5&rsquo; not found (required by ./clang) ./clang: /usr/lib64/libstdc++.so.6: version &lsquo;GLIBCXX_3.4.15&rsquo; not found (required by ./clang)</p>
+<p>&ndash;enable-languages=c,c++,objc,obj-c++,java,fortran &ndash;enable-checking=release &ndash;disable-libstdcxx-pch &ndash;enable-libgomp &ndash;enable-lto &ndash;enable-gold &ndash;with-plugin-ld=gold &ndash;prefix=/usr/local/gcc-5.4.0 &ndash;enable-shared &ndash;enable-threads=posix &ndash;enable-checking=release &ndash;with-system-zlib &ndash;enable-gnu-unique-object &ndash;disable-multilib </p>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

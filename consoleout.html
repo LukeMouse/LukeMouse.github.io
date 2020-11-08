@@ -1,0 +1,67 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">cout和wcout、ofstream和wofstream、printf和wprintf </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>from web() <hr/>
+ </dd></dl>
+<p>使用C++标准库的iostream，可以方便地将控制台、文件、字符串以及其它可扩充的外部表示作为流来处理，但要处理中文，却会碰到很多问题。本人原来没怎么用过这个iostream，这几天尝试用这个写点东西，一会儿不能输出中文，一会儿不支持中文文件名的，搞得头大。网上搜了搜，没有发现适用于所有情况的解决方案。不过后来自己经过多次测试，基本解决了这些问题，现在写成文字作为一总结，也供碰到同样问题的朋友参考。关于C语言中的 printf和wprintf的中文输出，本文也进行了探讨。</p>
+<p>需要说明的是，我的开发环境是VS 2005（标准库当然也是微软实现的），不保证其它环境下是相同的效果。</p>
+<h1><a class="anchor" id="coutwcout"></a>
+1、cout和wcout</h1>
+<p>在缺省的C locale下，cout可以直接输出中文，但对于wcout却不行（至少VS 2005下不行）。对于wcout，需要将其locale设为本地语言才能输出中文：</p>
+<pre class="fragment">  wcout.imbue(locale(locale(),"",LC_CTYPE)); // ①
+</pre> <p>也有人用如下语句的，但这会改变wcout的所有locale设置，比如数字“1234”会输出为“1,234”。</p>
+<pre class="fragment">  wcout.imbue(locale(""));
+</pre> <h1><a class="anchor" id="ofstreamwofstream"></a>
+2、ofstream和wofstream</h1>
+<p>在缺省的C locale下，ofstream能正确输出中文到文件中，但不支持中文文件名；wofstream支持中文文件名，但不能向文件中输出中文。要解决这个问题，需要在打开文件之前将全局locale设为本地语言。将全局locale设为本地语言后，ofstream和wofstream的问题都解决了，但 cout和wcout却不能输出中文了。要让cout和wcout输出中文，需要将全局locale恢复原来的设置，如下所示：</p>
+<pre class="fragment">  locale &amp;loc=locale::global(locale(locale(),"",LC_CTYPE)); // ②
+  ofstream ofs("ofs测试.txt");
+  wofstream wofs(L"wofs测试.txt");
+  locale::global(loc); // ③
+  ofs&lt;&lt;"test测试"&lt;&lt;1234&lt;&lt;endl;
+  wofs&lt;&lt;L"Another test还是测试"&lt;&lt;1234&lt;&lt;endl;
+</pre> <h1><a class="anchor" id="printwprint"></a>
+3、printf和wprintf</h1>
+<p>加上这两位C语言中的老兄，问题更加复杂。考虑如下语句(注意s的大小写)： </p><pre class="fragment">   printf("%s", "multibyte中文\n"); // ④
+   printf("%S", L"unicode中文\n"); // ⑤
+   wprintf(L"%S", "multibyte中文\n"); // ⑥
+   wprintf(L"%s", L"unicode中文\n"); // ⑦
+</pre> <p>缺省情况下，⑤、⑦两条语句不能输出中文，这两条语句中字符串的形式是unicode形式的。如果在所有输出语句之前加上如下语句将C语言的全局locale设置为本地语言（C语言中只有全局locale）就可以正常输出了：</p>
+<pre class="fragment">  setlocale(LC_CTYPE, ""); // ⑧
+</pre> <p>但这会导致cout和wcout不能输出中文（汗，的确麻烦），将C语言的全局locale恢复后cout和wcout就正常了，如下所示：</p>
+<pre class="fragment">setlocale(LC_CTYPE, "C"); // ⑨
+</pre> <p>但恢复后，printf和wprintf输出Unicode文本又不正常了（输出MultiByte文本总是正常的）。总不能每写一个 printf/wprintf就设置一次然后再恢复一次吧？所以，建议不要混用iostream和printf/wprintf，实在要混用，那就让 printf/wprintf只输出MultiByte字符串，这样不需要调用setlocale()，也就不会影响到cout和wcout。</p>
+<h1><a class="anchor" id="summtimehe"></a>
+总结：</h1>
+<p>总之，用iostream、printf/wprintf输出中文，有点麻烦。概括起来要点如下：</p><ol type="1">
+<li>如果要用wcout，需要在使用之前按语句①将其locale设置为本地语言；</li>
+<li>如果要用ofstream或wofstream，要在打开文件之前按语句②将全局locale设为本地语言并保存初始的全局locale。然后在打开文件之后，按语句③将全局locale恢复为初始值；</li>
+<li>不要混用iostream和printf/wprintf。如果要混用，只用printf/wprintf输出MultiByte字符串；</li>
+<li>单独使用printf/wprintf时，如果要输出Unicode字符串，需要按语句⑧设置C语言的全局locale。如果只输出MultiByte字符串，则不需设置。 </li>
+</ol>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

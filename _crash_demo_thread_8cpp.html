@@ -1,0 +1,181 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_d0f2c36edb6a50530b794a1208b26ce9.html">RuralMouseNotes</a></li><li class="navelem"><a class="el" href="dir_ac683163d9dea956196ec4a7572d50dc.html">Debug</a></li><li class="navelem"><a class="el" href="dir_cfdab29e8040c9bd6f9e648046899983.html">Translation</a></li><li class="navelem"><a class="el" href="dir_386ae72221f4784799bca9c42481380d.html">AppCrashThread</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#define-members">宏定义</a> &#124;
+<a href="#func-members">函数</a>  </div>
+  <div class="headertitle">
+<div class="title">CrashDemoThread.cpp 文件参考</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="hread_2stdafx_8h_source.html">stdafx.h</a>&quot;</code><br />
+<code>#include &lt;Windows.h&gt;</code><br />
+<code>#include &lt;Dbghelp.h&gt;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;tchar.h&gt;</code><br />
+<code>#include &lt;strsafe.h&gt;</code><br />
+<code>#include &lt;shlobj.h&gt;</code><br />
+</div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> CrashDemoThread.cpp 的引用(Include)关系图:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="_crash_demo_thread_8cpp__incl.png" border="0" usemap="#_crash_demo_thread_8cpp" alt=""/></div>
+<map name="_crash_demo_thread_8cpp" id="_crash_demo_thread_8cpp">
+<area shape="rect"  title=" " alt="" coords="337,5,492,32"/>
+<area shape="rect"  href="hread_2stdafx_8h.html" title=" " alt="" coords="113,80,181,107"/>
+<area shape="rect"  title=" " alt="" coords="198,155,261,181"/>
+<area shape="rect"  title=" " alt="" coords="263,80,350,107"/>
+<area shape="rect"  title=" " alt="" coords="375,80,455,107"/>
+<area shape="rect"  title=" " alt="" coords="479,80,551,107"/>
+<area shape="rect"  title=" " alt="" coords="575,80,647,107"/>
+<area shape="rect"  title=" " alt="" coords="671,80,737,107"/>
+<area shape="rect"  href="hread_2targetver_8h.html" title=" " alt="" coords="5,155,88,181"/>
+<area shape="rect"  title=" " alt="" coords="112,155,173,181"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+宏定义</h2></td></tr>
+<tr class="memitem:a212979f5fc9dcf0a420e90b9b21d780a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_crash_demo_thread_8cpp.html#a212979f5fc9dcf0a420e90b9b21d780a">MAX_BUFF_SIZE</a>&#160;&#160;&#160;1024</td></tr>
+<tr class="separator:a212979f5fc9dcf0a420e90b9b21d780a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+函数</h2></td></tr>
+<tr class="memitem:a91d0fa22abd2e5751dd38335e6e0d7d6"><td class="memItemLeft" align="right" valign="top">DWORD WINAPI&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_crash_demo_thread_8cpp.html#a91d0fa22abd2e5751dd38335e6e0d7d6">func</a> ()</td></tr>
+<tr class="separator:a91d0fa22abd2e5751dd38335e6e0d7d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a069228d643b6273dd1e3aafa74d6d62a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_crash_demo_thread_8cpp.html#a069228d643b6273dd1e3aafa74d6d62a">make_minidump</a> (EXCEPTION_POINTERS *e)</td></tr>
+<tr class="separator:a069228d643b6273dd1e3aafa74d6d62a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa59696fc05cef206faa9380c7abd943c"><td class="memItemLeft" align="right" valign="top">LONG CALLBACK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_crash_demo_thread_8cpp.html#aa59696fc05cef206faa9380c7abd943c">unhandled_handler</a> (EXCEPTION_POINTERS *e)</td></tr>
+<tr class="separator:aa59696fc05cef206faa9380c7abd943c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a524c4ffe15dc4219b9f40f04a7322537"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_crash_demo_thread_8cpp.html#a524c4ffe15dc4219b9f40f04a7322537">_tmain</a> (int, _TCHAR *[])</td></tr>
+<tr class="separator:a524c4ffe15dc4219b9f40f04a7322537"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">宏定义说明</h2>
+<a id="a212979f5fc9dcf0a420e90b9b21d780a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a212979f5fc9dcf0a420e90b9b21d780a">&#9670;&nbsp;</a></span>MAX_BUFF_SIZE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MAX_BUFF_SIZE&#160;&#160;&#160;1024</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">函数说明</h2>
+<a id="a524c4ffe15dc4219b9f40f04a7322537"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a524c4ffe15dc4219b9f40f04a7322537">&#9670;&nbsp;</a></span>_tmain()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int _tmain </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">_TCHAR *&#160;</td>
+          <td class="paramname">[]&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a91d0fa22abd2e5751dd38335e6e0d7d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a91d0fa22abd2e5751dd38335e6e0d7d6">&#9670;&nbsp;</a></span>func()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">DWORD WINAPI func </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="reference">被这些函数引用 <a class="el" href="_crash_demo_thread_8cpp.html#a524c4ffe15dc4219b9f40f04a7322537">_tmain()</a>.</p>
+
+</div>
+</div>
+<a id="a069228d643b6273dd1e3aafa74d6d62a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a069228d643b6273dd1e3aafa74d6d62a">&#9670;&nbsp;</a></span>make_minidump()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void make_minidump </td>
+          <td>(</td>
+          <td class="paramtype">EXCEPTION_POINTERS *&#160;</td>
+          <td class="paramname"><em>e</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="reference">被这些函数引用 <a class="el" href="_crash_demo_thread_8cpp.html#aa59696fc05cef206faa9380c7abd943c">unhandled_handler()</a>.</p>
+
+</div>
+</div>
+<a id="aa59696fc05cef206faa9380c7abd943c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa59696fc05cef206faa9380c7abd943c">&#9670;&nbsp;</a></span>unhandled_handler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LONG CALLBACK unhandled_handler </td>
+          <td>(</td>
+          <td class="paramtype">EXCEPTION_POINTERS *&#160;</td>
+          <td class="paramname"><em>e</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="reference">被这些函数引用 <a class="el" href="_crash_demo_thread_8cpp.html#a524c4ffe15dc4219b9f40f04a7322537">_tmain()</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

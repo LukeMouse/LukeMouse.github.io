@@ -1,0 +1,67 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">在CentOS6.5上离线安装docker </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>李进安 <hr/>
+ </dd></dl>
+<h1><a class="anchor" id="dwnonline"></a>
+下载依赖包（使用能联网的节点）</h1>
+<ol type="1">
+<li>在有网路的机器上安装downloadonly插件：yum install yum-plugin-downloadonly。</li>
+<li>配置Fedora EPEL源：yum install <a href="http://ftp.riken.jp/Linux/fedora/epel/6/x86_64/epel-release-6-8.noarch.rpm">http://ftp.riken.jp/Linux/fedora/epel/6/x86_64/epel-release-6-8.noarch.rpm</a></li>
+<li>添加hop5.repo源： <pre class="fragment">cd /etc/yum.repos.d
+wget http://www.hop5.in/yum/el6/hop5.repo
+</pre></li>
+<li>下载依赖包: <pre class="fragment">mkdir ~/docker
+cd ~/docker
+yum install --downloadonly --downloaddir=~/docker docker-io
+mkdir ~/docker/device-mapper-libs
+yum install --downloadonly --downloaddir=~/docker/device-mapper-libs device-mapper-libs
+-#
+\section installoffline 离线安装docker
+&lt;p&gt;将下载的docker文件夹拷贝到没有网络链接的机器上执行下面的操作进行安装
+\verbatim
+rpm -qa |grep device-mapper|xargs rpm -e --nodeps
+cd device-mapper-libs
+rpm -ivh device-mapper-*  --force --nodeps
+cd ..
+rpm -ivh libcgroup-0.40.rc1-24.el6_9.x86_64.rpm
+rpm -ivh lua-alt-getopt-0.7.0-1.el6.noarch.rpm
+rpm -ivh lua-filesystem-1.4.2-1.el6.x86_64.rpm
+rpm -ivh lxc-libs-1.0.10-2.el6.x86_64.rpm
+rpm -ivh lua-lxc-1.0.10-2.el6.x86_64.rpm
+rpm -ivh lxc-1.0.10-2.el6.x86_64.rpm
+rpm -ivh docker-io-1.7.1-2.el6.x86_64.rpm
+</pre> 然后在/etc/fstab最后一行添加 <pre class="fragment">none /sys/fs/cgroup    cgroup    defaults    0 0
+</pre> 重启系统，即可使用安装好的docker</li>
+</ol>
+<h1><a class="anchor" id="refdok"></a>
+参考</h1>
+<ol type="1">
+<li><a href="http://www.jianshu.com/p/ead7385fb418">http://www.jianshu.com/p/ead7385fb418</a> </li>
+</ol>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

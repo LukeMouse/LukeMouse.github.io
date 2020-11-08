@@ -1,0 +1,283 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">各种数据库的连接字符串 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>Carlos Antollini(From Codeproject:http://www.codeproject.com/Articles/2304/ADO-Connection-Strings#OLE DB Provider)</dd></dl>
+<hr/>
+ <h1><a class="anchor" id="over"></a>
+Overview</h1>
+<p>Generally, one of the first steps when you are trying to work with databases is open it. You can find several types of those, and each have a different mode of connection. When you try to connect with your database sometimes, you don't know the correct connection string that you must use. It is for that I wrote this article. I wanted to compile the connection strings to the majority of known databases...</p>
+<h1><a class="anchor" id="dnsless"></a>
+ODBC DSN Less Connection</h1>
+<h2><a class="anchor" id="odfordbase"></a>
+ODBC Driver for dBASE</h2>
+<pre class="fragment">strConnection = _T("Driver={Microsoft dBASE Driver (*.dbf)};DriverID=277;"
+                   "Dbq=c:\\DatabasePath;");
+</pre><p> <b>Note:</b> You must specify the filename in the SQL statement... For example: </p><pre class="fragment">CString strQuery = _T("Select Name, Address From Clients.dbf");
+</pre><h2><a class="anchor" id="odforexcel"></a>
+odforexcel</h2>
+<pre class="fragment">strConnection = _T("Driver={Microsoft Excel Driver (*.xls)};DriverId=790;"
+    bq=C:\\DatabasePath\\DBSpreadSheet.xls;DefaultDir=c:\\databasepath;");
+</pre><h2><a class="anchor" id="odforexceltext"></a>
+odforexceltext</h2>
+<pre class="fragment">strConnection = _T("Driver={Microsoft Text Driver (*.txt; *.csv)};"
+        "Dbq=C:\\DatabasePath\\;Extensions=asc,csv,tab,txt;");
+</pre><p> If you are using tab delimited files, you must create the schema.ini file, and you must inform the Format=TabDelimited option in your connection string.</p>
+<p><b>Note:</b> You must specify the filename in the SQL statement... For example: </p><pre class="fragment">CString strQuery = _T("Select Name, Address From Clients.csv");
+</pre> <h2><a class="anchor" id="vf"></a>
+Visual FoxPro</h2>
+<p>If you are using a database container, the connection string is the following: </p><pre class="fragment">strConnection = _T("Driver={Microsoft Visual Foxpro Driver};UID=;"
+    ourceType=DBC;SourceDB=C:\\DatabasePath\\MyDatabase.dbc;Exclusive=No");
+</pre><p> If you are working without a database container, you must change the SourceType parameter by DBF as in the following connection string: </p><pre class="fragment">strConnection = _T("Driver={Microsoft Visual Foxpro Driver};UID=;"
+    "SourceType=DBF;SourceDB=C:\\DatabasePath\\MyDatabase.dbc;Exclusive=No");
+</pre><h2><a class="anchor" id="odforaccess"></a>
+ODBC Driver for Access</h2>
+<pre class="fragment">strConnection = _T("Driver={Microsoft Access Driver (*.mdb)};"
+        "Dbq=c:\\DatabasePath\\dbaccess.mdb;Uid=;Pwd=;");
+</pre><p> If you are using a Workgroup (System database): you need to inform the SystemDB Path, the User Name and its password. For that, you have two solutions: inform the user and password in the connection string or in the moment of the open operation. For example: </p><pre class="fragment">strConnection = _T("Driver={Microsoft Access Driver (*.mdb)};"
+        "Dbq=C:\\VC Projects\\ADO\\Samples\\AdoTest\\dbTestSecurity.mdb;"
+        "SystemDB=C:\\Program Files\\Microsoft Office\\Office\\SYSTEM.mdw;"
+        "Uid=Carlos Antollini;Pwd=carlos");
+</pre><p> or may be: </p><pre class="fragment">strConnection = _T("Driver={Microsoft Access Driver (*.mdb)};"
+        "Dbq=C:\\VC Projects\\ADO\\Samples\\AdoTest\\dbTestSecurity.mdb;"
+        "SystemDB=C:\\Program Files\\Microsoft Office\\Office\\SYSTEM.mdw;");
+if(pDB.Open(strConnection, "DatabaseUser", "DatabasePass"))
+{
+    DoSomething();
+    pDB.Close();
+}
+</pre><p> If you want to open in Exclusive mode: </p><pre class="fragment">strConnection = _T("Driver={Microsoft Access Driver (*.mdb)};"
+        "Dbq=c:\\DatabasePath\dbaccess.mdb;Exclusive=1;");
+</pre><h2><a class="anchor" id="odforsqlserver"></a>
+ODBC Driver for SQL Server</h2>
+<p>For Standard security: </p><pre class="fragment">strConnection = _T("Driver={SQL Server};Server=MyServerName;"
+        "Trusted_Connection=no;"
+        "Database=MyDatabaseName;Uid=MyUserName;Pwd=MyPassword;");
+</pre><p> For Trusted Connection security (Microsoft Windows NT integrated security): </p><pre class="fragment">strConnection = _T("Driver={SQL Server};Server=MyServerName;"
+     "Database=myDatabaseName;Uid=;Pwd=;");
+</pre><p> Also, you can use the parameter Trusted_Connection that indicates that you are using the Microsoft Windows NT Authentication Mode to authorize user access to the SQL Server database. For example: </p><pre class="fragment">strConnection = _T("Driver={SQL Server};Server=MyServerName;"
+    "Database=MyDatabaseName;Trusted_Connection=yes;");
+</pre><p> If the SQL Server is running in the same computer, you can replace the name of the server by the word (local) like in the following sample: </p><pre class="fragment">strConnection = _T("Driver={SQL Server};Server=(local);"
+        "Database=MyDatabaseName;Uid=MyUserName;Pwd=MyPassword;");
+</pre><p> If you want to connect with a remote SQL Server, you must inform the address, the port, and the Network Library to use:</p>
+<p>The Address parameter must be an IP address and must include the port. The Network parameter can be one of the following:</p><ul>
+<li>dbnmpntw Win32 Named Pipes</li>
+<li>dbmssocn Win32 Winsock TCP/IP</li>
+<li>dbmsspxn Win32 SPX/IPX</li>
+<li>dbmsvinn Win32 Banyan Vines</li>
+<li>dbmsrpcn Win32 Multi-Protocol (Windows RPC)</li>
+</ul>
+<p>For more information, see Q238949. </p><pre class="fragment">strConnection = _T("Driver={SQL Server};Server=130.120.110.001;"
+     "Address=130.120.110.001,1052;Network=dbmssocn;Database=MyDatabaseName;"
+     "Uid=myUsername;Pwd=myPassword;");
+</pre> <h2><a class="anchor" id="odfororacle"></a>
+ODBC Driver for Oracle</h2>
+<p>For the current Oracle ODBC driver from Microsoft: </p><pre class="fragment">strConnect = _T("Driver={Microsoft ODBC for Oracle};Server=OracleServer.world;"
+        "Uid=MyUsername;Pwd=MyPassword;");
+</pre><p> For the older Oracle ODBC driver from Microsoft: </p><pre class="fragment">strConnect = _T("Driver={Microsoft ODBC Driver for Oracle};"
+     "ConnectString=OracleServer.world;Uid=myUsername;Pwd=myPassword;");
+</pre> <h2><a class="anchor" id="odformysql"></a>
+ODBC Driver for MySQL</h2>
+<p>If you want to connect to a local database, you can use a connection string like the following:</p>
+<pre class="fragment">strConnect = _T("Driver={MySQL ODBC 3.51 Driver};Server=localhost;"
+     "Database=MyDatabase;User=MyUserName;Password=MyPassword;Option=4;");
+</pre><p> If you want to connect with a remote database, you need to specify the name of the server or its IP in the Server parameter. If the Port is distinct to 3306 (default port), you must specify it. </p><pre class="fragment">strConnect = _T("Driver={mySQL ODBC 3.51 Driver};Server=MyRemoteHost;"
+     "Port=3306;Option=4;Database=MyDatabase;Uid=MyUsername;Pwd=MyPassword;");
+</pre><p> The parameter Option can be one or more of the following values:</p><ul>
+<li>1 - The client can't handle that MyODBC returns the real width of a column.</li>
+<li>2 - The client can't handle that MySQL returns the true value of affected rows. If this flag is set then MySQL returns 'found rows' instead. One must have MySQL 3.21.14 or newer to get this to work.</li>
+<li>4 - Make a debug log in c:\myodbc.log. This is the same as putting MYSQL_DEBUG=d:t:O,c:\myodbc.log in AUTOEXEC.BAT.</li>
+<li>8 - Don't set any packet limit for results and parameters.</li>
+<li>16 - Don't prompt for questions even if driver would like to prompt.</li>
+<li>32 - Enable or disable the dynamic cursor support. This is not allowed in MyODBC 2.50.</li>
+<li>64 - Ignore use of database name in 'database.table.column'.</li>
+<li>128 - Force use of ODBC manager cursors (experimental).</li>
+<li>256 - Disable the use of extended fetch (experimental).</li>
+<li>512 - Pad CHAR fields to full column length.</li>
+<li>1024 - SQLDescribeCol() will return fully qualified column names.</li>
+<li>2048 - Use the compressed server/client protocol.</li>
+<li>4096 - Tell server to ignore space after function name and before '(' (needed by PowerBuilder). This will make all function names keywords!</li>
+<li>8192 - Connect with named pipes to a MySQLd server running on NT.</li>
+<li>16384 - Change LONGLONG columns to INT columns (some applications can't handle LONGLONG).</li>
+<li>32768 - Return 'user' as Table_qualifier and Table_owner from SQLTables (experimental).</li>
+<li>65536 - Read parameters from the client and ODBC groups from my.cnf.</li>
+<li>131072 - Add some extra safety checks (should not be needed but...).</li>
+</ul>
+<p>If you want to have multiple options, you should add the above flags! For example: 16 + 1024 = 1030 and use Option= 1030;.</p>
+<p>For more information, go to MyODBC Reference Manual.</p>
+<h2><a class="anchor" id="odforas400"></a>
+ODBC Driver for AS400</h2>
+<pre class="fragment">strConnect = _T("Driver={Client Access ODBC Driver (32-bit)};System=myAS400;"
+      "Uid=myUsername;Pwd=myPassword;");
+</pre> <h1><a class="anchor" id="odforsybase"></a>
+ODBC Driver for SyBase</h1>
+<pre class="fragment">strConnect = _T("Driver={Sybase System 10};Srvr=MyServerName;Uid=MyUsername;"
+       "Pwd=myPassword;");
+</pre> <h2><a class="anchor" id="odfoesybsa"></a>
+ODBC Driver for Sybase SQL AnyWhere</h2>
+<pre class="fragment">strConnect = _T("ODBC;Driver=Sybase SQL Anywhere 5.0;"
+    "DefaultDir=C:\\DatabasePath\;Dbf=C:\\SqlAnyWhere50\\MyDatabase.db;"
+    "Uid=MyUsername;Pwd=MyPassword;Dsn=\"\";");
+</pre> <h1><a class="anchor" id="dsnconn"></a>
+DSN Connection</h1>
+<h2><a class="anchor" id="ODBC"></a>
+DSN</h2>
+<pre class="fragment">strConnect = _T("DSN=MyDSN;Uid=MyUsername;Pwd=MyPassword;");
+</pre> <h1><a class="anchor" id="oledbpro"></a>
+OLE DB Provider</h1>
+<h2><a class="anchor" id="olepforss"></a>
+OLE DB Provider for SQL Server</h2>
+<p>For Standard security: </p><pre class="fragment">strConnect = _T("Provider=sqloledb;Data Source=MyServerName;"
+        "Initial Catalog=MyDatabaseName;"
+        "User Id=MyUsername;Password=MyPassword;");
+</pre><p> For Trusted Connection security (Microsoft Windows NT integrated security): </p><pre class="fragment">strConnect = _T("Provider=sqloledb;Data Source=MyServerName;"
+        "Initial Catalog=MyDatabaseName;"
+        "Integrated Security=SSPI;");
+</pre><p> If you want to connect to a "Named Instance" (SQL Server 2000), you must to specify Data Source=Servere Name\Instance Name like in the following example: </p><pre class="fragment">strConnect = _T("Provider=sqloledb;Data Source=MyServerName\MyInstanceName;"
+    "Initial Catalog=MyDatabaseName;User Id=MyUsername;Password=MyPassword;");
+</pre><p> If you want to connect with a SQL Server running on the same computer, you must specify the keyword (local) in the Data Source like in the following example: </p><pre class="fragment">strConnect = _T("Provider=sqloledb;Data Source=(local);"
+        "Initial Catalog=myDatabaseName;"
+        "User ID=myUsername;Password=myPassword;");
+</pre><p> To connect to SQL Server running on a remote computer (via an IP address): </p><pre class="fragment">strConnect = _T("Provider=sqloledb;Network Library=DBMSSOCN;"
+        "Data Source=130.120.110.001,1433;"
+        "Initial Catalog=MyDatabaseName;User ID=MyUsername;"
+        "Password=MyPassword;");
+</pre> <h2><a class="anchor" id="olepforms"></a>
+OLE DB Provider for MySQL (By Todd Smith)</h2>
+<pre class="fragment">strConnection = _T("Provider=MySQLProv;Data Source=test");
+</pre><p> Where test is the name of MySQL database. Also, you can replace the name of the database by the following connection string: server=localhost;DB=test.</p>
+<h2><a class="anchor" id="olepforas400"></a>
+OLE DB Provider for AS400</h2>
+<pre class="fragment">strConnect = _T("Provider=IBMDA400;Data source=myAS400;User Id=myUsername;"
+     "Password=myPassword;");
+</pre><p> For more information, see: Using the OLE DB Provider for AS/400 and VSAM. </p>
+<h2><a class="anchor" id="olepforad"></a>
+OLE DB Provider for Active Directory</h2>
+<pre class="fragment">strConnect = _T("Provider=ADSDSOObject;User Id=myUsername;Password=myPassword;");
+</pre><p> For more information, see: Microsoft OLE DB Provider for Microsoft Active Directory Service.</p>
+<h2><a class="anchor" id="olepfordb2"></a>
+OLE DB Provider for DB2</h2>
+<p>If you are using a TCP/IP connection: </p><pre class="fragment">strConnect = _T("Provider=DB2OLEDB;Network Transport Library=TCPIP;"
+        "Network Address=130.120.110.001;"
+        "Initial Catalog=MyCatalog;Package Collection=MyPackageCollection;"
+        "Default Schema=MySchema;User ID=MyUsername;Password=MyPassword;");
+</pre><p> If you are using APPC connection: </p><pre class="fragment">strConnect = _T("Provider=DB2OLEDB;APPC Local LU Alias=MyLocalLUAlias;"
+        "APPC Remote LU Alias=MyRemoteLUAlias;Initial Catalog=MyCatalog;"
+        "Package Collection=MyPackageCollection;Default Schema=MySchema;"
+        "User ID=MyUsername;Password=MyPassword;");
+</pre><p> For more information, see: Using the OLE DB Provider for DB2. </p>
+<h2><a class="anchor" id="olepforMj"></a>
+OLE DB Provider for Microsoft Jet</h2>
+<ul>
+<li>Connecting to an Access file using the JET OLE DB Provider: Using Standard security: <pre class="fragment">strConnect = _T("Provider=Microsoft.Jet.OLEDB.4.0;"
+        "Data Source=C:\\DatabasePath\\MmDatabase.mdb;"
+        "User Id=admin;Password=;");
+</pre> If you are using a Workgroup (System database): <pre class="fragment">strConnect = _T("Provider=Microsoft.Jet.OLEDB.4.0;"
+        "Data Source=C:\\DataBasePath\\mydb.mdb;"
+        "Jet OLEDB:System Database=MySystem.mdw;");
+pRs.Open(strConnect, "MyUsername", "MyPassword");
+</pre></li>
+<li>Connecting to an Excel Spreadsheet using the JET OLE DB Provider: <pre class="fragment">strConnect = _T("Provider=Microsoft.Jet.OLEDB.4.0;"
+        "Data Source=C:\\DatabasePath\\DBSpreadSheet.xls;"
+        "Extended Properties=\"\"Excel 8.0;HDR=Yes;\"\";");
+</pre> <b>Note:</b> If "HDR=Yes", the provider will not include the first row of the selection into the recordset. If "HDR=No", the provider will include the first row of the cell range (or named ranged) into the recordset.</li>
+</ul>
+<p>For more information, see: Q278973.</p>
+<ul>
+<li>Connecting to a Text file using the JET OLE DB Provider: <pre class="fragment">strConnect = 
+        _T("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\\DatabasePath\\;"
+        "Extended Properties=\"\"text;"
+        "HDR=Yes;FMT=Delimited;\"\";");
+</pre> <b>Note:</b> You must specify the filename in the SQL statement... For example: <pre class="fragment">CString strQuery = _T("Select Name, Address From Clients.txt");
+</pre> For more information, see: Q262537.</li>
+<li>Connecting to an Outlook 2000 personal mail box using the JET OLE DB Provider: (By J. Cardinal) <pre class="fragment">strConnect = _T("Provider=Microsoft.Jet.OLEDB.4.0;Outlook 9.0;"
+      "MAPILEVEL=;DATABASE=C:\\Temp\\;")
+</pre> Replace c:\temp with any temporary folder. It will create a schema file in that folder when you open it which shows all the fields available. Blank MAPILEVEL indicates top level of folders).</li>
+<li>Connecting to an Exchange mail box through JET: (By J. Cardinal) <pre class="fragment">strConnect = _T("Provider=Microsoft.Jet.OLEDB.4.0;Exchange 4.0;"
+      "MAPILEVEL=Mailbox - Pat Smith|;DATABASE=C:\\Temp\\;")
+</pre> You must replace c:\temp with any temporary folder.</li>
+</ul>
+<p>Replace Pat Smith with the name of the mail box and you must keep vertical pipe character | to indicate top level of folders. Place sub folder after vertical pipe if accessing specific folder.</p>
+<p><b>Note:</b> you can enter queries against the mail store just like a database... For example: </p><pre class="fragment">CString strQuery = _T("SQL "SELECT Contacts.* FROM Contacts;");
+</pre><p> For more information, see: The Jet 4.0 Exchange/Outlook IISAM.</p>
+<h2><a class="anchor" id="olepforoddb"></a>
+OLE DB Provider for ODBC Databases</h2>
+<p>If you want to connect with a Microsoft Access database: </p><pre class="fragment">strConnect = _T("Provider=MSDASQL;Driver={Microsoft Access Driver (*.mdb)};"
+        "Dbq=c:\\DatabasePath\\MyDatabase.mdb;Uid=MyUsername;Pwd=MyPassword;");
+</pre><p> If you want to connect with a SQL Server database:</p>
+<pre class="fragment">strConnect = _T("Provider=MSDASQL;Driver={SQL Server};Server=MyServerName;"
+        "Database=MyDatabaseName;Uid=MyUsername;Pwd=MyPassword;");
+</pre><p> If you want to use DSN: </p><pre class="fragment">strConnect = _T("Provider=MSDASQL;PersistSecurityInfo=False;"
+        "Trusted_Connection=Yes;"
+        "Data Source=MyDSN;catalog=MyDatabase;");
+</pre><p> For more information, see: Microsoft OLE DB Provider for ODBC.</p>
+<h2><a class="anchor" id="olepforolap"></a>
+OLE DB Provider for OLAP</h2>
+<p>Microsoft OLE DB for Online Analytical Processing (OLAP) is a set of objects and interfaces that extends the ability of OLE DB to provide access to multidimensional data stores.</p>
+<pre class="fragment">strConnect = _T("Provider=MSOLAP;Data Source=MyOLAPServerName;"
+     "Initial Catalog=MyOLAPDatabaseName;");
+</pre> <h3><a class="anchor" id="connusehttp"></a>
+Connection using HTTP:</h3>
+<p>This feature enables a client application to connect to an Analysis server through Microsoft庐 Internet Information Services (IIS) by specifying a URL in the Data Source property in the client application's connection string. This connection method allows PivotTable庐 Service to tunnel through firewalls or proxy servers to the Analysis server. A special Active Server Pages (ASP) page, Msolap.asp, enables the connection through IIS. The directory in which this file resides must be included as part of the URL when connecting to the server (for example, <a href="http://www.myserver.com/myolap/">http://www.myserver.com/myolap/</a>).</p>
+<h3><a class="anchor" id="usurl"></a>
+Using a URL</h3>
+<pre class="fragment">strConnect = _T("Provider=MSOLAP;Data Source=http://MyOLAPServerName/;"
+     "Initial Catalog=MyOLAPDatabaseName;");
+</pre> <h3><a class="anchor" id="usssl"></a>
+Using SSL</h3>
+<pre class="fragment">strConnect = _T("Provider=MSOLAP;Data Source=https://MyOLAPServerName/;"
+     "Initial Catalog=MyOLAPDatabaseName;");
+</pre><p> For more information, see: OLE DB for OLAP, Connecting Using HTTP. </p>
+<h2><a class="anchor" id="olepforora"></a>
+OLE DB Provider for Oracle</h2>
+<h3><a class="anchor" id="opforam"></a>
+OLE DB Provider for Oracle (from Microsoft)</h3>
+<p>The Microsoft OLE DB Provider for Oracle allows ADO to access Oracle databases. </p><pre class="fragment">strConnect = _T("Provider=MSDAORA;Data Source=MyOracleDB;User Id=myUsername;"
+     "Password=myPassword;");
+</pre><p> For more information, see: Microsoft OLE DB Provider for Oracle.</p>
+<h3><a class="anchor" id="odpfoo"></a>
+OLE DB Provider for Oracle (from Oracle).</h3>
+<p>For Standard security: </p><pre class="fragment">strConnect = _T("Provider=OraOLEDB.Oracle;Data Source=MyOracleDB;"
+        "User Id=myUsername;Password=myPassword;");
+</pre><p> For a Trusted connection:</p><ul>
+<li>OS Authenticated connect setting user ID to "/": <pre class="fragment">strConnect = _T("Provider=OraOLEDB.Oracle;Data Source=MyOracleDB;"
+   "User Id=/;Password=;");
+</pre></li>
+<li>OS Authenticated connect using OSAuthent: <pre class="fragment">strConnect = _T("Provider=OraOLEDB.Oracle;Data Source=MyOracleDB;OSAuthent=1;")
+</pre> <b>Note:</b> "Data Source=" must be set to the appropriate Net8 name which is known to the naming method in use. For example, for Local Naming, it is the alias in the tnsnames.ora file; for Oracle Names, it is the Net8 Service Name.</li>
+</ul>
+<p>For more information, see: Oracle Provider for OLE DB Developer's Guide.</p>
+<h2><a class="anchor" id="olepforfox"></a>
+OLE DB Provider for Visual FoxPro</h2>
+<pre class="fragment">strConnect = _T("Provider=vfpoledb;"
+     "Data Source=C:\\DatabasePath\\MyDatabase.dbc;");
+</pre><p> For more information, see: Microsoft OLE DB Provider for Visual FoxPro. </p>
+<h2><a class="anchor" id="olepforidxsvr"></a>
+OLE DB Provider for Index Server (By Chris Maunder)</h2>
+<pre class="fragment">strConnect = _T("provider=msidxs;Data Source=MyCatalog;");
+</pre><p> For more information, see: Microsoft OLE DB Provider for Microsoft Indexing Service. </p>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

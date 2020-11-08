@@ -1,0 +1,214 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">Windows调试技术第五部分&ndash;调试内存泄露（CRT 应用程序接口） </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>shailesh91082 </dd></dl>
+<dl class="section date"><dt>日期</dt><dd>2014-02-14 <hr/>
+ </dd></dl>
+<h1><a class="anchor" id="intr5"></a>
+简介</h1>
+<p>本文介绍了一个简单易行的调试Windows内存泄露的方法。本文仅限于用户模式的调试，介绍了使用CRT应用程序接口进行调试的技巧。</p>
+<h1><a class="anchor" id="background5"></a>
+背景信息</h1>
+<p>正如在第四部分我们所看到的，仅仅使用性能监视器很可能很难定位造成问题的位置。如果有人能告诉我们内存泄露发生的具体位置，以至于我们所需要做的工作仅仅是修复它，这将是一个多么美好的愿望。CRT应用接口可以为我们做到这些，并将使我们的旅程更加轻松。</p>
+<h1><a class="anchor" id="definition5"></a>
+定义</h1>
+<p>我们都知道使用new/malloc/calloc/realloc动态分配内存时，将会在堆上开辟空间。因此调试内存泄露的问题意味着调试堆内存，并检测是否有异常发生。CRT调试堆通过提供一系列的应用程序接口，提供了这些支持。这种方式将要求比实际需要更多的内存，用于跟踪内存的详细信息，并在程序退出时进行转储。 </p>
+<p>如果我们在发布模式申请了10字节的内存，将只有10字节的内存被开辟。但是如果我们使用CRT应用程序接口的方式启用调试将会有多达46字节的内存被开辟，多出的36个字节用于跟踪内存泄露。</p>
+<p>除此以外，调试版本的内存申请函数如_malloc_debug而非malloc将被调用。更多信息可以参考：http://msdn.microsoft.com/en-us/library/974tc9t1.aspx</p>
+<h1><a class="anchor" id="detes"></a>
+调试技巧</h1>
+<p>下面我们将逐步进入CRT应用程序接口的世界：</p>
+<h2><a class="anchor" id="st1ai"></a>
+第一步添加CRT调试应用程序接口的头文件</h2>
+<p>在其他的头文件之后添加下面的代码作为应用程序的一部分</p>
+<pre class="fragment">#define _CRTDBG_MAP_ALLOC
+#include &lt;stdlib.h&gt;
+#include &lt;crtdbg.h&gt;
+</pre> <p>宏_CRTDBG_MAP_ALLOC的引入，告诉编译器映射堆操作函数到其相应的调试版本，如将malloc映射到_malloc_dbg。</p>
+<h2><a class="anchor" id="st2mntd"></a>
+映射new操作符到其调试版本</h2>
+<p>默认情况下new操作符不会映射到其调试版本，我们需要手动实现。通过将下面的代码添加到工程中可以达到这一目的。默认情况下malloc/calloc/realloc已被映射到相应的调试版本。new需要显示的设置。如果您的代码中没有使用new操作符，这一步可以省略。 </p><pre class="fragment">#ifdef _DEBUG   
+#ifndef DBG_NEW      
+#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )     
+#define new DBG_NEW   
+#endif
+#endif
+</pre> <h2><a class="anchor" id="st3sdf"></a>
+设置调试标识和报告模式</h2>
+<p>我们需要设置调试标识以定义我们要调试的内容。报告模式用于设置输出信息是类似DebugView一样输出到调试窗口还是输出到一个文件。</p>
+<pre class="fragment">_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
+_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG);
+</pre> <p>这里解释一下上面的代码</p>
+<ol type="1">
+<li>_CRTDBG_ALLOC_MEM_DF 开启调试分配</li>
+<li>_CRTDBG_LEAK_CHECK_DF 导致在程序退出时进行内存泄露检测。</li>
+<li>_CRTDBG_MODE_DEBUG 将导致输出重定位到类似DebugView的调试窗口或VisualStudio的输出窗口。 </li>
+</ol>
+<p>调试的选项还有很多，请参考： <a href="http://msdn.microsoft.com/en-us/library/974tc9t1.aspx">http://msdn.microsoft.com/en-us/library/974tc9t1.aspx</a>获得更多的信息。通过上述步骤，第四部分的示例程序看起来将会是下面的样子：</p>
+<pre class="fragment">#include &lt;iostream&gt;
+#include &lt;Windows.h&gt;
+#include &lt;tchar.h&gt;
+#include &lt;string&gt;
+
+#define _CRTDBG_MAP_ALLOC
+#include &lt;stdlib.h&gt;
+#include &lt;crtdbg.h&gt;
+
+#ifdef _DEBUG   
+#ifndef DBG_NEW      
+#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )     
+#define new DBG_NEW   
+#endif
+#endif  // _DEBUG
+
+
+using namespace std;
+
+bool GetComputerName(wstring&amp; wstrCompName);
+bool fileread(const wstring&amp; filepath);
+bool GetUserName(wstring&amp; wstrUserName);
+
+int main()
+{
+    _CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
+    _CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG);
+
+    int nChoice = 0;
+    wstring wstrCompName;
+    wstring wstrUserName;
+    char ccontinue = '\0'; 
+
+    do
+    {
+        wcout&lt;&lt;L"Enter your choice"&lt;&lt;endl;
+        wcout&lt;&lt;L"1.Read Computer name"&lt;&lt;endl;
+        wcout&lt;&lt;L"2.Read User Name"&lt;&lt;endl;
+        cin&gt;&gt;nChoice;
+
+        switch(nChoice)
+        {
+        case 1:
+            GetComputerName(wstrCompName);
+            wcout&lt;&lt;L"Computer name read is"&lt;&lt;wstrCompName.c_str()&lt;&lt;endl;
+            break;
+        case 2:
+            GetUserName(wstrUserName);
+            wcout&lt;&lt;L"user name read is"&lt;&lt;wstrUserName.c_str()&lt;&lt;endl;
+            break;
+        default:
+            wcout&lt;&lt;L"Invalid option";
+        }
+        wcout&lt;&lt;"Do you want to continue Y or N";
+        cin&gt;&gt;ccontinue;
+    }while(ccontinue == 'y' || ccontinue == 'Y');
+    return 0;
+}
+
+
+
+bool GetComputerName(wstring&amp; wstrCompName)
+{
+    wchar_t* pwszCompName = NULL;
+    DWORD dwSize = 0;
+    bool bRet = false;
+
+    if (!GetComputerNameEx(ComputerNameDnsHostname, pwszCompName, &amp;dwSize))
+    {
+        if(GetLastError() != ERROR_MORE_DATA)
+        {
+            wcout&lt;&lt;L"GetComputerNameEx Failed with Error Code"&lt;&lt;GetLastError();
+            return false;
+        }
+        pwszCompName = new wchar_t[dwSize + 1];
+        if(pwszCompName == NULL)
+        {
+            wcout&lt;&lt;L"unable to allocate memory"&lt;&lt;endl;
+            return false;
+        }
+        memset(pwszCompName, L'\0', dwSize + 1);
+        if (!GetComputerNameEx(ComputerNameDnsHostname, pwszCompName, &amp;dwSize))
+        {   
+            wcout&lt;&lt;L"GetComputerNameEx Failed with Error Code"&lt;&lt;GetLastError();
+            return false;
+        }
+    }
+    char* test = new char[1024*1024];
+    wstrCompName.assign(pwszCompName);
+    return true;
+}
+
+
+bool GetUserName(wstring&amp; wstrUserName)
+{
+    wchar_t* pwszUserName = NULL;
+    DWORD dwSize = 0;
+
+    if(!GetUserName(pwszUserName, &amp;dwSize))
+    {
+        if(GetLastError() != ERROR_INSUFFICIENT_BUFFER)     
+        {
+            wcout&lt;&lt;"GetUserName returned with Error"&lt;&lt;GetLastError();
+            return false;
+        }
+        pwszUserName = new wchar_t[dwSize + 1]();
+        if(pwszUserName == NULL)
+        {
+            return false;
+        }
+        if(!GetUserName(pwszUserName, &amp;dwSize))
+        {
+            if(pwszUserName)
+            {
+                delete [] pwszUserName;
+                pwszUserName = NULL;
+            }
+            wcout&lt;&lt;"GetUserName returned with Error"&lt;&lt;GetLastError();
+            return false;
+        }
+    }
+    wstrUserName.assign(pwszUserName);
+    if(pwszUserName)
+    {
+        delete [] pwszUserName;
+        pwszUserName = NULL;
+    }
+    return true;
+
+}</pre> <h2><a class="anchor" id="st4rbdm"></a>
+第四步、在调试模式下重编译整个项目</h2>
+<p>这种方式的一个缺陷是，它要求必须在调试模式下重新编译，否则将不能输出内存泄露信息。因此，我们需要在调试模式下重新编译程序。</p>
+<h2><a class="anchor" id="st5ldwr"></a>
+第五步、启动DebugView运行实例并观察输出</h2>
+<p>启动DebugView，如果没有该工具可以从http://technet.microsoft.com/en-in/sysinternals/bb896647.aspx下载。当前实例中，在调试模式下编译上面的代码，运行应用程序。观察DebugView中的输出，将会看到类似下面的输出信息： </p><div class="image">
+<img src="WDT030.png" alt="WDT030.png"/>
+</div>
+<p>通过上述信息我们将可以知道哪行代码引起了内存泄露，泄露了多少字节。上图说明在source.cpp的第73行，实际上是pwszCompName = new wchar_t[dwSize + 1];同样，86行指char* test = new char[1024*1024];现在我们可以快速的知道问题发生在哪里，并且可以快速的进行修改。 </p>
+<h1><a class="anchor" id="sum5"></a>
+总结</h1>
+<p>上述提及的技巧是最简单最有效的调试内存泄露的方式之一，CRT调试应用程序接口有多种不同的选项，这些选项用于其他目的的调试，本文中的方法仅限于内存泄露，没有提及句柄泄露和线程数增长。对于这些我们将不得不借助于性能监视工具跟踪代码并定位解决问题 </p>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

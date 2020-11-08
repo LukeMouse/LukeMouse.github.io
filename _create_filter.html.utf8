@@ -1,0 +1,528 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">如何设计自定义的transform filter </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd><a href="http://hi.baidu.com/gragonraja/item/b04c8db6bf166c402bebe37a">http://hi.baidu.com/gragonraja/item/b04c8db6bf166c402bebe37a</a> <hr/>
+ </dd></dl>
+<p>对于DIrectShow的初学者而言，最大的困难莫过于尝试设计自定义的filter。设计自定义的transform filter是困难的,因为首先,filter是一种dll （后缀名为.ax）而编写dll工程需要一定的VC基础 所以建议先补充一点dll的知识;其次,dll的注册，GUID的生成和工程的配置都很麻烦;再次,网上缺乏现成的transform filter的例子。DirectShow给的源码比如NULLINPLACE 和CONTRAST都太复杂，都带有对话框和属性页，不适合初学者，而且这些例子 没有一个涉及到图像格式的转换，而transform filter最大的公用就是媒体类型的转换，因此这些例子不适用作为一个初学者，我深深受到这些问题的困扰，经过刻苦钻研终于走出了这个泥潭，豁然开朗。于是把它记录下来，希望可以对其他人有帮助，也作为对08年的一个小结。</p>
+<p>我的例子是 设计一个 transform filter 把 YUY2 16bit 的媒体转化为RGB24 24bit的类型。原因是我的摄像头只支持YUY2 16bit这种格式， 我想得到位图。。顺便学习一下Filter的设计以下为具体步骤： </p>
+<h1><a class="anchor" id="configure"></a>
+一、配置开发环境</h1>
+<ol type="1">
+<li>VC中在Tools-&gt;Options-&gt;Directories 设置好DirectX SDK的头文件和库文件路径</li>
+<li>编译了基类源码,生成strmbasd.lib (debug版), strmbase.lib(release版)</li>
+<li>VC向导新建一个win32 DLL（empty）工程</li>
+<li>Setting-&gt;Link-&gt;Output file name: YUV2RGBfilter.ax</li>
+<li>Setting-&gt;Link加入strmbasd.lib winmm.lib quartz.lib vfw32.lib (注意路径)</li>
+<li>定义一个同名.def文件，加入到工程，内容如下： <pre class="fragment">LIBRARY YUV2RGBfilter.ax 
+EXPORTS 
+   DllMain              PRIVATE   
+   DllGetClassObject    PRIVATE 
+   DllCanUnloadNow      PRIVATE 
+   DllRegisterServer    PRIVATE 
+   DllUnregisterServer PRIVATE
+</pre></li>
+<li>建立一个类 YUV2RGBfilter 建立他的cpp文件和h文件</li>
+<li>在YUV2RGBfilter.cpp中定义DLL的入口函数及注册 放在cpp文件的最后 <pre class="fragment">//
+// DllEntryPoint
+//
+extern "C" BOOL WINAPI DllEntryPoint(HINSTANCE, ULONG, LPVOID);
+
+BOOL APIENTRY DllMain(HANDLE hModule, 
+                      DWORD dwReason, 
+                      LPVOID lpReserved)
+{
+    return DllEntryPoint((HINSTANCE)(hModule), dwReason, lpReserved);
+}
+
+
+////////////////////////////////////////////////////////////////////////
+//
+// Exported entry points for registration and unregistration 
+// (in this case they only call through to default implementations).
+//
+////////////////////////////////////////////////////////////////////////
+
+STDAPI DllRegisterServer()
+{
+    return AMovieDllRegisterServer2( TRUE );
+}
+
+STDAPI DllUnregisterServer()
+{
+     return AMovieDllRegisterServer2( FALSE );
+}
+</pre></li>
+<li>cpp文件中要包含的头文件 <pre class="fragment">#include &lt;streams.h&gt;
+#include &lt;windows.h&gt;
+#include &lt;initguid.h&gt;
+#include &lt;olectl.h&gt;
+#if (1100 &gt; _MSC_VER)
+#include &lt;olectlid.h&gt;
+#endif
+#include "Y2Ruids.h"         // our own public guids
+#include "YUV2RGBfilter.h" 
+</pre></li>
+</ol>
+<h1><a class="anchor" id="develop"></a>
+二、开发Filter</h1>
+<ol type="1">
+<li>生成GUID( 命令行模式下运行guidgen工具) 为他建立一个文件Y2Ruids.h 单独引用 <pre class="fragment">#include &lt;initguid.h&gt;
+// YUV2toRGB24 Filter Object
+// {F91FC8FD-B1A6-49b0-A308-D6EDEAF405DA}
+DEFINE_GUID(CLSID_YUV2toRGB24, 
+0xf91fc8fd, 0xb1a6, 0x49b0, 0xa3, 0x8, 0xd6, 0xed, 0xea, 0xf4, 0x5, 0xda);
+</pre></li>
+<li>构造CYUV2RGBfilter类 继承自CTransformFilter写在TransformFilter.h中 <pre class="fragment">// ----------------------------------------------------------------------------
+// Class definitions of CYUV2RGBfilter
+// ----------------------------------------------------------------------------
+// 
+//
+class CYUV2RGBfilter : public CTransformFilter
+{
+public:
+    static CUnknown * WINAPI CreateInstance(LPUNKNOWN punk, HRESULT *phr);
+    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void ** ppv);
+    DECLARE_IUNKNOWN;
+    // override pure virtual function
+    HRESULT CheckInputType(const CMediaType *mtIn); 
+    HRESULT CheckTransform(const CMediaType *mtIn, const CMediaType *mtOut); 
+    HRESULT DecideBufferSize(IMemAllocator *pAlloc, ALLOCATOR_PROPERTIES *pProp); 
+    HRESULT GetMediaType(int iPosition, CMediaType *pMediaType); 
+    HRESULT Transform(IMediaSample *pIn, IMediaSample *pOut);
+
+private:
+    //Constructor
+    CYUV2RGBfilter(TCHAR *tszName, LPUNKNOWN punk, HRESULT *phr);
+    // member function
+    VOID ChangeFormat(AM_MEDIA_TYPE* pAdjustedType);
+    DWORD ConvertYUV2toRGB(BYTE* yuv, BYTE* rgb, DWORD dsize);
+
+    // member variable
+    const long m_lBufferRequest;
+        CCritSec m_Y2RLock;     // To serialise access.
+};
+</pre></li>
+<li>按格式改写构造函数 <pre class="fragment">//
+// CNullInPlace::Constructor
+//
+CYUV2RGBfilter::CYUV2RGBfilter(TCHAR *tszName,LPUNKNOWN punk,HRESULT *phr) :
+    CTransformFilter(tszName, punk, CLSID_YUV2toRGB24),
+    m_lBufferRequest(1)
+{
+ASSERT(tszName);
+    ASSERT(phr);
+    
+} // CYUV2RGBfilter
+</pre></li>
+<li>改写CTransformFilter五个纯虚函数（最重要的地方） <pre class="fragment">     HRESULT CheckInputType(const CMediaType *mtIn); 
+     HRESULT CheckTransform(const CMediaType *mtIn, const CMediaType *mtOut); 
+     HRESULT DecideBufferSize(IMemAllocator *pAlloc, ALLOCATOR_PROPERTIES *pProp); 
+     HRESULT GetMediaType(int iPosition, CMediaType *pMediaType); 
+     HRESULT Transform(IMediaSample *pIn, IMediaSample *pOut);
+</pre></li>
+<li>设计自己的私有函数 完成一定的功能</li>
+<li>注册Filter信息 <pre class="fragment">// 注册信息
+//setup data
+
+const AMOVIESETUP_MEDIATYPE
+sudPinTypes =   { &amp;MEDIATYPE_Video                // clsMajorType
+                , &amp;MEDIASUBTYPE_NULL } ;       // clsMinorType
+
+const AMOVIESETUP_PIN
+psudPins[] = { { L"Input"            // strName
+               , FALSE               // bRendered
+               , FALSE               // bOutput
+               , FALSE               // bZero
+               , FALSE               // bMany
+               , &amp;CLSID_NULL         // clsConnectsToFilter
+               , L"Output"           // strConnectsToPin
+               , 1                   // nTypes
+               , &amp;sudPinTypes }      // lpTypes
+             , { L"Output"           // strName
+               , FALSE               // bRendered
+               , TRUE                // bOutput
+               , FALSE               // bZero
+               , FALSE               // bMany
+               , &amp;CLSID_NULL         // clsConnectsToFilter
+               , L"Input"            // strConnectsToPin
+               , 1                   // nTypes
+               , &amp;sudPinTypes } };   // lpTypes
+
+
+const AMOVIESETUP_FILTER
+sudYUV2RGB = { &amp;CLSID_YUV2toRGB24       // clsID
+            , L"YUV2RGB"                // strName
+            , MERIT_DO_NOT_USE          // dwMerit
+            , 2                         // nPins
+            , psudPins };               // lpPin
+
+//
+// Needed for the CreateInstance mechanism
+//
+CFactoryTemplate g_Templates[1]=
+    {   {L"YUV2RGB"
+        , &amp;CLSID_YUV2toRGB24
+        , CYUV2RGBfilter::CreateInstance
+        , NULL
+        , &amp;sudYUV2RGB } 
+    };
+int g_cTemplates = sizeof(g_Templates)/sizeof(g_Templates[0]);
+</pre> </li>
+</ol>
+<p>编译成功后生成GrayFilter.ax,命令行运行regsvr32 GrayFilter.ax注册即可 不用反复注册，只用注册一次，如若修改只需将重新编译的.ax覆盖原来的就行了调试最好在graphEdit中经行 比较方便。以上就是设计一个filter的总体步骤。</p>
+<h1><a class="anchor" id="keyinfo"></a>
+三、下面就关键点 五个重载的纯虚函数做详细介绍。 这才是最关键的地方。</h1>
+<pre class="fragment">HRESULT CheckInputType(const CMediaType *mtIn); 
+HRESULT CheckTransform(const CMediaType *mtIn, const CMediaType *mtOut); 
+HRESULT DecideBufferSize(IMemAllocator *pAlloc, ALLOCATOR_PROPERTIES *pProp); 
+HRESULT GetMediaType(int iPosition, CMediaType *pMediaType); 
+HRESULT Transform(IMediaSample *pIn, IMediaSample *pOut);
+</pre> <p>这五个函数全部是都纯虚函数 ，是CTransformFilter为我们提供的接口，必须重载他们才能实例化。初学者最大的困扰莫过于，是谁调用了这些函数。这些函数调用的时候实参是从哪来的。我一开始就被这些问题困扰。其实DX的帮助文档里就讲的很清楚了只是我一开始没认真看；&lt;/p?</p><ol type="1">
+<li>CheckInputType是由tranformfiltr的输入pin调用的用来检查本Filter的输入媒体是否合法；</li>
+<li>CheckTransform是由tranformfiltr的输出pin调用的用来检查本filter的输出是否和合法；</li>
+<li>GetMediaType是有由tranformfiltr的输出pin调用的用来获取该输出端口支持的媒体格式供下游filter的枚举</li>
+<li>DecideBufferSize是由tranformfiltr的输出pin调用的来确定buffer的数量和大小</li>
+<li>上游filter通过调用filter上输入pin上的IMemInputPin::Receive方法，将sample传递到filter，filter调用CTransformFilter::Transform方法来处理数据 </li>
+</ol>
+<p>整个过程就是:输入pin调用CheckInputType来筛选上游过来的媒体类型，如果可以接受 就有输出pin通GetMediaType来枚举输出媒体类型，进一步通过输出pin的CheckTransform来找到与输入媒体类型相融合的输出媒体类型并选中。在通过DecideBufferSize确定输出buffer的属性，所有的检查和筛选通过以后就可以连接了，并通过tranform将输入pin上的sample 传个输出pin输出媒体的类型是由GetMediaType来确定的， 只要媒体类型对应了就可以成功连接,但是数据的传送还是要通过transform来实现。理论上对于没有压缩的视频， 一个sample就是一帧的数据，可以精确的量化处理。</p>
+<p>要实现输出pin上媒体格式的转化 就必须在在GetMediaType函数中修改新的媒体格式，然后在checkTransform中确认 输出的媒体格式是不是期望的输出。例如 要将YUY2 16bit的媒体格式改为RGB8 8bit的媒体格式 就要做如下修改：</p>
+<ol type="1">
+<li>在GetMediaType中 <pre class="fragment">CheckPointer(pMediaType,E_POINTER);
+   VIDEOINFO   vih;   
+   memset(&amp;vih, 0, sizeof(vih));   
+   vih.bmiHeader.biCompression   =   0;   
+   vih.bmiHeader.biBitCount      =   8;   
+   vih.bmiHeader.biSize          =   40;   
+   vih.bmiHeader.biWidth         =   640;   
+   vih.bmiHeader.biHeight        =   480; 
+   vih.bmiHeader.biPlanes        =   1;   
+   vih.bmiHeader.biSizeImage     =   307200;   
+   vih.bmiHeader.biClrImportant =   0;   
+      vih.bmiHeader.biClrUsed   =   256;
+
+//alter the pallete 
+   for (UINT i=0; i&lt;256; i++)
+   {
+    vih.bmiColors[i].rgbBlue=(BYTE)i;
+    vih.bmiColors[i].rgbRed=(BYTE)i;
+    vih.bmiColors[i].rgbGreen=(BYTE)i;
+    vih.bmiColors[i].rgbReserved=(BYTE)0;
+    }
+   pMediaType-&gt;SetType(&amp;MEDIATYPE_Video);   
+   pMediaType-&gt;SetFormatType(&amp;FORMAT_VideoInfo);   
+   pMediaType-&gt;SetFormat((BYTE*)&amp;vih, sizeof(vih));   
+   pMediaType-&gt;SetSubtype(&amp;MEDIASUBTYPE_RGB8);   
+   pMediaType-&gt;SetSampleSize(307200);
+
+return NOERROR;
+</pre></li>
+<li>然后在checkTransform中确认是否是期望的输出 <pre class="fragment">   BITMAPINFOHEADER *pNewType = HEADER(mtOut-&gt;Format());
+   if ((pNewType-&gt;biPlanes==1)
+    &amp;&amp;(pNewType-&gt;biBitCount==8)
+    &amp;&amp;(pNewType-&gt;biWidth==640)
+    &amp;&amp;(pNewType-&gt;biHeight==480)
+    &amp;&amp;(pNewType-&gt;biClrUsed==256)
+    &amp;&amp;(pNewType-&gt;biSizeImage==307200))
+   {
+    return S_OK;
+   }
+</pre> </li>
+</ol>
+<p>我的实现过程如下</p>
+<pre class="fragment">// GetMediaType
+//
+// I support one type, namely the type of the input pin
+// We must be connected to support the single output type
+//
+HRESULT CYUV2RGBfilter::GetMediaType(int iPosition, CMediaType *pMediaType)
+{
+    // Is the input pin connected
+
+    if(m_pInput-&gt;IsConnected() == FALSE)
+    {
+        return E_UNEXPECTED;
+    }
+
+    // This should never happen
+
+    if(iPosition &lt; 0)
+    {
+        return E_INVALIDARG;
+    }
+
+    // Do we have more items to offer
+
+    if(iPosition &gt; 0)
+    {
+        return VFW_S_NO_MORE_ITEMS;
+    }
+
+    CheckPointer(pMediaType,E_POINTER);
+
+    if (iPosition == 0) 
+    { 
+       HRESULT hr = m_pInput-&gt;ConnectionMediaType(pMediaType); 
+       if (FAILED(hr)) 
+       { 
+        return hr; 
+       } 
+    }
+    // make some appropriate change
+    ASSERT(pMediaType-&gt;formattype == FORMAT_VideoInfo); 
+    pMediaType-&gt;subtype = MEDIASUBTYPE_RGB24;
+    VIDEOINFOHEADER *pVih = 
+    reinterpret_cast&lt;VIDEOINFOHEADER*&gt;(pMediaType-&gt;pbFormat); 
+    pVih-&gt;bmiHeader.biCompression = 0; 
+    pVih-&gt;bmiHeader.biSizeImage = DIBSIZE(pVih-&gt;bmiHeader); 
+    pVih-&gt;bmiHeader.biBitCount = 24;
+    pVih-&gt;bmiHeader.biHeight = 480;
+    pVih-&gt;bmiHeader.biWidth = 640;
+    return S_OK; 
+} // GetMediaType
+
+//
+// CheckInputType
+//
+// Check the input type is OK, return an error otherwise
+//
+HRESULT CYUV2RGBfilter::CheckInputType(const CMediaType *mtIn)
+{
+    CheckPointer(mtIn,E_POINTER);
+    
+    // Check this is a VIDEOINFO type
+
+    if(*mtIn-&gt;FormatType() != FORMAT_VideoInfo)
+    {
+        return E_INVALIDARG;
+    }
+
+    if((IsEqualGUID(*mtIn-&gt;Type(), MEDIATYPE_Video)) &amp;&amp;
+       (IsEqualGUID(*mtIn-&gt;Subtype(), MEDIASUBTYPE_YUY2)))
+    {
+        VIDEOINFO *pvi = (VIDEOINFO *) mtIn-&gt;Format();
+        if ((pvi-&gt;bmiHeader.biBitCount == 16)
+    &amp;&amp;(pvi-&gt;bmiHeader.biCompression==0))
+    return S_OK;
+   else
+    return FALSE;
+    }
+    else
+    {
+        return FALSE;
+    }
+} // CheckInputType
+
+// CheckTransform
+//
+// To be able to transform the formats must be compatible
+//mtIn YUV2 16bit
+//mtOut RGB24 24bit
+HRESULT CYUV2RGBfilter::CheckTransform(const CMediaType *mtIn, const CMediaType *mtOut)
+{
+    CheckPointer(mtIn,E_POINTER);
+    CheckPointer(mtOut,E_POINTER);
+
+    HRESULT hr;
+    if(FAILED(hr = CheckInputType(mtIn)))
+    {
+        return hr;
+    }
+    
+    // format must be a VIDEOINFOHEADER
+    if((*mtOut-&gt;FormatType() != FORMAT_VideoInfo)
+   ||(mtOut-&gt;cbFormat&lt;sizeof(VIDEOINFOHEADER ))
+   ||(mtOut-&gt;subtype!=MEDIASUBTYPE_RGB24))
+    {
+        return E_INVALIDARG;
+    }
+   BITMAPINFOHEADER *pBmiOut = HEADER(mtOut-&gt;pbFormat);
+   if ((pBmiOut-&gt;biPlanes!=1)
+    ||(pBmiOut-&gt;biBitCount!=24)
+    ||(pBmiOut-&gt;biCompression!=0)
+    ||(pBmiOut-&gt;biWidth!=640)
+    ||(pBmiOut-&gt;biHeight!=480))
+   {
+    return E_INVALIDARG;
+   }
+
+   return S_OK;
+}
+// CheckTransform
+
+HRESULT CYUV2RGBfilter::DecideBufferSize(IMemAllocator *pAlloc, ALLOCATOR_PROPERTIES *pProperties)
+{
+    CheckPointer(pAlloc,E_POINTER);
+    CheckPointer(pProperties,E_POINTER);
+
+    // Is the input pin connected
+
+    if(m_pInput-&gt;IsConnected() == FALSE)
+    {
+        return E_UNEXPECTED;
+    }
+
+    HRESULT hr = NOERROR;
+    pProperties-&gt;cBuffers = 1;
+    pProperties-&gt;cbBuffer = m_pInput-&gt;CurrentMediaType().GetSampleSize()*2; //output is double of the input samples
+
+    ASSERT(pProperties-&gt;cbBuffer);
+
+    // If we don't have fixed sized samples we must guess some size
+
+    if(!m_pInput-&gt;CurrentMediaType().bFixedSizeSamples)
+    {
+        if(pProperties-&gt;cbBuffer &lt; 100000)
+        {
+            // nothing more than a guess!!
+            pProperties-&gt;cbBuffer = 100000;
+        }
+    }
+
+    // Ask the allocator to reserve us some sample memory, NOTE the function
+    // can succeed (that is return NOERROR) but still not have allocated the
+    // memory that we requested, so we must check we got whatever we wanted
+
+    ALLOCATOR_PROPERTIES Actual;
+
+    hr = pAlloc-&gt;SetProperties(pProperties,&amp;Actual);
+    if(FAILED(hr))
+    {
+        return hr;
+    }
+
+    ASSERT(Actual.cBuffers == 1);
+
+    if(pProperties-&gt;cBuffers &gt; Actual.cBuffers ||
+        pProperties-&gt;cbBuffer &gt; Actual.cbBuffer)
+    {
+        return E_FAIL;
+    }
+
+    return NOERROR;
+
+} // DecideBufferSize
+
+//
+// Transform
+//
+// Copy the input sample into the output sample
+//
+//
+HRESULT CYUV2RGBfilter::Transform(IMediaSample *pIn, IMediaSample *pOut)
+{
+    CheckPointer(pIn,E_POINTER);
+    CheckPointer(pOut,E_POINTER);
+
+    // Copy the sample data
+    BYTE *pSourceBuffer, *pDestBuffer;
+    long lSourceSize = pIn-&gt;GetActualDataLength();
+    long lDestSize = (long)(lSourceSize*1.5);
+
+
+    pIn-&gt;GetPointer(&amp;pSourceBuffer);
+    pOut-&gt;GetPointer(&amp;pDestBuffer);
+//change data
+    ConvertYUV2toRGB(pSourceBuffer,pDestBuffer,lSourceSize);
+//memset(pDestBuffer,100,lDestSize);
+    REFERENCE_TIME TimeStart, TimeEnd;
+    if(NOERROR == pIn-&gt;GetTime(&amp;TimeStart, &amp;TimeEnd))
+    {
+        pOut-&gt;SetTime(&amp;TimeStart, &amp;TimeEnd);
+    }
+
+    LONGLONG MediaStart, MediaEnd;
+    if(pIn-&gt;GetMediaTime(&amp;MediaStart,&amp;MediaEnd) == NOERROR)
+    {
+        pOut-&gt;SetMediaTime(&amp;MediaStart,&amp;MediaEnd);
+    }
+
+    // Copy the Sync point property
+
+    HRESULT hr = pIn-&gt;IsSyncPoint();
+    if(hr == S_OK)
+    {
+        pOut-&gt;SetSyncPoint(TRUE);
+    }
+    else if(hr == S_FALSE)
+    {
+        pOut-&gt;SetSyncPoint(FALSE);
+    }
+    else
+    { // an unexpected error has occured...
+        return E_UNEXPECTED;
+    }
+
+    //
+    AM_MEDIA_TYPE* pMediaType;
+    pIn-&gt;GetMediaType(&amp;pMediaType);
+    ChangeFormat(pMediaType);
+    // Copy the media type
+    pOut-&gt;SetMediaType(pMediaType);
+
+    // Copy the preroll property
+
+    hr = pIn-&gt;IsPreroll();
+    if(hr == S_OK)
+    {
+        pOut-&gt;SetPreroll(TRUE);
+    }
+    else if(hr == S_FALSE)
+    {
+        pOut-&gt;SetPreroll(FALSE);
+    }
+    else
+    { // an unexpected error has occured...
+        return E_UNEXPECTED;
+    }
+
+    // Copy the discontinuity property
+
+    hr = pIn-&gt;IsDiscontinuity();
+
+    if(hr == S_OK)
+    {
+        pOut-&gt;SetDiscontinuity(TRUE);
+    }
+    else if(hr == S_FALSE)
+    {
+        pOut-&gt;SetDiscontinuity(FALSE);
+    }
+    else
+    { // an unexpected error has occured...
+        return E_UNEXPECTED;
+    }
+
+    // Copy the actual data length
+    //KASSERT((long)lDestSize &lt;= pOut-&gt;GetSize()); 
+    pOut-&gt;SetActualDataLength(lDestSize);
+
+    return S_OK;
+
+} // Transform
+</pre> <p>经过这些步骤就能得到符合功能要求的transform filter同时经过以上步骤也能对filter开发有个大体的了解</p>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

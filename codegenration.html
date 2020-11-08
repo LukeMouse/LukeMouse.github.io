@@ -1,0 +1,126 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">__cdecl,__stdcall,__fastcall的区别 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><hr/>
+ <p>Visual C++ Compiler Options可以指定的Calling Convention有 3种： /Gd /Gr /Gz</p>
+<p>这三个参数决定了：</p>
+<ol type="1">
+<li>函数参数以何种顺序入栈，右到左还是左到右。</li>
+<li>在函数运行完后，是调用函数还是被调用函数清理入栈的参数。</li>
+<li>在编译时函数名字是如何转换的。 </li>
+</ol>
+<p>下面我们分别详细介绍：</p>
+<h1><a class="anchor" id="abtgd"></a>
+/Gd</h1>
+<p>这是编译器默认的转换模式，对一般函数使用 C的函数调用转换方式__cdecl，但是对于C++ 成员函数和前面修饰了__stdcall __fastcall的函数除外。</p>
+<h1><a class="anchor" id="grabt"></a>
+/Gr</h1>
+<p>对于一般函数使用__fastcall函数调用转换方式，所有使用__fastcall的函数必须要有函数原形。但对于C++ 成员函数和前面修饰了__cdecl __stdcall 的函数除外。</p>
+<h1><a class="anchor" id="abtgz"></a>
+/Gz</h1>
+<p>对于所有 C函数使用__stdcall函数调用转换方式，但对于可变参数的 C函数以及用__cdecl __fastcall修饰过的函数和C++ 成员函数除外。所有用__stdcall修饰的函数必须有函数原形。</p>
+<p>事实上，对于x86系统，C++ 成员函数的调用方式有点特别，将成员函数的this指针放入ECX，所有函数参数从右向左入栈，被调用的成员函数负责清理入栈的参数。对于可变参数的成员函数，始终使用__cdecl的转换方式。</p>
+<p>下面该进入主题，分别讲一下这三种函数调用转换方式有什么区别：</p>
+<h1><a class="anchor" id="abtcede"></a>
+1.__cdecl</h1>
+<p>这是编译器默认的函数调用转换方式，它可以处理可变参数的函数调用。参数的入栈顺序是从右向左。在函数运行结束后，由调用函数负责清理入栈的参数。在编译时，在每个函数前面加上下划线(_)，没有函数名大小写的转换。即_functionname </p>
+<h1><a class="anchor" id="abtstdca"></a>
+2.__fastcall</h1>
+<p>有一些函数调用的参数被放入ECX，EDX中，而其它参数从右向左入栈。被调用函数在它将要返回时负责清理入栈的参数。在内嵌汇编语言的时候，需要注意寄存器的使用，以免与编译器使用的产生冲突。函数名字的转换是：@functionname@number, 没有函数名大小写的转换，number表示函数参数的字节数。由于有一些参数不需要入栈，所以这种转换方式会在一定程度上提高函数调用的速度。</p>
+<h1><a class="anchor" id="abrstdc"></a>
+3.__stdcall</h1>
+<p>函数参数从右向左入栈，被调用函数负责入栈参数的清理工作。函数名转换格式如下：_functionname@number,下面我们亲自写一个程序，看看各种不同的调用在编译后有什么区别，我们的被调用函数如下：</p>
+<pre class="fragment">int function(int a, int b)
+{
+    return a + b;
+}
+    
+void main()
+{
+    function(10, 20);
+}
+</pre><ol type="1">
+<li>__cdecl <pre class="fragment">       _function
+             push    ebp
+             mov     ebp, esp
+             mov     eax, [ebp+8]       ;参数1
+             add     eax, [ebp+C]       ;加上参数2
+             pop     ebp
+             retn
+    _main
+             push    ebp
+             mov     ebp, esp
+             push    14h                ;参数 2入栈
+             push    0Ah                ;参数 1入栈
+             call    _function          ;调用函数
+             add     esp, 8             ;修正栈
+             xor     eax, eax
+             pop     ebp
+             retn</pre></li>
+<li>__fastcall <pre class="fragment">    @function@8
+             push    ebp
+             mov     ebp, esp           ;保存栈指针
+             sub     esp, 8             ;多了两个局部变量
+             mov     [ebp-8], edx       ;保存参数 2
+             mov     [ebp-4], ecx       ;保存参数 1
+             mov     eax, [ebp-4]       ;参数 1
+             add     eax, [ebp-8]       ;加上参数 2
+             mov     esp, ebp           ;修正栈
+             pop     ebp
+             retn
+    _main
+             push    ebp
+             mov     ebp, esp
+             mov     edx, 14h           ;参数 2给EDX
+             mov     ecx, 0Ah           ;参数 1给ECX
+             call    @function@8        ;调用函数
+             xor     eax, eax
+             pop     ebp
+             retn
+</pre></li>
+<li>__stdcall <pre class="fragment">    _function@8
+             push    ebp
+             mov     ebp, esp
+             mov     eax, [ebp]         ;参数 1
+             add     eax, [ebp+C]       ;加上参数 2
+             pop     ebp
+             retn    8                  ;修复栈
+    _main
+             push    ebp
+             mov     ebp, esp
+             push    14h                ;参数 2入栈
+             push    0Ah                ;参数 1入栈　
+             call    _function@8　　　　;函数调用
+             xor     eax, eax
+             pop     ebp
+             retn
+</pre> </li>
+</ol>
+<p>可见上述三种方法各有各的特点，而且_main必须是__cdecl，一般WIN32的函数都是__stdcall。而且在Windef.h中有如下的定义： </p><pre class="fragment">    #define CALLBACK __stdcall
+    #define WINAPI　 __stdcall
+</pre> </div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

@@ -1,0 +1,135 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">在Emacs中搭建C/C++开发环境 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><hr/>
+ <p>本文中我将帮助大家使用Emacs搭建一个高效的C/C++开发环境，虽然看着有点长，但是搭建过程比较简短，大部分的工作是复制粘贴Emacs Lisp代码到你的init.el，本文大部分篇幅用于介绍和示范许多有用的特性。参照本文的指导，你可以在Emacs中高效的浏览linux代码树，如光标处定义或参考的跳转，在跳转点来回跳转，快速找到任意文件，在.h和.cpp文件中跳转。</p>
+<h1><a class="anchor" id="few_demo"></a>
+几个示例：</h1>
+<ul>
+<li>在工程（如Linux内核代码）任意位置的.h和.cpp文件中跳转，如果存在多个文件，将会展现可能候选的列表。本命令在整个项目中搜集相同文件名但位置不同的文件。 <center> <div class="image">
+<img src="projectile-find-other-file.gif" alt="projectile-find-other-file.gif"/>
+</div>
+ </center></li>
+<li>使用易于使用的helm-gtags在Linux内核代码中跳转。本示例以底端出现“START”为开始 <center> <div class="image">
+<img src="helm-gtags-jump-dwim.gif" alt="helm-gtags-jump-dwim.gif"/>
+</div>
+ </center></li>
+<li>交互概要树使用function-args包中的<a href="https://github.com/abo-abo/function-args">moo-jump-local</a> <center> <div class="image">
+<img src="moo-jump-local.gif" alt="moo-jump-local.gif"/>
+</div>
+ </center></li>
+<li>静态概要树用于文件浏览 <center> <div class="image">
+<img src="sr-speedbar.gif" alt="sr-speedbar.gif"/>
+</div>
+ </center></li>
+<li>Symbol引用 <center> <div class="image">
+<img src="semantic-symref.gif" alt="semantic-symref.gif"/>
+</div>
+ </center></li>
+<li>代码补全1 <center> <div class="image">
+<img src="semantic-boost-demo.gif" alt="semantic-boost-demo.gif"/>
+</div>
+ </center></li>
+<li>代码补全2 <center> <div class="image">
+<img src="auto_complete.gif" alt="auto_complete.gif"/>
+</div>
+ </center></li>
+<li>头文件补全 <center> <div class="image">
+<img src="company-c-header.png" alt="company-c-header.png"/>
+</div>
+ </center></li>
+<li>在底部显示函数接口和变量定义 <center> <div class="image">
+<img src="func_args.jpg" alt="func_args.jpg"/>
+</div>
+ </center> <center> <div class="image">
+<img src="semantic-idle-summary-lambda.gif" alt="semantic-idle-summary-lambda.gif"/>
+</div>
+ </center> <center> <div class="image">
+<img src="semantic-idle-summary-variable.gif" alt="semantic-idle-summary-variable.gif"/>
+</div>
+ </center></li>
+<li>在顶部显示当前光标所在函数 <center> <div class="image">
+<img src="semantic-sticky-func.gif" alt="semantic-sticky-func.gif"/>
+</div>
+ </center></li>
+<li>汇编支持 <center> <div class="image">
+<img src="compilation-mode.gif" alt="compilation-mode.gif"/>
+</div>
+ </center></li>
+<li>美化编译输出 <center> <div class="image">
+<img src="compilation-compile.gif" alt="compilation-compile.gif"/>
+</div>
+ </center></li>
+<li>奇幻的GDB调试 <center> <div class="image">
+<img src="gdb-many-windows.gif" alt="gdb-many-windows.gif"/>
+</div>
+ </center></li>
+<li>展示光标处Symbol的帮助页 <center> <div class="image">
+<img src="helm-man-woman.gif" alt="helm-man-woman.gif"/>
+</div>
+ </center> </li>
+</ul>
+<h1><a class="anchor" id="insthjfhg"></a>
+快速安装</h1>
+<p>为了演示目的我准备了一个配置好的Emacs仓库，你可以克隆下来使用，而不用再复制粘贴本文中的Elisp代码，安装后第一次运行时示例仓库将会从melpa下载、安装并编译全部需要的包，根据你的网络和处理器速度这个过程可能会有些长短变化。</p><ul>
+<li>从Linux/Mac包管理器安装<a href="http://www.gnu.org/software/global/">GNU Global </a>或者从<a href="http://adoxa.altervista.org/global/">Win32 port</a>安装Windows版本。如果找不到需要的版本可以从<a href="http://www.gnu.org/software/global/download.html">这里</a>下载源码并手工编译。</li>
+<li>备份你的 ~/.emacs.d 到其他地方</li>
+<li>如果emacs没有运行，就运行它</li>
+<li>使用 M-x package-list-packages 更新melpa数据库</li>
+<li>将仓库克隆到你的 ~/.emacs.d 文件夹 <pre class="fragment">git clone https://github.com/tuhdo/emacs-c-ide-demo.git ~/.emacs.d
+</pre></li>
+<li>你可能需要修改新的 ~/.emacs.d/init.el 文件中的两个地方:示例仓库可以使用默认的helm-gtags或者ggtags，如果使用ggtags，注释掉init.el中下面的内容 <pre class="fragment">(require 'setup-helm-gtags)
+</pre> 并取消下面这行的注释 <pre class="fragment">;;(require 'setup-ggtags)
+</pre> </li>
+</ul>
+<p>例子中使用Helm，如果你对Helm不熟悉，参考<a href="http://tuhdo.github.io/helm-intro.html">我的文章</a>，如果你不打算使用Helm，把init.el中下面的内容也注释掉： </p><pre class="fragment">(require 'setup-helm)
+</pre> <p>这就够了，开始学习示例，只需要执行M-x load-file RET init.el。读下面的操作示例时不需要再进行安装或elisp学习。 </p>
+<h1><a class="anchor" id="scnafafds"></a>
+源码探索</h1>
+<h2><a class="anchor" id="fsdfdgfa"></a>
+先决条件</h2>
+<ul>
+<li>知道如何使用package.el和MELPA，如果你不知道如何使用，请阅读<a href="http://tuhdo.github.io/emacs-tutor3.html#MissingReference">如何使用Emacs包管理器</a></li>
+<li>安装GNU Global，注意包管理器中安装的版本可能会因为过期而与helm-gtags不匹配。</li>
+<li>安装ggtags。从MELPA安装完ggtags，使用下面的脚本安装ggtags和键绑定设置： <pre class="fragment">(require 'ggtags)
+(add-hook 'c-mode-common-hook
+          (lambda ()
+            (when (derived-mode-p 'c-mode 'c++-mode 'java-mode 'asm-mode)
+              (ggtags-mode 1))))
+
+(define-key ggtags-mode-map (kbd "C-c g s") 'ggtags-find-other-symbol)
+(define-key ggtags-mode-map (kbd "C-c g h") 'ggtags-view-tag-history)
+(define-key ggtags-mode-map (kbd "C-c g r") 'ggtags-find-reference)
+(define-key ggtags-mode-map (kbd "C-c g f") 'ggtags-find-file)
+(define-key ggtags-mode-map (kbd "C-c g c") 'ggtags-create-tags)
+(define-key ggtags-mode-map (kbd "C-c g u") 'ggtags-update-tags)
+
+(define-key ggtags-mode-map (kbd "M-,") 'pop-tag-mark)
+</pre> </li>
+</ul>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

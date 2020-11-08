@@ -1,0 +1,55 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">图例</div>  </div>
+</div><!--header-->
+<div class="contents">
+<p>本页将向您解释如何理解由 doxygen 生成的图.</p>
+<p>考虑如下例子: </p><div class="fragment"><div class="line">/*! 由于截断而使 Invisible 不可见 */</div><div class="line">class Invisible { };</div><div class="line"></div><div class="line">/*! Truncated 的继承关系将被隐藏 */</div><div class="line">class Truncated : public Invisible { };</div><div class="line"></div><div class="line">/* 没有被doxygen文档化的类 */</div><div class="line">class Undocumented { };</div><div class="line"></div><div class="line">/*! public 继承关系的类 */</div><div class="line">class PublicBase : public Truncated { };</div><div class="line"></div><div class="line">/*! 一个模板类 */</div><div class="line">template&lt;class T&gt; class Templ { };</div><div class="line"></div><div class="line">/*! protected 继承关系的类 */</div><div class="line">class ProtectedBase { };</div><div class="line"></div><div class="line">/*! private 继承关系的类 */</div><div class="line">class PrivateBase { };</div><div class="line"></div><div class="line">/*! 被 Inherited 使用的类 */</div><div class="line">class Used { };</div><div class="line"></div><div class="line">/*! 继承自其它若干类的超级类 */</div><div class="line">class Inherited : public PublicBase,</div><div class="line">                  protected ProtectedBase,</div><div class="line">                  private PrivateBase,</div><div class="line">                  public Undocumented,</div><div class="line">                  public Templ&lt;int&gt;</div><div class="line">{</div><div class="line">  private:</div><div class="line">    Used *m_usedClass;</div><div class="line">};</div></div><!-- fragment --><p> 结果将会生成以下图:</p>
+<center><img src="graph_legend.png" alt="" class="inline"/>
+</center><p>上图中的矩形有如下意义: </p>
+<ul>
+<li>
+灰色填充的矩形 表示上图是由该结构体或类生成. </li>
+<li>
+黑色边框的矩形 表示已经被文档化的结构体或类. </li>
+<li>
+灰色边框的矩形 表示未被文档化的结构体或类. </li>
+<li>
+红色边框的矩形 表示该结构体或类的关系没有被完全显示.如果生成的图不能调整到制定的尺寸，有一些关系就会被截断而不显示出来. </li>
+</ul>
+<p>箭头有如下意义: </p>
+<ul>
+<li>
+深蓝色的箭头被用于展示 public 的继承关系. </li>
+<li>
+深绿色的箭头表示 protected 的继承关系. </li>
+<li>
+深红色的箭头说明了是 privated 的继承关系. </li>
+<li>
+紫色虚线箭头用来表示两个类之间的聚合关系. 被箭头指向的类的类型的变量,可以通过箭头旁标明的变量去访问. </li>
+<li>
+黄色虚线箭头表示模板类实例和模板类之间的关系. 箭头旁边标明了模板类实例化的参数. </li>
+</ul>
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

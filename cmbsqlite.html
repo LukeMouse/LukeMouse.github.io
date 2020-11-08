@@ -1,0 +1,61 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">编译带加解密功能的sqlite </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>网络整理 <hr/>
+ </dd></dl>
+<p>研究了很久，查询参考了很多资料，这里对编译带解密功能的sqlite进行一下收集总结，以备忘</p>
+<h1><a class="anchor" id="coll001"></a>
+摘录1</h1>
+<ol type="1">
+<li>到SQLite网站下载sqlite-amalgamation-3080500.zip和sqlite-dll-win32-x86-3080500.zip</li>
+<li>到sf.net网站下载wxsqlite3，wxsqlite3-3.1.1.zip,或者Google然后下载</li>
+<li>visual studio 2012创建win32 dll 空项目</li>
+<li>创建def文件，然后从sqlite-dll-win32-x86-3080500.zip解压出来的文件的内容拷贝到新创建的文件中去即可。或者从sqlite-dll-win32-x86-3080500.zip解压出来的def文件添加到工程中，需要创建或者在项目属性链接器中输入中模块定义选择刚刚导入的def文件</li>
+<li>将sqlite3.h和sqlite3secure.c添加到工程中，将codec.c codec.h rijndael.c rijndael.h codecext.c sqlite3.c拷贝到工程目录下，不要添加到工程中。</li>
+<li>预处理添加 <div class="fragment"><div class="line">SQLITE3_EXPORTS</div><div class="line">SQLITE_HAS_CODEC</div><div class="line">CODEC_TYPE=CODEC_TYPE_AES128</div><div class="line">SQLITE_CORE</div><div class="line">THREADSAFE</div><div class="line">SQLITE_SECURE_DELETE</div><div class="line">SQLITE_ENABLE_COLUMN_METADATA</div><div class="line">SQLITE_ENABLE_RTREE</div></div><!-- fragment --></li>
+<li>编辑def文件，增加导出函数sqlite3_rekey和sqlite3_key</li>
+<li>编译，成功！假如出现错误看看你的工程文件中是否有多余的文件，一般错误都由此造成的。</li>
+</ol>
+<p>工程文件只有三个文件：sqlite3.h、sqlite3secure.c和sqlite3.def </p>
+<h1><a class="anchor" id="coll002"></a>
+摘录2（From http://blog.sina.com.cn/s/blog_648d306d0101jzfc.html）</h1>
+<p>一直在网上搜wxSqlite3的文档，但是总找不到能真正解决问题的，就是一个简单的编译wxSqlite3自带的示例也出了老多问题，后来却发现，其实wxSqlite3的readme中已经有了详细的方法，哦，就在眼皮子底下！为了避免再一次的遗忘，就在这里暂作一个记录吧。</p>
+<p>截至记录时间，wxSqlite3的版本号为2.1.1，Sqlite3的版本为3.7.6.2，这两个都可以直接在网上下载，wxSqlite3的站点: <a href="http://wxcode.sourceforge.net/components/wxsqlite3">http://wxcode.sourceforge.net/components/wxsqlite3</a>； <a href="http://sourceforge.net/projects/wxcode/files/Components/wxSQLite3/">http://sourceforge.net/projects/wxcode/files/Components/wxSQLite3/</a> <a href="http://sourceforge.net/projects/wxsqlite/?source=directory">http://sourceforge.net/projects/wxsqlite/?source=directory</a> Sqlite3的站点:http://www.sqlite.org/； </p>
+<p>其中wxSqlite3自带了已编译的Sqlite3.7.6.1的DLL，当然，我的目的是自己编译静态的Lib，所以只能自己下来重新编译了。当然，我要的Lib是要带加密功能的，呵呵。</p>
+<p>wxSQLite3 is a C++ wrapper around the public domain SQLite 3.x database and is specifically designed for use in programs based on the wxWidgets library.</p>
+<p>wxSQLite3 does not try to hide the underlying database, in contrary almost all special features of the current SQLite version 3.7.10 are supported, like for example the creation of user defined scalar or aggregate functions. Since SQLite stores strings in UTF-8 encoding, the wxSQLite3 methods provide automatic conversion between wxStrings and UTF-8 strings. This works best for the Unicode builds of wxWidgets. In ANSI builds the current locale conversion object (wxConvCurrent) is used for conversion to/from UTF-8. Special care has to be taken if external administration tools are used to modify the database contents, since not all of these tools operate in Unicode resp. UTF-8 mode.</p>
+<p>Since version 1.7.0 optional support for key based database encryption (128 bit AES) is also included. Starting with version 1.9.6 of wxSQLite3 the encryption extension is compatible with the SQLite amalgamation source and includes the extension functions module. Support for 256 bit AES encryption has been added in version 1.9.8.</p>
+<p>从wxSqlite3 1.9.6开始，它的加密扩展就已经从C++转为纯C语言实现，因此现在可以直接编译SQLite amalgamation source distribution实现了。只需要编译文件sqlite3secure.c即可，其已经include了所有需要的源文件。当然C++版本的文件也在codec目录（\sqlite3\secure\src\codec-c）中，但作者强烈的不推荐用它。</p>
+<p>唠了这么多，现在正式开始。</p><ol type="1">
+<li>下载sqlite-amalgamation-XXXXXX.zip，它已经包含了所有的源文件，也不需要另外的辅助工具了，解压到某一目录，如Sqlite3。</li>
+<li>如果你下的sqlite-amalgamation-XXXXXX.zip没有makefile，那就自己做一个project吧，在VS2008里新建一个空工程，只加入sqlite3secure.c文件到工程即可，修改其中的::include "sqlite.c"的sqlite.c文件路径为上一步解压的文件的路径。</li>
+<li>在配置属性中设置配置类型为静态库(.Lib)，添加预处理 <div class="fragment"><div class="line">SQLITE_HAS_CODEC=1</div><div class="line">CODEC_TYPE=CODEC_TYPE_AES128</div><div class="line">SQLITE_CORE</div><div class="line">THREADSAFE</div><div class="line">SQLITE_SECURE_DELETE</div><div class="line">SQLITE_SOUNDEX</div><div class="line">SQLITE_ENABLE_COLUMN_METADATA</div></div><!-- fragment --></li>
+<li>编译生成Lib文件。</li>
+<li>将生成的Lib文件取代wxsqlite3-2.1.1\sqlite3\lib中的sqlite3.lib文件，然后编译wxSqlite3为静态库，别忘了设置USE_DYNAMIC_SQLITE3_LOAD=0。 </li>
+</ol>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

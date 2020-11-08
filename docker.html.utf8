@@ -1,0 +1,61 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">docker 学习笔记 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>李进安 <hr/>
+ </dd></dl>
+<h1><a class="anchor" id="mavensi"></a>
+使用docker部署Maven私服</h1>
+<p>近期工作中使用了Maven由于协作需要，决定部署一个docker版的maven私服nexus，决定在CentOS 6.8上进行安装，部署过程如下：</p>
+<h2><a class="anchor" id="installdocker"></a>
+安装docker</h2>
+<ol type="1">
+<li>运行以下命令获取安装docker并运行：wget -qO- <a href="https://get.docker.com/">https://get.docker.com/</a> | sh</li>
+<li>将docker安装成服务：sudo chkconfig docker on</li>
+<li>启动docker：sudo service docker start</li>
+<li>添加一个docker组：sudo groupadd docker然后将当前用户加入其中：sudo gpasswd -a ${USER} docker以避免每次都输入sudo才能运行docker命令</li>
+<li>重启系统，使配置生效。 </li>
+</ol>
+<h2><a class="anchor" id="createimage"></a>
+创建运行nexus镜像</h2>
+<ol type="1">
+<li>从github下载最新版本的Dockerfile：git clone <a href="https://github.com/sonatype/docker-nexus3.git">https://github.com/sonatype/docker-nexus3.git</a></li>
+<li>将Dockerfile放到~/Src文件夹下，运行：docker build &ndash;rm=true &ndash;tag=sonatype/nexus3 .即可生成nexus镜像</li>
+<li>运行docker run -d -p 8081:8081 &ndash;name nexus sonatype/nexus3启动私服 </li>
+</ol>
+<p>添加代理地址除nexus中提供的代理地址外还可以添加如下几个地址</p>
+<pre class="fragment">http://repo.maven.apache.org/maven2
+https://repository.mulesoft.org/nexus/content/repositories/public  mule使用
+</pre> <p>执行下面的语句可以将第三方库cloveretl-engine-3.5.0.ja上传至nexus，注意该命令不能在repository路径下运行 </p><pre class="fragment">mvn org.apache.maven.plugins:maven-deploy-plugin:2.8.2:deploy-file -DgroupId=com.cloveretl -DartifactId=cloveretl-engine -Dversion=3.5.0 -Dpackaging=jar -Dfile=cloveretl-engine-3.5.0.jar -DpomFile=cloveretl-engine-3.5.0.pom -Durl=http://192.168.30.49:8081/repository/third_part/ -DrepositoryId=third_part
+
+mvn org.apache.maven.plugins:maven-deploy-plugin:2.8.2:deploy-file -DgroupId=com.cloveretl -DartifactId=cloveretl-engine -Dversion=3.5.0 -Dpackaging=zip -Dfile=cloveretl-engine-3.5.0.zip -Durl=http://192.168.30.49:8081/repository/third_part/ -DrepositoryId=third_part
+</pre><h1><a class="anchor" id="ref"></a>
+参考</h1>
+<ol type="1">
+<li><a href="https://docs.docker.com/">https://docs.docker.com/</a> docker文档 </li>
+</ol>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

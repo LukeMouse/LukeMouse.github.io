@@ -1,0 +1,252 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">Emacs学习笔记 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>李进安 <hr/>
+ </dd></dl>
+<h1><a class="anchor" id="setup"></a>
+CentOS上编译和安装Emacs24.3</h1>
+<ol type="1">
+<li>谷歌查找Emacs最新版本，当前是24.3版，下载解压</li>
+<li>在解压路径下打开终端并运行./configure 输出如下 <pre class="fragment">configure: error: The following required libraries were not found:
+    libXpm libgif/libungif libtiff
+Maybe some development libraries/packages are missing?
+If you don't want to link with them give
+    --with-xpm=no --with-gif=no --with-tiff=no
+as options to configure
+</pre></li>
+<li>运行如下指令安装，安装缺少的库文件 <pre class="fragment">yum -y groupinstall "Development Tools"
+yum -y install gtk+-devel gtk2-devel
+yum -y install libXpm-devel
+yum -y install libpng-devel
+yum -y install giflib-devel
+yum -y install libtiff-devel libjpeg-devel
+yum -y install ncurses-devel
+yum -y install gpm-devel dbus-devel dbus-glib-devel dbus-python
+yum -y install GConf2-devel pkgconfig
+yum -y install libXft-devel
+</pre></li>
+<li>再次运行congfigure ./configure -prefix=/usr/local -with-x-toolkit=gtk</li>
+<li>make</li>
+<li>make install </li>
+</ol>
+<h1><a class="anchor" id="comcfg"></a>
+自己喜好的配置存放路径设置</h1>
+<p>所有的自己使用的配置文件都存放到rmcfg文件夹下，在~/.emacs 中添加：(add-to-list 'load-path "~/rmcfg")</p>
+<h1><a class="anchor" id="bakground"></a>
+修改背景色</h1>
+<p>Emacs自带的界面背景有点挫，根据网上的经验建议使用了color库，下载最新版本的color theme，当前版本是6.6.0，解压后，将其中的color-theme.el和theme文件夹解压到rmcfg文件夹下面，在~/.emacs 中添加：</p>
+<pre class="fragment">(require 'color-theme)
+(color-theme-initialize)
+(color-theme-classic)
+</pre> <p>网上有人推荐使用黑板主题，先将下面的内容添加到color-theme-library.el最后,以后就可以通过M-x color-theme-blackboard和color-theme-blackboard-ex使用这种主题</p>
+<pre class="fragment">;; Blackboard Colour Theme for Emacs.
+;;
+;; Defines a colour scheme resembling that of the original TextMate Blackboard colour theme.
+;; To use add the following to your .emacs file (requires the color-theme package):
+;;
+;; (require 'color-theme)
+;; (color-theme-initialize)
+;; (load-file "~/.emacs.d/themes/color-theme-blackboard.el")
+;;
+;; And then (color-theme-blackboard) to activate it.
+;;
+;; MIT License Copyright (c) 2008 JD Huntington &lt;jdhuntington at gmail dot com&gt;
+;; Credits due to the excellent TextMate Blackboard theme
+;;
+;; All patches welcome
+
+(defun color-theme-blackboard ()
+  "Color theme by JD Huntington, based off the TextMate Blackboard theme, created 2008-11-27"
+  (interactive)
+  (color-theme-install
+   '(color-theme-blackboard
+     ((background-color . "#0C1021")
+      (background-mode . dark)
+      (border-color . "black")
+      (cursor-color . "#A7A7A7")
+      (foreground-color . "#F8F8F8")
+      (mouse-color . "sienna1"))
+     (default ((t (:background "#0C1021" :foreground "#F8F8F8"))))
+     (blue ((t (:foreground "blue"))))
+     (bold ((t (:bold t))))
+     (bold-italic ((t (:bold t))))
+     (border-glyph ((t (nil))))
+     (buffers-tab ((t (:background "#0C1021" :foreground "#F8F8F8"))))
+     (font-lock-builtin-face ((t (:foreground "#F8F8F8"))))
+     (font-lock-comment-face ((t (:italic t :foreground "#AEAEAE"))))
+     (font-lock-constant-face ((t (:foreground "#D8FA3C"))))
+     (font-lock-doc-string-face ((t (:foreground "DarkOrange"))))
+     (font-lock-function-name-face ((t (:foreground "#FF6400"))))
+     (font-lock-keyword-face ((t (:foreground "#FBDE2D"))))
+     (font-lock-preprocessor-face ((t (:foreground "Aquamarine"))))
+     (font-lock-reference-face ((t (:foreground "SlateBlue"))))
+
+     (font-lock-regexp-grouping-backslash ((t (:foreground "#E9C062"))))
+     (font-lock-regexp-grouping-construct ((t (:foreground "red"))))
+
+     (font-lock-string-face ((t (:foreground "#61CE3C"))))
+     (font-lock-type-face ((t (:foreground "#8DA6CE"))))
+     (font-lock-variable-name-face ((t (:foreground "#FF6400"))))
+     (font-lock-warning-face ((t (:bold t :foreground "Pink"))))
+     (gui-element ((t (:background "#D4D0C8" :foreground "black"))))
+     (region ((t (:background "#253B76"))))
+     (mode-line ((t (:background "grey75" :foreground "black"))))
+     (highlight ((t (:background "#222222"))))
+     (highline-face ((t (:background "SeaGreen"))))
+     (italic ((t (nil))))
+     (left-margin ((t (nil))))
+     (text-cursor ((t (:background "yellow" :foreground "black"))))
+     (toolbar ((t (nil))))
+     (underline ((nil (:underline nil))))
+     (zmacs-region ((t (:background "snow" :foreground "ble")))))));; Generated by JD Huntington using scpaste at Thu Nov 27 11:54:22 2008.
+
+
+;; Blackboard Colour Theme for Emacs.
+;;
+;; Defines a colour scheme resembling that of the original TextMate Blackboard colour theme.
+;; To use add the following to your .emacs file (requires the color-theme package):
+;;
+;; (require 'color-theme)
+;; (color-theme-initialize)
+;; (load-file "~/.emacs.d/themes/color-theme-blackboard.el")
+;;
+;; And then (color-theme-blackboard) to activate it.
+;;
+;; MIT License Copyright (c) 2008 JD Huntington
+;; Credits due to the excellent TextMate Blackboard theme
+;;
+;; All patches welcome
+
+(defun color-theme-blackboard-ex ()
+  "Color theme by JD Huntington, based off the TextMate Blackboard theme, created 2008-11-27"
+  (interactive)
+  (color-theme-install
+   '(color-theme-blackboard-ex
+     (
+      ;; (background-color . "#0C1021")
+      (background-color . "black")
+      (background-mode . dark)
+      (border-color . "black")
+      (cursor-color . "#A7A7A7")
+      (foreground-color . "#F8F8F8")
+      (mouse-color . "sienna1"))
+     ;; (default ((t (:background "#0C1021" :foreground "#F8F8F8"))))
+     (default ((t (:background "black" :foreground "#F8F8F8"))))
+     (blue ((t (:foreground "blue"))))
+     (bold ((t (:bold t))))
+     (bold-italic ((t (:bold t))))
+     (border-glyph ((t (nil))))
+     (buffers-tab ((t (:background "#0C1021" :foreground "#F8F8F8"))))
+     (font-lock-builtin-face ((t (:foreground "#F8F8F8"))))
+     (font-lock-comment-face ((t (:italic t :foreground "#AEAEAE"))))
+     (font-lock-constant-face ((t (:foreground "#D8FA3C"))))
+     (font-lock-doc-string-face ((t (:foreground "DarkOrange"))))
+     (font-lock-function-name-face ((t (:foreground "#FF6400"))))
+     (font-lock-keyword-face ((t (:foreground "#FBDE2D"))))
+     (font-lock-preprocessor-face ((t (:foreground "Aquamarine"))))
+     (font-lock-reference-face ((t (:foreground "SlateBlue"))))
+
+     (font-lock-regexp-grouping-backslash ((t (:foreground "#E9C062"))))
+     (font-lock-regexp-grouping-construct ((t (:foreground "red"))))
+
+     (font-lock-string-face ((t (:foreground "#61CE3C"))))
+     (font-lock-type-face ((t (:foreground "#8DA6CE"))))
+     ;(font-lock-variable-name-face ((t (:foreground "#FF6400"))))
+     (font-lock-variable-name-face ((t (:foreground "#40E0D0"))))
+     (font-lock-warning-face ((t (:bold t :foreground "Pink"))))
+     (gui-element ((t (:background "#D4D0C8" :foreground "black"))))
+     (region ((t (:background "#253B76"))))
+     (mode-line ((t (:background "grey75" :foreground "black"))))
+     ;(highlight ((t (:background "#222222"))))
+     (highlight ((t (:background "#001"))))
+     (highline-face ((t (:background "SeaGreen"))))
+     (italic ((t (nil))))
+     (left-margin ((t (nil))))
+     (text-cursor ((t (:background "yellow" :foreground "black"))))
+     (toolbar ((t (nil))))
+     (underline ((nil (:underline nil))))
+     (zmacs-region ((t (:background "snow" :foreground "ble")))))))
+;;; color-theme-library.el ends here
+</pre> <p>将原有配置的(color-theme-classic)修改为(color-theme-blackboard)，默认使用黑板主题</p>
+<h1><a class="anchor" id="wyconfig"></a>
+摘录王垠的几个设置</h1>
+<p>通过浏览学习王垠的Emacs配置，觉得其中的几个配置不错，将其添加到了自己的配置文件中，添加的内容如下：</p>
+<pre class="fragment">;; Add menu item show recently browsed or modified files
+(require 'session)
+  (add-hook 'after-init-hook 'session-initialize)
+;;; Save last file open record, you can yuse command
+;;; M-x desktop-clear to erase memeried content if you
+;;;feel the buffer is too big, but a good idea is to use
+;;; the following ibuffer configure to manager these buffer
+(load "desktop")
+(desktop-load-default)
+(desktop-read)
+;;; use the following configure to repalce the common C-x C-b with convenient ibuffer
+(require 'ibuffer)
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+;;; browse the cut content in buffer
+(require 'browse-kill-ring)
+(global-set-key [(control c)(k)] 'browse-kill-ring)
+(browse-kill-ring-default-keybindings)
+;;; Quickly browse buffer with ido.cl
+(require 'ido)
+(ido-mode t)
+;;; Use TAB page to show multi page
+(require 'tabbar)
+(tabbar-mode)
+(global-set-key (kbd "") 'tabbar-backward-group)
+(global-set-key (kbd "") 'tabbar-forward-group)
+(global-set-key (kbd "") 'tabbar-backward)
+(global-set-key (kbd "") 'tabbar-forward)
+</pre> <h1><a class="anchor" id="xshellcfg"></a>
+xshell下backspace不好用</h1>
+<p>在.emacs下面输入下面的内容即可 </p><pre class="fragment">(global-set-key "\C-h" 'backward-delete-char-untabify)
+(global-set-key "\d" 'delete-char)
+</pre><h1><a class="anchor" id="ibuffer"></a>
+ibuffer使用</h1>
+<p>在.emacs中添加：(global-set-key (kbd "C-x C-b") 'ibuffer) 使得在按下C-x C-b时进入ibuffer而不是默认的buff。在ibuffer下，可以使用m标记buffer中的文件，标记后可以使用k关闭标记的buffer，使用=号比较文件与buffer的差异，使用g命令更新ibuffer内容，使用/-m增加主模式过滤，使用/-&gt;和/-&lt;进行文件尺寸过滤，使用//移除所有过滤</p>
+<h1><a class="anchor" id="bm"></a>
+bookmark的使用</h1>
+<p>使用C-x r m增加书签，使用C-x r b通过书签名字打开文件，使用C-x r l列举所有书签。在列表模式下使用d对书签进行删除标记，使用x删除标记的书签，m添加标签，u删除标签和删除标记。</p>
+<h1><a class="anchor" id="CppEnvironment"></a>
+搭建C++调试编译环境</h1>
+<p>C-M-f和C-M-b在括号之间进行跳转，C-M-k删除括号及里面的内容。C-M-t向前移动光标处的词，C-M-&lt;SPACE&gt;或C-M-@标记内容，C-S-Backspace删除整行。C-d删除光标后的一个字符，M-d删除词在光标后的部分，M-Backspace删除词在光标前的部分，M-k删除整句在光标后面的部分；如果没有高亮，M-;将会在光标所在的句尾添加注释，有高亮部分时，将会给高亮部分在各行行首添加注释。</p>
+<h1><a class="anchor" id="ffap"></a>
+常用技巧</h1>
+<ul>
+<li>M-x ffap相当于命令find-file-at-point，如果光标位于一个路径字符串上，这个命令将会在该路径内开启查找文件</li>
+<li>M-X ido-mode开启ido模式，该模式可在输入路径或命令时按TAB键实现自动补全，启用后ido用于大部分需要从列表中选择的令，注意事项：<ol type="1">
+<li>如果需要使用通配符表达式，必须通过C-f临时切换回常规的find-file</li>
+<li>如果想使用C-x d选择当前路径，这将触发Dired文件管理来打开路径并列举当前路径的文件，通过C-x k和RET关闭列表</li>
+<li>在find-file提示符下选择一个路径按下RET而不是TAB</li>
+</ol>
+</li>
+<li>M-x auto-complete-mode开启自动补全，该功能在文本编辑时默认没有开启。</li>
+<li>'shadow'现象很常见。除了前面提到的'shadow'内置插件，elpa安装的插件的新版本会'shadow'旧版本。请记住一个非常有用的命令，list-load-path-shadows，它可以总结所有插件当前的'shadow'状态。现在，请你自己键入M-x list-load-path-shadows RET，然后阅读下返回的信息。'shadow'之所以发生，是因为load-path中包含了同一个插件多个版本的脚本路径，哪个版本排在前面就使用哪个。 </li>
+</ul>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

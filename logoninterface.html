@@ -1,0 +1,72 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">Windows系统登录接口总结 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><hr/>
+ <h1><a class="anchor" id="ICPC"></a>
+ICredentialProviderCredential接口</h1>
+<p>该接口提供了处理特殊认证的方法。列举如下：</p>
+<ul>
+<li>Advise 允许认证通过回调函数在登录或认证界面除触发事件，这个函数需要在该接口的其他接口调用前被调用，其参数为接口ICredentialProviderCredentialEvents的指针。</li>
+<li>CommandLinkClicked 响应字段ID指定的命令链接被点击的事件（<b>不清楚字段ID和命令链接的含义</b>）</li>
+<li>GetBitmapValue 使用一个bitmap域接收认证的bitmap图片，（用户头像缩略图？）</li>
+<li>GetCheckboxValue 通过字段ID获取指定复选框的选中状态及标识文字</li>
+<li>GetComboBoxValueAt 获取指定字段ID标识的ComboBox组合框指定索引的文字</li>
+<li>GetComboBoxValueCount 获取指定字段ID标识的ComboBox组合框中条目数及当前选中的索引</li>
+<li>GetFieldState 获取指定域的状态，CREDENTIAL_PROVIDER_FIELD_STATE和CREDENTIAL_PROVIDER_FIELD_INTERACTIVE_STATE 枚举；</li>
+<li>GetSerialization 响应试图将该凭证提交到底层认证引擎时被调用，返回值包括：CREDENTIAL_PROVIDER_GET_SERIALIZATION_RESPONSE枚举 、CREDENTIAL_PROVIDER_CREDENTIAL_SERIALIZATION结构体、Unicode字符串或NULL、CREDENTIAL_PROVIDER_STATUS_ICON enumeration枚举。</li>
+<li>GetStringValue 获取指定字段ID处的字符串数据</li>
+<li>GetSubmitButtonValue 检索界面中提交按钮应在其后的字段的标识符。提交按钮没有进行标记，改函数提供了通用的引用提交按钮的方法。该按钮通常表现为一个圆按钮中有一个向右的箭头，这一样式在后续版本中可能会发生变化，更多信息可以参考CREDENTIAL_PROVIDER_FIELD_TYPE。</li>
+<li>ReportResult 将接收到的错误状态码翻译成可被读懂的信息，输入状态和子状态，返回指向状态信息文本的指针或NULL及 CREDENTIAL_PROVIDER_STATUS_ICON枚举。该方法在登录界面使用，认证界面是一个可选项。</li>
+<li>SetCheckboxValue 设置指定字段ID对应的复选框的状态</li>
+<li>SetComboBoxSelectedValue 设置指定字段ID标识的组合框的当前选中项</li>
+<li>SetDeselected 认证失去选中状态时调用，认证提供程序使用该方法清理所有的诸如密码和PIN等敏感信息，并在析构函数中释放它们。</li>
+<li>SetSelected 认证被选中时调用。使认证提供程序的实现可以设置登录的特点，如其传出参数为指向的值TRUE，表示选中的认证需要尝试立即登录和自动登录。如认证提供程序不提供密码枚举一个账户时可以将返回值设置为true</li>
+<li>SetStringValue 使认证可以使用登录或认证UI替换指定字段ID的文本。</li>
+<li>UnAdvise 反初始化登录和认证UI，不再接收事件回调。 </li>
+</ul>
+<h2><a class="anchor" id="cpbp"></a>
+认证提供程序最佳实践</h2>
+<p>认证提供程序为了完成登录或解锁请求，需要处理极为敏感的用户秘密。作为最佳实践，对于秘密信息如密码和PIN要尤为小心，认证提供程序处理秘密信息的时候合适的做法如下：</p><ul>
+<li>安全的丢弃秘密信息，在释放保存秘密信息的内存前调用SecureZeroMemory</li>
+<li>使用完秘密数据后及时的进行安全丢弃；</li>
+<li>在预期的时间内没有按照预期目的使用，则将秘密信息安全的丢弃； </li>
+</ul>
+<h1><a class="anchor" id="icpseti"></a>
+ICredentialProvider接口</h1>
+<p>该接口提供了安装和管理认证提供程序的方法，所有的认证提供程序必须实现该接口。其对外接口如下：</p>
+<ul>
+<li>Advise 允许认证提供程序通过回调方式在登录或认证UI触发事件。</li>
+<li>GetCredentialAt 得到指定的认证，输入本认证的索引，获得指向ICredentialProviderCredential指针的指针，本认证的索引可以通过ICredentialProvider::GetCredentialCount获取。该函数可以在登录界面与GetCredentialCount一起使用来枚举认证</li>
+<li>GetCredentialCount 获取本认证提供程序可获取的认证的个数；返回认证个数、默认认证索引（如无默认认证返回CREDENTIAL_PROVIDER_NO_DEFAULT）、一个BOOL指针用以指示由默认认证标识的认证是否用于自动登录尝试。</li>
+<li>GetFieldDescriptorAt 获取描述特定字段的元数据。获取的结果记录在CREDENTIAL_PROVIDER_FIELD_DESCRIPTOR 结构体中；</li>
+<li>GetFieldDescriptorCount 获取UI上用于显示本提供程序的认证字段的个数；</li>
+<li>SetSerialization 设置本认证提供程序的序列化特征；使用<b> CREDENTIAL_PROVIDER_CREDENTIAL_SERIALIZATION </b>结构体作为参数</li>
+<li>SetUsageScenario 定义本验证提供程序有效的场景，认证提供程序初始化时调用；使用了CREDENTIAL_PROVIDER_USAGE_SCENARIO枚举来指定在何种情况下登录UI应该知道它是否支持。</li>
+<li>UnAdvise 在登录或认证界面用于告知认证提供程序将不再接收事件回调 </li>
+</ul>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

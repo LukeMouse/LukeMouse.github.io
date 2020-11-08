@@ -1,0 +1,115 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">cloudera5.4.8安装笔记 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>李进安 <hr/>
+ </dd></dl>
+<h1><a class="anchor" id="prepfsd"></a>
+安装前的准备</h1>
+<p>分别在下面的链接中下载Cloudera Manager和CDH及其校验文件，后面的安装将使用5.4.8进行演示 </p><pre class="fragment">http://archive.cloudera.com/cm5/cm/5/cloudera-manager-el6-cm5.4.8_x86_64.tar.gz
+http://archive.cloudera.com/cdh5/parcels/5.4.8/CDH-5.4.8-1.cdh5.4.8.p0.4-el6.parcel
+http://archive.cloudera.com/cdh5/parcels/5.4.8/CDH-5.4.8-1.cdh5.4.8.p0.4-el6.parcel.sha1
+</pre> <p>设备规划：使用四台云平台的主机，IP地址、hostname及规划如下 </p><pre class="fragment">172.16.0.105 sdw1.com sdw1
+172.16.0.123 sdw2.com sdw2
+172.16.0.125 sdw3.com sdw3
+172.16.0.131 sdw4.com sdw4
+
+172.16.0.105    mdw         master节点
+172.16.0.123    sdw1        数据节点1
+172.16.0.131    sdw2        数据节点2
+172.16.0.125    sdw3        数据节点3
+</pre><p> 按照上面的规划编辑4台机器的/etc/sysconfig/network文件中的HOSTNAME，并将NETWORKING的值修改为yes，修改完成后执行service network restart重启网络服务生效；编辑/etc/hosts,修改ip与主机名的对应关系，增加的内容如下: </p><pre class="fragment">172.16.0.105 sdw1.com sdw1
+172.16.0.123 sdw2.com sdw2
+172.16.0.125 sdw3.com sdw3
+172.16.0.131 sdw4.com sdw4
+
+172.16.0.105 mdw.com mdw
+172.16.0.123 sdw1.com sdw1
+172.16.0.131 sdw2.com sdw2
+172.16.0.125 sdw3.com sdw3
+</pre><p>关闭防火墙（所有节点） </p><pre class="fragment">chkconfig iptables off        //永远关闭-重启后生效
+service iptables stop      //临时关闭-不用重启
+</pre><p> 关闭SELinux（所有节点） 使用getenforce查看是否关闭：如返回值不是Disabled，修改/etc/selinux/config 文件，将SELINUX=enforcing改为SELINUX=disabled，修改完成后重启机器生效。</p>
+<p>创建cloudera用户，并为其添加sudo权限 </p><pre class="fragment">groupadd cloudera
+useradd -g cloudera cloudera
+passwd cloudera
+</pre><p>生成私钥和公钥（主节点) </p><pre class="fragment">ssh-keygen -t rsa
+</pre><p> 1.2 把公钥添加到认证文件中 #cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys</p>
+<p>重命名节点的公钥（所有节点） </p><pre class="fragment">cp id_rsa.pub authorized_keys_Master   #在mdw上/home/cloudera/.ssh执行
+cp id_rsa.pub authorized_keys_Worker1  #在sdw1上/home/cloudera/.ssh执行
+cp id_rsa.pub authorized_keys_Worker2  #在sdw2上/home/cloudera/.ssh执行
+cp id_rsa.pub authorized_keys_Worker3  #在sdw3上/home/cloudera/.ssh执行
+</pre><p> 把从节点（Worker）的公钥拷贝到主节点（Master）的.ssh目录下 </p><pre class="fragment">scp authorized_keys_Worker1 cloudera@mdw:/home/cloudera/.ssh
+scp authorized_keys_Worker1 cloudera@mdw:/home/cloudera/.ssh
+scp authorized_keys_Worker1 cloudera@mdw:/home/cloudera/.ssh
+</pre><p> 然后在Master的.ssh目录下查看 </p><pre class="fragment">[cloudera@mdw .ssh]$ ll
+total 24
+-rw-r--r-- 1 cloudera cloudera  394 Dec 10 13:05 authorized_keys_Master
+-rw-r--r-- 1 cloudera cloudera  395 Dec 10 13:32 authorized_keys_Worker1
+-rw-r--r-- 1 cloudera cloudera  395 Dec 10 13:32 authorized_keys_Worker2
+-rw-r--r-- 1 cloudera cloudera  395 Dec 10 13:33 authorized_keys_Worker3
+-rw------- 1 cloudera cloudera 1675 Dec 10 12:55 id_rsa
+-rw-r--r-- 1 cloudera cloudera  394 Dec 10 12:55 id_rsa.pub
+</pre><p> 将所有节点的公钥信息保存到主节点下的authorized_keys（新生成的）文件中 </p><pre class="fragment">[cloudera@mdw .ssh]$ cat authorized_keys_Master &gt;&gt; authorized_keys
+[cloudera@mdw .ssh]$ cat authorized_keys_Worker1 &gt;&gt; authorized_keys
+[cloudera@mdw .ssh]$ cat authorized_keys_Worker2 &gt;&gt; authorized_keys
+[cloudera@mdw .ssh]$ cat authorized_keys_Worker3 &gt;&gt; authorized_keys
+</pre><p> 把authorized_keys文件拷贝到从节点上去 </p><pre class="fragment">[cloudera@mdw .ssh]$ scp authorized_keys cloudera@sdw1:/home/cloudera/.ssh
+The authenticity of host 'sdw1 (172.16.0.123)' can't be established.
+RSA key fingerprint is bc:90:10:67:71:9c:e5:01:69:7d:fa:ed:7c:04:c3:77.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'sdw1,172.16.0.123' (RSA) to the list of known hosts.
+cloudera@sdw1's password:
+authorized_keys                                             100% 1579     1.5KB/s   00:00
+[cloudera@mdw .ssh]$ scp authorized_keys cloudera@sdw2:/home/cloudera/.ssh
+The authenticity of host 'sdw2 (172.16.0.131)' can't be established.
+RSA key fingerprint is bc:90:10:67:71:9c:e5:01:69:7d:fa:ed:7c:04:c3:77.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'sdw2,172.16.0.131' (RSA) to the list of known hosts.
+cloudera@sdw2's password:
+authorized_keys                                             100% 1579     1.5KB/s   00:00
+[cloudera@mdw .ssh]$ scp authorized_keys cloudera@sdw3:/home/cloudera/.ssh
+The authenticity of host 'sdw3 (172.16.0.125)' can't be established.
+RSA key fingerprint is bc:90:10:67:71:9c:e5:01:69:7d:fa:ed:7c:04:c3:77.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'sdw3,172.16.0.125' (RSA) to the list of known hosts.
+cloudera@sdw3's password:
+authorized_keys                                             100% 1579     1.5KB/s   00:00
+</pre><p> 设置.SSH 目录权限(所有节点)，然后测试到所有节点的ssh登录 </p><pre class="fragment">[cloudera@mdw .ssh]$ ssh sdw1
+[cloudera@sdw1 ~]$exit
+logout
+Connection to sdw1 closed.
+[cloudera@mdw .ssh]$ ssh sdw2
+[cloudera@sdw2 ~]$exit
+logout
+Connection to sdw2 closed.
+[cloudera@mdw .ssh]$ ssh sdw3
+[cloudera@sdw3 ~]$exit
+logout
+Connection to sdw3 closed.
+</pre><p> 这样Master和各个Worker之间就能够相互通信了—Master可以通过ssh连接到Worker1,Worker2,Worker3; Worker1,Worker2,Worker3可以通过ssh连接到Master </p>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

@@ -1,0 +1,989 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML><HEAD></HEAD><BODY>
+<OBJECT type="text/site properties">
+<param name="FrameName" value="right">
+</OBJECT>
+<UL>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="ACE_TAO相关文档整理"><param name="Local" value="_a_c_e__t_a_o__index.html"><param name="ImageNumber" value="1"></OBJECT>
+  <UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="ACE_DEBUG 格式化参数说明"><param name="Local" value="adformatstring.html"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="ACE主动对象模式"><param name="Local" value="ao.html"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="MPC常用配置"><param name="Local" value="_common_m_p_c_config.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="常用模板文件说明"><param name="Local" value="_common_m_p_c_config.html#templateusage"><param name="ImageNumber" value="11"></OBJECT>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="ACE反应器(Reactor)模式"><param name="Local" value="ace_reactor.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="ACE反应器框架简介"><param name="Local" value="ace_reactor.html#frameintro"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Socket编程中的事件处理器"><param name="Local" value="ace_reactor.html#sockeevent"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="使用Reactor框架。"><param name="Local" value="ace_reactor.html#userea"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="一．建立一个客户端对象（事件处理器）。"><param name="Local" value="ace_reactor.html#buildclient"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="二．重载相应回调处理函数"><param name="Local" value="ace_reactor.html#olcb"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="三．在Reactor中注册事件"><param name="Local" value="ace_reactor.html#regrea"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="四．启动Reactor事件循环"><param name="Local" value="ace_reactor.html#startre"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="五．注销Reactor事件"><param name="Local" value="ace_reactor.html#unregevent"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="在服务器端使用Reactor框架"><param name="Local" value="ace_reactor.html#useinserver"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="定时器的实现"><param name="Local" value="ace_reactor.html#timerreliaze"><param name="ImageNumber" value="11"></OBJECT>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="TAO维基百科翻译"><param name="Local" value="tao_wiki.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="应用领域"><param name="Local" value="tao_wiki.html#doa"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="优势"><param name="Local" value="tao_wiki.html#advan"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="常用概念列举"><param name="Local" value="tao_wiki.html#fcpre"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="缺点"><param name="Local" value="tao_wiki.html#diswa"><param name="ImageNumber" value="1"></OBJECT>
+        <UL>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="暂停执行"><param name="Local" value="tao_wiki.html#soex"><param name="ImageNumber" value="11"></OBJECT>
+        </UL>
+      </UL>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="MPC配置一起学"><param name="Local" value="mpc_follow_me.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="前言"><param name="Local" value="mpc_follow_me.html#prefmp"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="MPC是什么？"><param name="Local" value="mpc_follow_me.html#whatMPC"><param name="ImageNumber" value="11"></OBJECT>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="MPC生成Windows安卓交叉编译C++可执行文件"><param name="Local" value="mpc_for_android.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="第一步 准备环境"><param name="Local" value="mpc_for_android.html#prefmpqq"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="第二步 编写测试代码"><param name="Local" value="mpc_for_android.html#sdfad"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="第三步 编写mpb文件"><param name="Local" value="mpc_for_android.html#fshdkduyqw"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="第四步 编写mpc文件与生成脚本文件"><param name="Local" value="mpc_for_android.html#fshdfdskduyqw"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="生成32位版本"><param name="Local" value="mpc_for_android.html#sdasijfisd"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="生成64位版本"><param name="Local" value="mpc_for_android.html#sdasijsdjhsdfisd"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="第五步 生成与测试"><param name="Local" value="mpc_for_android.html#dfgdgdskduyqw"><param name="ImageNumber" value="11"></OBJECT>
+    </UL>
+  </UL>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="如何编译"><param name="Local" value="how_to_compile.html"><param name="ImageNumber" value="1"></OBJECT>
+  <UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="boost库编译指南"><param name="Local" value="boost_compile.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="编译选项说明"><param name="Local" value="boost_compile.html#prp"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="命名解读"><param name="Local" value="boost_compile.html#nam"><param name="ImageNumber" value="11"></OBJECT>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="编译openssl"><param name="Local" value="cmpopenssl.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="编译前的准备"><param name="Local" value="cmpopenssl.html#prep1"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="使用vs2008编译32位版本"><param name="Local" value="cmpopenssl.html#cmpwin32"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="使用vs2008编译x64位版本"><param name="Local" value="cmpopenssl.html#cmpwin64"><param name="ImageNumber" value="11"></OBJECT>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="编译带加解密功能的sqlite"><param name="Local" value="cmbsqlite.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="摘录1"><param name="Local" value="cmbsqlite.html#coll001"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="摘录2（From http://blog.sina.com.cn/s/blog_648d306d0101jzfc.html）"><param name="Local" value="cmbsqlite.html#coll002"><param name="ImageNumber" value="11"></OBJECT>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="编译gSOAP框架工具"><param name="Local" value="cmpg_s_o_a_p.html"><param name="ImageNumber" value="11"></OBJECT>
+  </UL>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="C++字符编码相关知识整理"><param name="Local" value="_cpp_charset_index.html"><param name="ImageNumber" value="1"></OBJECT>
+  <UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="cout和wcout、ofstream和wofstream、printf和wprintf"><param name="Local" value="consoleout.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="1、cout和wcout"><param name="Local" value="consoleout.html#coutwcout"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="2、ofstream和wofstream"><param name="Local" value="consoleout.html#ofstreamwofstream"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="3、printf和wprintf"><param name="Local" value="consoleout.html#printwprint"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="总结："><param name="Local" value="consoleout.html#summtimehe"><param name="ImageNumber" value="11"></OBJECT>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="彻底解密C++宽字符"><param name="Local" value="char__convert.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="1、从char到wchar_t"><param name="Local" value="char__convert.html#chartowchar"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="从字符到整数"><param name="Local" value="char__convert.html#chartoint"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="本地化策略集（locale）"><param name="Local" value="char__convert.html#localstra"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="C/C++的编译策略"><param name="Local" value="char__convert.html#compist"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="宽字符 wchar_t"><param name="Local" value="char__convert.html#widechar"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="2、Unicode和UTF"><param name="Local" value="char__convert.html#nuicoandutf"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="Unicode和UCS"><param name="Local" value="char__convert.html#ucsanduni"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="Unicode和UTF"><param name="Local" value="char__convert.html#uniandutf"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="UTF-8和Windows GB2312"><param name="Local" value="char__convert.html#utfandgb"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="UTF-16和UCS-2"><param name="Local" value="char__convert.html#utf16ucs"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="UTF-32和UCS-4"><param name="Local" value="char__convert.html#utfanducs4"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="BOM"><param name="Local" value="char__convert.html#bom"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="3、利用C运行时库函数转换"><param name="Local" value="char__convert.html#convertwithc"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="std::locale"><param name="Local" value="char__convert.html#ablocale"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="mbstowcs()和wcstombs()"><param name="Local" value="char__convert.html#tfun"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="4、利用codecvt和use_facet转换"><param name="Local" value="char__convert.html#usecodecvt"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="locale和facet"><param name="Local" value="char__convert.html#tfunlf"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="codecvt"><param name="Local" value="char__convert.html#codecvtabout"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="内部编码和外部编码"><param name="Local" value="char__convert.html#inoutcode"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="CodecvtFacet的in()和out()"><param name="Local" value="char__convert.html#codevtinout"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="5、利用fstream转换"><param name="Local" value="char__convert.html#usefstream"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="C++的流和本地化策略集"><param name="Local" value="char__convert.html#cppstlo"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="6、国际化策略（完）"><param name="Local" value="char__convert.html#internationalst"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="硬编码的硬伤"><param name="Local" value="char__convert.html#hchh"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="补救"><param name="Local" value="char__convert.html#remedy"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="Windows的策略"><param name="Local" value="char__convert.html#Winstra"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="Linux的策略"><param name="Local" value="char__convert.html#linstra"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="跨平台策略"><param name="Local" value="char__convert.html#btplastra"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="gettext策略"><param name="Local" value="char__convert.html#gettstra"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="更多"><param name="Local" value="char__convert.html#morewhat"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="软件开发者必须知道的最基本的Unicode字符集"><param name="Local" value="unicode_encode.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="历史视角"><param name="Local" value="unicode_encode.html#historypers"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Unicode"><param name="Local" value="unicode_encode.html#Unicode_Uni"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="编码"><param name="Local" value="unicode_encode.html#encodings"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="关于编码最重要的因素"><param name="Local" value="unicode_encode.html#smifae"><param name="ImageNumber" value="11"></OBJECT>
+    </UL>
+  </UL>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="C++调试相关总结"><param name="Local" value="debug_knowledge.html"><param name="ImageNumber" value="1"></OBJECT>
+  <UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="如何安装并使用Windows Symbol"><param name="Local" value="winsymbol.html"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="How to debug a Credential Provider locally"><param name="Local" value="dbg_c_p.html"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="Windows调试技术"><param name="Local" value="_windows_debug_main.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Windows调试技术第一部分&ndash;使用Windbg调试应用程序崩溃"><param name="Local" value="_windows_debug1.html"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="简介"><param name="Local" value="_windows_debug1.html#intr"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="前期准备"><param name="Local" value="_windows_debug1.html#prereq"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="背景知识"><param name="Local" value="_windows_debug1.html#background"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="定义"><param name="Local" value="_windows_debug1.html#Definition"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="调试技术"><param name="Local" value="_windows_debug1.html#DebugTech"><param name="ImageNumber" value="1"></OBJECT>
+        <UL>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="第一步、定位出错模块"><param name="Local" value="_windows_debug1.html#locError"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="第二步、获取崩溃转储（Crash Dump）"><param name="Local" value="_windows_debug1.html#retrivecd"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="第三步、分析崩溃转储（Crash Dump）"><param name="Local" value="_windows_debug1.html#anacd"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="第四步、修正问题并发布"><param name="Local" value="_windows_debug1.html#step4"><param name="ImageNumber" value="11"></OBJECT>
+        </UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="优化"><param name="Local" value="_windows_debug1.html#optimization"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="pdb文件"><param name="Local" value="_windows_debug1.html#pdbfile"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="总结"><param name="Local" value="_windows_debug1.html#summ"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Windows调试技术第二部分&ndash;使用DebugDiag和AppVerifier调试应用程序崩溃"><param name="Local" value="_windows_debug2.html"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="简介"><param name="Local" value="_windows_debug2.html#intr2"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="前期准备"><param name="Local" value="_windows_debug2.html#prereq2"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="背景知识"><param name="Local" value="_windows_debug2.html#backg"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="DebugDiag"><param name="Local" value="_windows_debug2.html#dedi"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="Application Verifier(应用程序验证工具)"><param name="Local" value="_windows_debug2.html#appverify"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="总结"><param name="Local" value="_windows_debug2.html#summ2"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Windows调试技术第三部分&ndash;调试应用程序崩溃（自动生成转储）"><param name="Local" value="_windows_debug3.html"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="简介"><param name="Local" value="_windows_debug3.html#intr3"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="背景信息"><param name="Local" value="_windows_debug3.html#background3"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="定义"><param name="Local" value="_windows_debug3.html#definition"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="源代码"><param name="Local" value="_windows_debug3.html#SC"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="小结"><param name="Local" value="_windows_debug3.html#summary3"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Windows调试技术第四部分&ndash;调试内存泄露（性能监视器）"><param name="Local" value="_windows_debug4.html"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="简介"><param name="Local" value="_windows_debug4.html#intr4"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="背景信息"><param name="Local" value="_windows_debug4.html#background4"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="定义"><param name="Local" value="_windows_debug4.html#definition4"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="什么导致了内存泄露？"><param name="Local" value="_windows_debug4.html#memleakrea"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="调试技巧"><param name="Local" value="_windows_debug4.html#debugTech"><param name="ImageNumber" value="1"></OBJECT>
+        <UL>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="第一步，在性能监视器中添加性能计数"><param name="Local" value="_windows_debug4.html#step1add"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="第二步、运行实例并观察视图"><param name="Local" value="_windows_debug4.html#stp2run"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="第三步、跟踪代码流程并修复问题"><param name="Local" value="_windows_debug4.html#stp3trace"><param name="ImageNumber" value="11"></OBJECT>
+        </UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="总结"><param name="Local" value="_windows_debug4.html#summp4"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="参考链接"><param name="Local" value="_windows_debug4.html#refp4"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Windows调试技术第五部分&ndash;调试内存泄露（CRT 应用程序接口）"><param name="Local" value="_windows_debug5.html"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="简介"><param name="Local" value="_windows_debug5.html#intr5"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="背景信息"><param name="Local" value="_windows_debug5.html#background5"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="定义"><param name="Local" value="_windows_debug5.html#definition5"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="调试技巧"><param name="Local" value="_windows_debug5.html#detes"><param name="ImageNumber" value="1"></OBJECT>
+        <UL>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="第一步添加CRT调试应用程序接口的头文件"><param name="Local" value="_windows_debug5.html#st1ai"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="映射new操作符到其调试版本"><param name="Local" value="_windows_debug5.html#st2mntd"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="设置调试标识和报告模式"><param name="Local" value="_windows_debug5.html#st3sdf"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="第四步、在调试模式下重编译整个项目"><param name="Local" value="_windows_debug5.html#st4rbdm"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="第五步、启动DebugView运行实例并观察输出"><param name="Local" value="_windows_debug5.html#st5ldwr"><param name="ImageNumber" value="11"></OBJECT>
+        </UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="总结"><param name="Local" value="_windows_debug5.html#sum5"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="Debug与Release版本的区别详解"><param name="Local" value="debug_release_diff.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="相关经验："><param name="Local" value="debug_release_diff.html#refsdd"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="哪些情况下Release版会出错？"><param name="Local" value="debug_release_diff.html#releserr"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="Runtime Library"><param name="Local" value="debug_release_diff.html#rtlib"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="优化"><param name="Local" value="debug_release_diff.html#optimize"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="_DEBUG 与 NDEBUG"><param name="Local" value="debug_release_diff.html#deandnd"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="其他"><param name="Local" value="debug_release_diff.html#elsede"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="内存分配问题"><param name="Local" value="debug_release_diff.html#memprob"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="数据溢出的问题"><param name="Local" value="debug_release_diff.html#dataoutm"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="Visual Studio 远程调试"><param name="Local" value="vc_remote.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="简介"><param name="Local" value="vc_remote.html#prief"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="正文"><param name="Local" value="vc_remote.html#mainbody"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="如何编写可以部署到用户机器上的Debug版本？"><param name="Local" value="vc_remote.html#rundebug"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="VC调试版本与发布版本编译链接选项差异和区别"><param name="Local" value="rel_debug_release.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="链接库"><param name="Local" value="rel_debug_release.html#linklib"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="编译选项"><param name="Local" value="rel_debug_release.html#compileopt"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="Debug版"><param name="Local" value="rel_debug_release.html#debug"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="Release版"><param name="Local" value="rel_debug_release.html#release"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="区别及可能引起的问题"><param name="Local" value="rel_debug_release.html#diffandproblem"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="优化"><param name="Local" value="rel_debug_release.html#Optimization"><param name="ImageNumber" value="1"></OBJECT>
+        <UL>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="帧指针（Frame Pointer）省略（简称 FPO ）"><param name="Local" value="rel_debug_release.html#fpo"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="volatile 型变量："><param name="Local" value="rel_debug_release.html#volatile"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="变量优化"><param name="Local" value="rel_debug_release.html#paramOpt"><param name="ImageNumber" value="11"></OBJECT>
+        </UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="_DEBUG 与 NDEBUG"><param name="Local" value="rel_debug_release.html#debugndebug"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="/GZ 选项"><param name="Local" value="rel_debug_release.html#gzoption"><param name="ImageNumber" value="11"></OBJECT>
+    </UL>
+  </UL>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="数据库相关知识总结"><param name="Local" value="databaserel.html"><param name="ImageNumber" value="1"></OBJECT>
+  <UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="各种数据库的连接字符串"><param name="Local" value="db_conn_string.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Overview"><param name="Local" value="db_conn_string.html#over"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="ODBC DSN Less Connection"><param name="Local" value="db_conn_string.html#dnsless"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="ODBC Driver for dBASE"><param name="Local" value="db_conn_string.html#odfordbase"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="odforexcel"><param name="Local" value="db_conn_string.html#odforexcel"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="odforexceltext"><param name="Local" value="db_conn_string.html#odforexceltext"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="Visual FoxPro"><param name="Local" value="db_conn_string.html#vf"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="ODBC Driver for Access"><param name="Local" value="db_conn_string.html#odforaccess"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="ODBC Driver for SQL Server"><param name="Local" value="db_conn_string.html#odforsqlserver"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="ODBC Driver for Oracle"><param name="Local" value="db_conn_string.html#odfororacle"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="ODBC Driver for MySQL"><param name="Local" value="db_conn_string.html#odformysql"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="ODBC Driver for AS400"><param name="Local" value="db_conn_string.html#odforas400"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="ODBC Driver for SyBase"><param name="Local" value="db_conn_string.html#odforsybase"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="ODBC Driver for Sybase SQL AnyWhere"><param name="Local" value="db_conn_string.html#odfoesybsa"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="DSN Connection"><param name="Local" value="db_conn_string.html#dsnconn"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="DSN"><param name="Local" value="db_conn_string.html#ODBC"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="OLE DB Provider"><param name="Local" value="db_conn_string.html#oledbpro"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="OLE DB Provider for SQL Server"><param name="Local" value="db_conn_string.html#olepforss"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="OLE DB Provider for MySQL (By Todd Smith)"><param name="Local" value="db_conn_string.html#olepforms"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="OLE DB Provider for AS400"><param name="Local" value="db_conn_string.html#olepforas400"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="OLE DB Provider for Active Directory"><param name="Local" value="db_conn_string.html#olepforad"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="OLE DB Provider for DB2"><param name="Local" value="db_conn_string.html#olepfordb2"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="OLE DB Provider for Microsoft Jet"><param name="Local" value="db_conn_string.html#olepforMj"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="OLE DB Provider for ODBC Databases"><param name="Local" value="db_conn_string.html#olepforoddb"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="OLE DB Provider for OLAP"><param name="Local" value="db_conn_string.html#olepforolap"><param name="ImageNumber" value="1"></OBJECT>
+        <UL>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="Connection using HTTP:"><param name="Local" value="db_conn_string.html#connusehttp"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="Using a URL"><param name="Local" value="db_conn_string.html#usurl"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="Using SSL"><param name="Local" value="db_conn_string.html#usssl"><param name="ImageNumber" value="11"></OBJECT>
+        </UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="OLE DB Provider for Oracle"><param name="Local" value="db_conn_string.html#olepforora"><param name="ImageNumber" value="1"></OBJECT>
+        <UL>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="OLE DB Provider for Oracle (from Microsoft)"><param name="Local" value="db_conn_string.html#opforam"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="OLE DB Provider for Oracle (from Oracle)."><param name="Local" value="db_conn_string.html#odpfoo"><param name="ImageNumber" value="11"></OBJECT>
+        </UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="OLE DB Provider for Visual FoxPro"><param name="Local" value="db_conn_string.html#olepforfox"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="OLE DB Provider for Index Server (By Chris Maunder)"><param name="Local" value="db_conn_string.html#olepforidxsvr"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="使用OCI向数据库中插入BLOB字段"><param name="Local" value="oci_blob.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="1、插入空的blob"><param name="Local" value="oci_blob.html#step1"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="2、更新该blob"><param name="Local" value="oci_blob.html#step2"><param name="ImageNumber" value="11"></OBJECT>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="mongodb日常笔记"><param name="Local" value="faqmongo.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="在CentOS下启动提示WARNING: /sys/kernel/mm/transparent_hugepage/enabled is &#39;always&#39;.解决办法"><param name="Local" value="faqmongo.html#warnper"><param name="ImageNumber" value="11"></OBJECT>
+    </UL>
+  </UL>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="linux笔记索引"><param name="Local" value="linux_index.html"><param name="ImageNumber" value="1"></OBJECT>
+  <UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="git服务器的搭建与配置管理"><param name="Local" value="git_server.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="在VMWare中安装ubuntu server"><param name="Local" value="git_server.html#ubtins"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="安装github"><param name="Local" value="git_server.html#instgit"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="客户端配置"><param name="Local" value="git_server.html#gitccfg"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="gitlabce的配置管理"><param name="Local" value="git_server.html#gitlabcewe"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="使用Beyond Compare作为比较合并工具"><param name="Local" value="git_server.html#usebc"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="git命令随笔"><param name="Local" value="git_server.html#radnotgit"><param name="ImageNumber" value="11"></OBJECT>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="在CentOS上安装clang"><param name="Local" value="clanglinux.html"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="Centos Git1.7.1升级到Git2.2.1"><param name="Local" value="gitlinux.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="安装需求："><param name="Local" value="gitlinux.html#prefsd"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="卸载Centos自带的git1.7.1:"><param name="Local" value="gitlinux.html#ungitces"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="下载git2.10.0并将git添加到环境变量中"><param name="Local" value="gitlinux.html#instgi"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="查看版本号"><param name="Local" value="gitlinux.html#fini"><param name="ImageNumber" value="11"></OBJECT>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="CentOS6.7 升级安装Python 2.7.9"><param name="Local" value="centos_python.html"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="Linux常用配置"><param name="Local" value="linuscfg.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="CentOS 7 里为常用程序设置快捷键"><param name="Local" value="linuscfg.html#c7shortcut"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="CentOS 7 设置环境变量"><param name="Local" value="linuscfg.html#c7env"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="升级内核版本（包含aufs）"><param name="Local" value="linuscfg.html#upgken"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="查看现有内核版本"><param name="Local" value="linuscfg.html#sqinr"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="安装ELRepo到cetos系统"><param name="Local" value="linuscfg.html#insrepos"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="查询列出当前的内核版本"><param name="Local" value="linuscfg.html#lstkerv"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="内核版本更新"><param name="Local" value="linuscfg.html#updkersd"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="修改grub配置的启动顺序"><param name="Local" value="linuscfg.html#chagechfee"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="重启系统，使用新的内核"><param name="Local" value="linuscfg.html#rbofs"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="将Centos的yum源更换为国内的阿里云源"><param name="Local" value="linuscfg.html#cfgrepo"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="配置时间"><param name="Local" value="linuscfg.html#cdgtim"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="开机启动后自动联网"><param name="Local" value="linuscfg.html#autonet"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="useradd与adduser"><param name="Local" value="linuscfg.html#usaanadus"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="常用工具"><param name="Local" value="linuscfg.html#usftol"><param name="ImageNumber" value="11"></OBJECT>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="Linux学习笔记"><param name="Local" value="linusdaily.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="mount挂载插入的usb"><param name="Local" value="linusdaily.html#mntusb"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Linux 添加开机启动项的三种方法"><param name="Local" value="linusdaily.html#autostartlin"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="编辑文件 /etc/rc.local"><param name="Local" value="linusdaily.html#edtrcloc"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="自己写一个shell脚本"><param name="Local" value="linusdaily.html#selfsc"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="通过chkconfig命令设置"><param name="Local" value="linusdaily.html#thrckhcfg"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="安装VNC Server支持远程桌面"><param name="Local" value="linusdaily.html#instvnc"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="oracle静默安装"><param name="Local" value="linusdaily.html#instoracl"><param name="ImageNumber" value="11"></OBJECT>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="生产环境下Centos 6.5优化配置"><param name="Local" value="centos_prod_config.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="centos 6.5 优化 的项有18处:"><param name="Local" value="centos_prod_config.html#opt_items"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="启动网卡"><param name="Local" value="centos_prod_config.html#enableweca"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="SSH链接 ifconfig 查看IP后SSH终端连接。"><param name="Local" value="centos_prod_config.html#sshlnk"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="更新源"><param name="Local" value="centos_prod_config.html#updsfhaf"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="系统时间更新和设定定时任务"><param name="Local" value="centos_prod_config.html#udtaahgad"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="修改ip地址、网关、主机名、DNS #eth0"><param name="Local" value="centos_prod_config.html#jfasjaun"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="关闭selinux，清空iptables 在服务器配置完全成功后各项服务正常后，在开启selinux"><param name="Local" value="centos_prod_config.html#shufsdfnc"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="创建普通用户并进行sudo授权管理"><param name="Local" value="centos_prod_config.html#crafajdjfs"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="修改SSH端口号和屏蔽root账号远程登陆"><param name="Local" value="centos_prod_config.html#fhsdjkhfakj"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="重新载入SSH配置"><param name="Local" value="centos_prod_config.html#fdsjfdal"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="锁定关键文件系统（禁止非授权用户获得权限）"><param name="Local" value="centos_prod_config.html#锁定关键文件系统（禁止非授权用户获得权限）"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="精简开机自启动服务"><param name="Local" value="centos_prod_config.html#精简开机自启动服务"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="调整文件描述符大小"><param name="Local" value="centos_prod_config.html#adjksdf"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="设置系统字符集"><param name="Local" value="centos_prod_config.html#hfjsad"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="清理登陆的时候显示的系统及内核版本"><param name="Local" value="centos_prod_config.html#dkajuicn"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="内核参数优化 vi /etc/sysctl.conf"><param name="Local" value="centos_prod_config.html#kernaskf"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="如果安装sendmail必须定时自动清理/var/spool/clientmqueue/下文件防止inode节点被占满"><param name="Local" value="centos_prod_config.html#jidsmaolog"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="删除不必要的系统用户和群组"><param name="Local" value="centos_prod_config.html#dellfaangas"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="关闭重启ctl-alt-delete组合键"><param name="Local" value="centos_prod_config.html#sfasufdsalt"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="设置一些全局变量"><param name="Local" value="centos_prod_config.html#glofbakds"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="Linux定时任务Crontab详解"><param name="Local" value="timing_task.html"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="Kerberos 基本安装与配置"><param name="Local" value="kerberos_inst.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="1 选择一台机器运行KDC，安装Kerberos相关服务"><param name="Local" value="kerberos_inst.html#intprek"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="2 配置Kerberos，包括krb5.conf和kdc.conf，修改其中的realm，把默认的EXAMPLE.COM修改为自己要定义的值"><param name="Local" value="kerberos_inst.html#conf_ker"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="3 创建Kerberos数据库，其中需要设置管理员密码，创建完成会在/var/kerberos/krb5kdc/下面生成一系列文件，若重建数据库则需先删除/var/kerberos/krb5kdc下面principal相关文件"><param name="Local" value="kerberos_inst.html#crkerdb"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="4 添加数据库管理员，注意kadmin.local可以直接运行在KDC上，而无需通过Kerberos认证"><param name="Local" value="kerberos_inst.html#admandb"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="5 给数据库管理员添加ACL权限，修改kadm5.acl文件，*代表全部权限"><param name="Local" value="kerberos_inst.html#adsclman"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="6 启动Kerberos进程并设置开机启动，通过/var/log/krb5kdc.log 和 /var/log/kadmind.log查看日志，通过kinit检查Kerberos正常运行"><param name="Local" value="kerberos_inst.html#serunauto"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="7 配置JCE，这是因为CentOS6.5及以上系统默认使用AES-256加密，因此需要所有节点安装并配置JCE，JCE下载路径: http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html"><param name="Local" value="kerberos_inst.html#cfgjce"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="8 到此，Kerberos服务端已搭好，现在选择另外一台机器安装客户端，包括安装及配置/etc/krb5.conf与KDC相同"><param name="Local" value="kerberos_inst.html#kertst"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="9 kadmin生成keytab，如果是KDC上面直接运行kadmin.local,如果是在客户端先kinit再kadmin"><param name="Local" value="kerberos_inst.html#kacket"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="10 kinit -kt认证用户，klist查看当前认证用户"><param name="Local" value="kerberos_inst.html#authuser"><param name="ImageNumber" value="11"></OBJECT>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="手动添加swap分区"><param name="Local" value="add_swap.html"><param name="ImageNumber" value="11"></OBJECT>
+  </UL>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="Emacs学习总结"><param name="Local" value="emacs_index.html"><param name="ImageNumber" value="1"></OBJECT>
+  <UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="Emacs迷你手册（第一部分）-基础知识"><param name="Local" value="emmbasic.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="为什么要用Emacs？"><param name="Local" value="emmbasic.html#whyemacs"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="为什么要写这篇文章？"><param name="Local" value="emmbasic.html#whythisguide"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="一点点历史"><param name="Local" value="emmbasic.html#hisant"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="除了像Notepad一样简单的编辑器，我不需要其他复杂的编辑器"><param name="Local" value="emmbasic.html#antpd"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="安装"><param name="Local" value="emmbasic.html#install"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="Linux下的安装"><param name="Local" value="emmbasic.html#Linuxin"><param name="ImageNumber" value="1"></OBJECT>
+        <UL>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="要使用带用户界面的Emacs："><param name="Local" value="emmbasic.html#要使用带用户界面的Emacs："><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="仅用于终端"><param name="Local" value="emmbasic.html#仅用于终端"><param name="ImageNumber" value="11"></OBJECT>
+        </UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="Windows下安装"><param name="Local" value="emmbasic.html#eiiin"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="Mac OS X下安装"><param name="Local" value="emmbasic.html#fsfadfs"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="切换Ctrl和CapsLock"><param name="Local" value="emmbasic.html#swpchae"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="概念"><param name="Local" value="emmbasic.html#concepts"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="命令"><param name="Local" value="emmbasic.html#comdf"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="Emacs按键标记"><param name="Local" value="emmbasic.html#Emacs按键标记"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="易于记忆的Emacs键"><param name="Local" value="emmbasic.html#easnfisfd"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="使用Emacs内置帮助"><param name="Local" value="emmbasic.html#ingnafdsfa"><param name="ImageNumber" value="1"></OBJECT>
+        <UL>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="内建帮助系统"><param name="Local" value="emmbasic.html#fhshsadfjsa"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="Info"><param name="Local" value="emmbasic.html#infoanfds"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="Man"><param name="Local" value="emmbasic.html#fdfgdusnd"><param name="ImageNumber" value="11"></OBJECT>
+        </UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="点"><param name="Local" value="emmbasic.html#fdgfdspoutn"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="打开文件"><param name="Local" value="emmbasic.html#gkdakjsopwef"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="Ido模式"><param name="Local" value="emmbasic.html#jfjghgjgkjdi"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="缓冲区"><param name="Local" value="emmbasic.html#jkdfjgsklbuff"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="主要模式"><param name="Local" value="emmbasic.html#jagjamajor"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="次要模式"><param name="Local" value="emmbasic.html#nfjgjgmini"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="基本缓冲区管理"><param name="Local" value="emmbasic.html#fksjabasic"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="书签：跨Emacs会话保存位置"><param name="Local" value="emmbasic.html#jfkboskgdfjag"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="基础跳转命令"><param name="Local" value="emmbasic.html#fhjsahgksakiji"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="有用的内置导航对键绑定"><param name="Local" value="emmbasic.html#fjakhgsadfkjkjdfisj"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="基本编辑命令"><param name="Local" value="emmbasic.html#jfasdjbaseicae"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="动态缩写"><param name="Local" value="emmbasic.html#dsfdynag"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="清除环"><param name="Local" value="emmbasic.html#fsdjkilllring"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="标记和区域"><param name="Local" value="emmbasic.html#fkasjgkmarkandregon"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="标记环"><param name="Local" value="emmbasic.html#famamarksigroing"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="全局标记环"><param name="Local" value="emmbasic.html#全局标记环"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="撤销/重做"><param name="Local" value="emmbasic.html#jffdgundoredogfjd"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="文本查找"><param name="Local" value="emmbasic.html#fkdfgaserarcgogso"><param name="ImageNumber" value="1"></OBJECT>
+        <UL>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="增量搜索"><param name="Local" value="emmbasic.html#fiagnasinvere"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="Occur"><param name="Local" value="emmbasic.html#fjskdjfkoccue"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="查找替换"><param name="Local" value="emmbasic.html#cahjadhgchazaoque"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="Multi-occur"><param name="Local" value="emmbasic.html#fjkfmultii"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="正则表达式"><param name="Local" value="emmbasic.html#fakjdgrepffga"><param name="ImageNumber" value="11"></OBJECT>
+        </UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="模式栏"><param name="Local" value="emmbasic.html#nfsmodeline"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="迷你缓冲区"><param name="Local" value="emmbasic.html#miniminifngd"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="回显区"><param name="Local" value="emmbasic.html#fjsghsgsecho"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="Frames"><param name="Local" value="emmbasic.html#fgframenn"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="Window"><param name="Local" value="emmbasic.html#fsjsakjfsfwindows"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="前缀参数"><param name="Local" value="emmbasic.html#pfkfsdfgarg"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="使用Dired进行基本的文件管理"><param name="Local" value="emmbasic.html#kfsbasecidi"><param name="ImageNumber" value="1"></OBJECT>
+        <UL>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="进入Dired"><param name="Local" value="emmbasic.html#fsdfjkengtr"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="导航"><param name="Local" value="emmbasic.html#fasjfnaviga"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="新建文件"><param name="Local" value="emmbasic.html#fjsakdfjcerea"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="文件访问"><param name="Local" value="emmbasic.html#fsfgfcaif"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="文件标记"><param name="Local" value="emmbasic.html#fsdfilemarr"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="文件操作"><param name="Local" value="emmbasic.html#fsdfwopjfing"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="删除文件"><param name="Local" value="emmbasic.html#dejkwewdeui"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="在Dired中执行shell命令"><param name="Local" value="emmbasic.html#exfjhfusexc"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="文件比较"><param name="Local" value="emmbasic.html#sbfcicdncsq"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="子路径"><param name="Local" value="emmbasic.html#fjsfjsksubgs"><param name="ImageNumber" value="11"></OBJECT>
+        </UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="寄存器"><param name="Local" value="emmbasic.html#refaggjadregist"><param name="ImageNumber" value="1"></OBJECT>
+        <UL>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="保存Window配置"><param name="Local" value="emmbasic.html#fsdkfabfksasea"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="保存frame配置"><param name="Local" value="emmbasic.html#asdfaevesdfjsave"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="保存文本"><param name="Local" value="emmbasic.html#safdfjdsvet"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="保存矩形"><param name="Local" value="emmbasic.html#fjsajksavrec"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="保存位置"><param name="Local" value="emmbasic.html#jsdhfjkaskjf"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="保存数字"><param name="Local" value="emmbasic.html#sfnsakfsgsdf"><param name="ImageNumber" value="11"></OBJECT>
+        </UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="宏"><param name="Local" value="emmbasic.html#fdsasfasdfjcx"><param name="ImageNumber" value="1"></OBJECT>
+        <UL>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="键盘宏环"><param name="Local" value="emmbasic.html#jfisjkbaijif"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="键盘宏计数"><param name="Local" value="emmbasic.html#jfkasjdfkoa"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="可变宏(55555这个命令好像不可用)"><param name="Local" value="emmbasic.html#fsafjsfafsf"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="命名和保存宏"><param name="Local" value="emmbasic.html#fnannaisdad"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="编辑键盘宏"><param name="Local" value="emmbasic.html#dklskdsfs"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="交互式键盘宏编辑"><param name="Local" value="emmbasic.html#sfjasdpdinnffa"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="高效使用宏的提示"><param name="Local" value="emmbasic.html#jajfsjf"><param name="ImageNumber" value="11"></OBJECT>
+        </UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="版本控制"><param name="Local" value="emmbasic.html#fsfvbaokmv"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="shell"><param name="Local" value="emmbasic.html#sfsggfsklas"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="项目：像专业人士一样浏览Linux内核源代码"><param name="Local" value="emmbasic.html#dkfadknfsjnj"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="设定"><param name="Local" value="emmbasic.html#jfsjksdg"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="Windows下设置Emacs的HOME目录"><param name="Local" value="_emacs_home.html"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="Emacs学习笔记"><param name="Local" value="emacs_note.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="CentOS上编译和安装Emacs24.3"><param name="Local" value="emacs_note.html#setup"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="自己喜好的配置存放路径设置"><param name="Local" value="emacs_note.html#comcfg"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="修改背景色"><param name="Local" value="emacs_note.html#bakground"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="摘录王垠的几个设置"><param name="Local" value="emacs_note.html#wyconfig"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="xshell下backspace不好用"><param name="Local" value="emacs_note.html#xshellcfg"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="ibuffer使用"><param name="Local" value="emacs_note.html#ibuffer"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="bookmark的使用"><param name="Local" value="emacs_note.html#bm"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="搭建C++调试编译环境"><param name="Local" value="emacs_note.html#CppEnvironment"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="常用技巧"><param name="Local" value="emacs_note.html#ffap"><param name="ImageNumber" value="11"></OBJECT>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="在Emacs中打造python IDE"><param name="Local" value="epythonsetting.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="安装YASnippet"><param name="Local" value="epythonsetting.html#styasnip"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="安装插件rope pymacs等"><param name="Local" value="epythonsetting.html#istpl"><param name="ImageNumber" value="11"></OBJECT>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="通用插件配置"><param name="Local" value="common_setting.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="配置包源路径"><param name="Local" value="common_setting.html#cset"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="smex插件的使用"><param name="Local" value="common_setting.html#use_smex"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="自动补全功能"><param name="Local" value="common_setting.html#ac"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="支持python的自动补全功能"><param name="Local" value="common_setting.html#pyac"><param name="ImageNumber" value="11"></OBJECT>
+    </UL>
+  </UL>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="网络文章摘选"><param name="Local" value="webcellc.html"><param name="ImageNumber" value="1"></OBJECT>
+  <UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="函数对象、lambda、function、bind学习"><param name="Local" value="flfbs.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="一 函数对象"><param name="Local" value="flfbs.html#funbo"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="二 函数对象和函数指针"><param name="Local" value="flfbs.html#funoffdsa"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="std::lambda"><param name="Local" value="flfbs.html#sdffda"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="1 引入std::lambda"><param name="Local" value="flfbs.html#imgg"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="2 std::lambda语法"><param name="Local" value="flfbs.html#sdfas"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="3 闭包示例"><param name="Local" value="flfbs.html#fsgfg"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="4 闭包类型"><param name="Local" value="flfbs.html#sdfasdg"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="std::function"><param name="Local" value="flfbs.html#sdfunc"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="1 引入std::function"><param name="Local" value="flfbs.html#eigigs"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="2 std::function介绍"><param name="Local" value="flfbs.html#fsingt"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="3 提升std::function的性能"><param name="Local" value="flfbs.html#enhfunc"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="五 std::bind"><param name="Local" value="flfbs.html#sfhuh"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="1 引入std::bind"><param name="Local" value="flfbs.html#fefsd"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="2 std::bind"><param name="Local" value="flfbs.html#dsfasdf"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="3 std\::bind示例"><param name="Local" value="flfbs.html#fshajghasj"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="用户方式中线程的同步"><param name="Local" value="usersync.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="线程间的互锁"><param name="Local" value="usersync.html#thlu"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="2.关键代码段"><param name="Local" value="usersync.html#kecods"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="3.关于使用互锁与关键代码段的弊端与优点："><param name="Local" value="usersync.html#proagn"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="4.内核对象实施同步："><param name="Local" value="usersync.html#kersync"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="5.等待函数 WaitForSingleObject与WaitForMultipleObject"><param name="Local" value="usersync.html#waitfun"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="调用返回值："><param name="Local" value="usersync.html#calrec"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="6.事件内核对象"><param name="Local" value="usersync.html#eveket"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="事件对象的创建："><param name="Local" value="usersync.html#evecre"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="改变事件的通知状态与末通知状态："><param name="Local" value="usersync.html#chgef"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="OpenSSL小结"><param name="Local" value="opensslusage.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="公钥/私钥/签名/验证签名/加密/解密/非对称加密"><param name="Local" value="opensslusage.html#namedisp"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="RSA/DSA/SHA/MD5"><param name="Local" value="opensslusage.html#algenc"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="CA/PEM/DER/X509/PKCS"><param name="Local" value="opensslusage.html#algcer"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="OpenSSL使用"><param name="Local" value="opensslusage.html#opusage"><param name="ImageNumber" value="11"></OBJECT>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="__cdecl,__stdcall,__fastcall的区别"><param name="Local" value="codegenration.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="/Gd"><param name="Local" value="codegenration.html#abtgd"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="/Gr"><param name="Local" value="codegenration.html#grabt"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="/Gz"><param name="Local" value="codegenration.html#abtgz"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="1.__cdecl"><param name="Local" value="codegenration.html#abtcede"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="2.__fastcall"><param name="Local" value="codegenration.html#abtstdca"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="3.__stdcall"><param name="Local" value="codegenration.html#abrstdc"><param name="ImageNumber" value="11"></OBJECT>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="c++中如何实现事务"><param name="Local" value="_cpp_transaction.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="结论"><param name="Local" value="_cpp_transaction.html#conclu"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="致谢"><param name="Local" value="_cpp_transaction.html#sthanks"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="参考资料"><param name="Local" value="_cpp_transaction.html#refmat"><param name="ImageNumber" value="11"></OBJECT>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="C/S架构和B/S架构的概念和区别"><param name="Local" value="csbsdiff.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="C/S 架构"><param name="Local" value="csbsdiff.html#abcsa"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="C/S 架构的优缺点"><param name="Local" value="csbsdiff.html#proagcs"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="B/S架构"><param name="Local" value="csbsdiff.html#absbs"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="B/S架构的优缺点"><param name="Local" value="csbsdiff.html#proagbs"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="应用程序配置不正确或初始化失败"><param name="Local" value="_program_config_error.html"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="部署VC2008应用程序"><param name="Local" value="redist_v_c2008.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="问题提出"><param name="Local" value="redist_v_c2008.html#question"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="解决方法"><param name="Local" value="redist_v_c2008.html#answer"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="细化"><param name="Local" value="redist_v_c2008.html#detail"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="意外"><param name="Local" value="redist_v_c2008.html#exception"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="两种解决办法"><param name="Local" value="redist_v_c2008.html#solution"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="预编译头文件的作用"><param name="Local" value="_use_of_pre_compile_header.html"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="C++ sizeof 使用规则及陷阱分析"><param name="Local" value="_size_of_operator.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="1、什么是sizeof"><param name="Local" value="_size_of_operator.html#whatissizeof"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="2、sizeof的用法"><param name="Local" value="_size_of_operator.html#sizeusage"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="3、数据类型的sizeof"><param name="Local" value="_size_of_operator.html#datatypesize"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="C++固有数据类型"><param name="Local" value="_size_of_operator.html#innertype"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="自定义数据类型"><param name="Local" value="_size_of_operator.html#customtype"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="函数类型"><param name="Local" value="_size_of_operator.html#funcprotype"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="4、指针问题"><param name="Local" value="_size_of_operator.html#abpointer"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="5、数组问题"><param name="Local" value="_size_of_operator.html#arrprob"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="6、向函数传递数组的问题"><param name="Local" value="_size_of_operator.html#funarray"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="7、字符串的sizeof和strlen"><param name="Local" value="_size_of_operator.html#stringsize"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="8、从union的sizeof问题看cpu的对界"><param name="Local" value="_size_of_operator.html#aligment"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="9、struct的sizeof问题"><param name="Local" value="_size_of_operator.html#strucrsize"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="10、不要让double干扰你的位域"><param name="Local" value="_size_of_operator.html#avoiddouble"><param name="ImageNumber" value="11"></OBJECT>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="如何设计自定义的transform filter"><param name="Local" value="_create_filter.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="一、配置开发环境"><param name="Local" value="_create_filter.html#configure"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="二、开发Filter"><param name="Local" value="_create_filter.html#develop"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="三、下面就关键点 五个重载的纯虚函数做详细介绍。 这才是最关键的地方。"><param name="Local" value="_create_filter.html#keyinfo"><param name="ImageNumber" value="11"></OBJECT>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="使用Gitlab一键安装包后的日常备份恢复与迁移"><param name="Local" value="git_backup.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Gitlab 创建备份"><param name="Local" value="git_backup.html#gback"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Gitlab 修改备份文件默认目录"><param name="Local" value="git_backup.html#moddir"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Gitlab 自动备份"><param name="Local" value="git_backup.html#autobak"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Gitlab 恢复"><param name="Local" value="git_backup.html#gitrest"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Gitlab迁移"><param name="Local" value="git_backup.html#gitmove"><param name="ImageNumber" value="11"></OBJECT>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="java写文件的方法"><param name="Local" value="_java_write_file.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="FileWritter写入文件"><param name="Local" value="_java_write_file.html#jwf01"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="二，BufferedWriter写入文件"><param name="Local" value="_java_write_file.html#jwf02"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="三，FileOutputStream写入文件"><param name="Local" value="_java_write_file.html#jwf03"><param name="ImageNumber" value="11"></OBJECT>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="HTTPS原理与证书生成"><param name="Local" value="https.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="HTTPS"><param name="Local" value="https.html#hfjsaha"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="TLS历史"><param name="Local" value="https.html#jdsagajkhistory"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="TLS握手过程"><param name="Local" value="https.html#fajgjhandshake"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Client Hello =&gt;"><param name="Local" value="https.html#dsahsclien"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Server Hello &lt;="><param name="Local" value="https.html#asdfsseverhek"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Client Key Exchange =&gt;"><param name="Local" value="https.html#jdsakseghajgsdajf"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Server Finish &lt;="><param name="Local" value="https.html#fhsakjseecerfubisfs"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="应用数据传输"><param name="Local" value="https.html#asddatetransfe"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="几个名词"><param name="Local" value="https.html#nfsdgsongme"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="实际抓包"><param name="Local" value="https.html#jsakgsjinfdsfa"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="私钥的作用"><param name="Local" value="https.html#asjdfpsunseodssec"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="自签名证书"><param name="Local" value="https.html#sudfsusesekfsign"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="服务端证书生成"><param name="Local" value="https.html#severidegengtrer"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="生成服务端私钥 Generate private key (.key)"><param name="Local" value="https.html#fsakjhjksagaslkfdyugx"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="生成服务端自签名证书 Generation of self-signed(x509) public key (PEM-encodings .pem|.crt) based on the private (.key)"><param name="Local" value="https.html#asjdfsjsensgside"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Simple Golang HTTPS/TLS Server"><param name="Local" value="https.html#sdfhjsimglsever"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="客户端访问（Android）"><param name="Local" value="https.html#sdkclientvisd"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="参考资料"><param name="Local" value="https.html#refsfusasainfomation"><param name="ImageNumber" value="11"></OBJECT>
+    </UL>
+  </UL>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="批处理文件语法总结"><param name="Local" value="_bat_file_summ.html"><param name="ImageNumber" value="1"></OBJECT>
+  <UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="Batch command传入带空格的参数（文件路径等）"><param name="Local" value="_bat_file_summ.html#pathnull"><param name="ImageNumber" value="11"></OBJECT>
+  </UL>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="大数据相关知识收集"><param name="Local" value="bigdata_index.html"><param name="ImageNumber" value="1"></OBJECT>
+  <UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="docker相关知识"><param name="Local" value="docker_index.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="docker 学习笔记"><param name="Local" value="docker.html"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="使用docker部署Maven私服"><param name="Local" value="docker.html#mavensi"><param name="ImageNumber" value="1"></OBJECT>
+        <UL>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="安装docker"><param name="Local" value="docker.html#installdocker"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="创建运行nexus镜像"><param name="Local" value="docker.html#createimage"><param name="ImageNumber" value="11"></OBJECT>
+        </UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="参考"><param name="Local" value="docker.html#ref"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="在CentOS6.5上离线安装docker"><param name="Local" value="docker_offline.html"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="下载依赖包（使用能联网的节点）"><param name="Local" value="docker_offline.html#dwnonline"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="参考"><param name="Local" value="docker_offline.html#refdok"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="python资料整理"><param name="Local" value="python_index.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="python环境配置"><param name="Local" value="py_setting.html"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="CentOS下安装pip"><param name="Local" value="py_setting.html#cpypipe"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="升级python到2.7后重新安装pip"><param name="Local" value="py_setting.html#ugsetpip"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="solr相关"><param name="Local" value="solr_index.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="solr5.5.4单机部署向SolrCloud迁移"><param name="Local" value="solr_cloud.html"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="部署相关理论"><param name="Local" value="solr_cloud.html#envprep"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="SolrCloud部署步骤"><param name="Local" value="solr_cloud.html#scdemo"><param name="ImageNumber" value="1"></OBJECT>
+        <UL>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="独立存储部署"><param name="Local" value="solr_cloud.html#bigdisk"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="使用hdfs进行存储"><param name="Local" value="solr_cloud.html#usehdfs"><param name="ImageNumber" value="11"></OBJECT>
+        </UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="注意事项："><param name="Local" value="solr_cloud.html#apdehid"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="Zookeeper理论与搭建"><param name="Local" value="abzooker.html"><param name="ImageNumber" value="1"></OBJECT>
+        <UL>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="zookeeper主要功能"><param name="Local" value="abzooker.html#zkfun"><param name="ImageNumber" value="1"></OBJECT>
+          <UL>
+          <LI><OBJECT type="text/sitemap"><param name="Name" value="配置管理"><param name="Local" value="abzooker.html#cfgmng"><param name="ImageNumber" value="11"></OBJECT>
+          <LI><OBJECT type="text/sitemap"><param name="Name" value="名字服务"><param name="Local" value="abzooker.html#nser"><param name="ImageNumber" value="11"></OBJECT>
+          <LI><OBJECT type="text/sitemap"><param name="Name" value="分布式锁"><param name="Local" value="abzooker.html#dislock"><param name="ImageNumber" value="11"></OBJECT>
+          <LI><OBJECT type="text/sitemap"><param name="Name" value="集群管理"><param name="Local" value="abzooker.html#clusmng"><param name="ImageNumber" value="11"></OBJECT>
+          </UL>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="Zookeeper 部署示例"><param name="Local" value="abzooker.html#dissample"><param name="ImageNumber" value="1"></OBJECT>
+          <UL>
+          <LI><OBJECT type="text/sitemap"><param name="Name" value="IP规划与初始配置"><param name="Local" value="abzooker.html#IPana"><param name="ImageNumber" value="11"></OBJECT>
+          <LI><OBJECT type="text/sitemap"><param name="Name" value="下载二进制版本，解压安装"><param name="Local" value="abzooker.html#downanin"><param name="ImageNumber" value="11"></OBJECT>
+          <LI><OBJECT type="text/sitemap"><param name="Name" value="配置环境变量与关闭防火墙端口"><param name="Local" value="abzooker.html#cfgenfs"><param name="ImageNumber" value="11"></OBJECT>
+          <LI><OBJECT type="text/sitemap"><param name="Name" value="配置zookeeper"><param name="Local" value="abzooker.html#cfgzk"><param name="ImageNumber" value="11"></OBJECT>
+          <LI><OBJECT type="text/sitemap"><param name="Name" value="开机自动运行"><param name="Local" value="abzooker.html#rostaer"><param name="ImageNumber" value="11"></OBJECT>
+          <LI><OBJECT type="text/sitemap"><param name="Name" value="其他机器的部署配置"><param name="Local" value="abzooker.html#omdis"><param name="ImageNumber" value="11"></OBJECT>
+          </UL>
+        </UL>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="SolrCloud之分布式索引及与Zookeeper的集成"><param name="Local" value="abtsolr.html"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="概述"><param name="Local" value="abtsolr.html#gsabd"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="二、Solr Cloud的基本概念"><param name="Local" value="abtsolr.html#basecon"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="SolrCloud中完整索引（Collection）的逻辑图"><param name="Local" value="abtsolr.html#enteelog"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    </UL>
+  </UL>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="cloudera5.4.8安装笔记"><param name="Local" value="cloudera_inst.html"><param name="ImageNumber" value="1"></OBJECT>
+  <UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="安装前的准备"><param name="Local" value="cloudera_inst.html#prepfsd"><param name="ImageNumber" value="11"></OBJECT>
+  </UL>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="kerberos安装配置"><param name="Local" value="kerberos_cfg.html"><param name="ImageNumber" value="1"></OBJECT>
+  <UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="安装步骤："><param name="Local" value="kerberos_cfg.html#inst_kerb"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="配置kerberos"><param name="Local" value="kerberos_cfg.html#cfgcer"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="配置/etc/krb5.conf"><param name="Local" value="kerberos_cfg.html#cfgkrb"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="配置/usr/local/var/krb5kdc/kdc.conf"><param name="Local" value="kerberos_cfg.html#cfg_kdc"><param name="ImageNumber" value="11"></OBJECT>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="登录kerberos"><param name="Local" value="kerberos_cfg.html#loginker"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="其他配置"><param name="Local" value="kerberos_cfg.html#othcfg"><param name="ImageNumber" value="11"></OBJECT>
+  </UL>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="关于git的打patch的功能"><param name="Local" value="git_patch.html"><param name="ImageNumber" value="1"></OBJECT>
+  <UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="git diff生成的标准patch"><param name="Local" value="git_patch.html#g_d_s"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="git format-patch生成的git专用补丁。"><param name="Local" value="git_patch.html#g_f_p"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="两种patch的比较："><param name="Local" value="git_patch.html#comp_pa"><param name="ImageNumber" value="11"></OBJECT>
+  </UL>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="日积月累"><param name="Local" value="daily_notes.html"><param name="ImageNumber" value="1"></OBJECT>
+  <UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="2014年05月18日"><param name="Local" value="daily_notes.html#day0001"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="20150623"><param name="Local" value="daily_notes.html#day0002"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="为控件设置焦点"><param name="Local" value="daily_notes.html#day0003"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="获得jpeg图片的压缩率"><param name="Local" value="daily_notes.html#day0004"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="Alpha、Beta、RC、GA版本的区别"><param name="Local" value="daily_notes.html#versionname"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="C++判断操作系统是32位还是64位"><param name="Local" value="daily_notes.html#os32or64"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="神奇的SysNative文件夹"><param name="Local" value="daily_notes.html#mericalfolder"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="win7 重启后登陆变为默认桌面，无法读取原始数据"><param name="Local" value="daily_notes.html#win7desktop"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="make编译指令"><param name="Local" value="daily_notes.html#makecmd"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="破坏缓冲区后字符串异常示例"><param name="Local" value="daily_notes.html#csexception"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="&#39;CA2CT&#39;: identifier not found"><param name="Local" value="daily_notes.html#ca2w"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="活动代码页编号"><param name="Local" value="daily_notes.html#sacp"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="Sleep(0)与Sleep(1)的区别（From：http://www.cppblog.com/kesalin/）"><param name="Local" value="daily_notes.html#Sleep01diff"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="去掉linux文本中的^M"><param name="Local" value="daily_notes.html#linuxrmv"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="Linux下查看动态库导出函数"><param name="Local" value="daily_notes.html#viewexportl"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="Linux下查找指定文件名的文件"><param name="Local" value="daily_notes.html#findfile"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="从24位裸数据恢复DIB"><param name="Local" value="daily_notes.html#revertbmp"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="要求编译出的程序有管理员权限才能运行"><param name="Local" value="daily_notes.html#relseafa"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="linux下调用opencv的Makefile配置"><param name="Local" value="daily_notes.html#linopcv"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="给nexus添加仓库源"><param name="Local" value="daily_notes.html#neus"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="C++ 运算符优先级顺序表"><param name="Local" value="daily_notes.html#cppregfafsgs"><param name="ImageNumber" value="11"></OBJECT>
+  </UL>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="MySQL5.7 安装完成后的配置"><param name="Local" value="mysql57_config.html"><param name="ImageNumber" value="11"></OBJECT>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="没有oracle客户端使用PL/SQL访问远程的Oracle"><param name="Local" value="oracle_noclient.html"><param name="ImageNumber" value="11"></OBJECT>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="关于C++的动态链接库"><param name="Local" value="_dll_export.html"><param name="ImageNumber" value="1"></OBJECT>
+  <UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="起因"><param name="Local" value="_dll_export.html#reason"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="函数导出方式的优缺点"><param name="Local" value="_dll_export.html#exportpandc"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="使用def文件的优缺点"><param name="Local" value="_dll_export.html#aboutdef"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="__declspec(dllexport)的优缺点"><param name="Local" value="_dll_export.html#decl"><param name="ImageNumber" value="11"></OBJECT>
+    </UL>
+  </UL>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="在Emacs中搭建C/C++开发环境"><param name="Local" value="emacs_cpp.html"><param name="ImageNumber" value="1"></OBJECT>
+  <UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="几个示例："><param name="Local" value="emacs_cpp.html#few_demo"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="快速安装"><param name="Local" value="emacs_cpp.html#insthjfhg"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="源码探索"><param name="Local" value="emacs_cpp.html#scnafafds"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="先决条件"><param name="Local" value="emacs_cpp.html#fsdfdgfa"><param name="ImageNumber" value="11"></OBJECT>
+    </UL>
+  </UL>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="小老鼠常用函数收集"><param name="Local" value="_try_util_fun.html"><param name="ImageNumber" value="1"></OBJECT>
+  <UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="四舍五入函数"><param name="Local" value="_try_util_fun.html#roundfunc"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="将信息写入本地文件"><param name="Local" value="_try_util_fun.html#savefile"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="打开图片文件"><param name="Local" value="_try_util_fun.html#openImage"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="C++ 读取文件内容"><param name="Local" value="_try_util_fun.html#readfile"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="去掉字符串前后的空格"><param name="Local" value="_try_util_fun.html#trimspace"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="system调用命令行命令而不显示命令行窗口"><param name="Local" value="_try_util_fun.html#callnoconsol"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="获取MAC地址相关信息"><param name="Local" value="_try_util_fun.html#getmac"><param name="ImageNumber" value="11"></OBJECT>
+  </UL>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="YUV和RGB格式分析"><param name="Local" value="yuvrgb.html"><param name="ImageNumber" value="1"></OBJECT>
+  <UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="YUV资料整理："><param name="Local" value="yuvrgb.html#materialyuv"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="YUV"><param name="Local" value="yuvrgb.html#YUV"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="1.  采样方式"><param name="Local" value="yuvrgb.html#samfashigd"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="2.  存储方式"><param name="Local" value="yuvrgb.html#savamat"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="（1） YUYV 格式 （属于YUV422）"><param name="Local" value="yuvrgb.html#uifsdfad"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="（2） UYVY 格式 （属于YUV422）"><param name="Local" value="yuvrgb.html#fajsads"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="（3） YUV422P（属于YUV422）"><param name="Local" value="yuvrgb.html#jfajagf"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="RGB"><param name="Local" value="yuvrgb.html#rgbinodsfs"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="RGB565（我们使用的格式）"><param name="Local" value="yuvrgb.html#afahsdfhs"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="RGB555"><param name="Local" value="yuvrgb.html#asghkargb"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="RGB24"><param name="Local" value="yuvrgb.html#afasdsjaf"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="RGB32"><param name="Local" value="yuvrgb.html#dsjgsjgsafsdf"><param name="ImageNumber" value="11"></OBJECT>
+    </UL>
+  </UL>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="人脸识别相关函数收集"><param name="Local" value="_ivsign_funtions.html"><param name="ImageNumber" value="1"></OBJECT>
+  <UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="特征提取"><param name="Local" value="_ivsign_funtions.html#fe"><param name="ImageNumber" value="11"></OBJECT>
+  </UL>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="CentOS 6.5 minimal 安装配置VMware tools"><param name="Local" value="centos_mini_vmtools.html"><param name="ImageNumber" value="11"></OBJECT>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="gcc学习笔记"><param name="Local" value="gccstudy.html"><param name="ImageNumber" value="1"></OBJECT>
+  <UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="gcc编译程序的过程:"><param name="Local" value="gccstudy.html#cpro"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="gcc常用选项"><param name="Local" value="gccstudy.html#cogccit"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="实例展示"><param name="Local" value="gccstudy.html#exgcc"><param name="ImageNumber" value="11"></OBJECT>
+  </UL>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="git日常命令"><param name="Local" value="git_daily.html"><param name="ImageNumber" value="1"></OBJECT>
+  <UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="合并特定分支的几个文件或文件夹"><param name="Local" value="git_daily.html#fhsdfa"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="暂存当前修改"><param name="Local" value="git_daily.html#fsjdfs"><param name="ImageNumber" value="11"></OBJECT>
+  </UL>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="GCC 64位程序的makefile条件编译心得——32位版与64位版、debug版与release版（兼容MinGW、TDM-GCC）"><param name="Local" value="makefilecfg.html"><param name="ImageNumber" value="1"></OBJECT>
+  <UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="C程序代码"><param name="Local" value="makefilecfg.html#fstccode"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="GCC命令行参数"><param name="Local" value="makefilecfg.html#gcccmd"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="makefile代码"><param name="Local" value="makefilecfg.html#makefilecode"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="测试结果"><param name="Local" value="makefilecfg.html#testresult"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Fedora 17 64位版下的 GCC 4.7.0"><param name="Local" value="makefilecfg.html#fed1764"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Windows XP SP3 32位版下的 GCC 4.6.2（MinGW (20120426)）"><param name="Local" value="makefilecfg.html#xpsp3"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Windows 7 SP1 64位版下的 GCC 4.6.1（TDM-GCC (MinGW-w64)）"><param name="Local" value="makefilecfg.html#xpsp364"><param name="ImageNumber" value="11"></OBJECT>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="C程序代码"><param name="Local" value="makefilecfg.html#fstdsccode"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="GCC命令行参数"><param name="Local" value="makefilecfg.html#gcccmpamd"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="makefile代码"><param name="Local" value="makefilecfg.html#makefilecoewde"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="测试结果"><param name="Local" value="makefilecfg.html#testreseweult"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Fedora 17 64位版下的 GCC 4.7.0"><param name="Local" value="makefilecfg.html#fede1764"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Windows XP SP3 32位版下的 GCC 4.6.2（MinGW (20120426)）"><param name="Local" value="makefilecfg.html#xepsp3"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Windows 7 SP1 64位版下的 GCC 4.6.1（TDM-GCC (MinGW-w64)）"><param name="Local" value="makefilecfg.html#xpswep364"><param name="ImageNumber" value="11"></OBJECT>
+    </UL>
+  </UL>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="MFC程序改变系统DPI后界面错位问题的处理"><param name="Local" value="_d_p_i__m_f_c.html"><param name="ImageNumber" value="1"></OBJECT>
+  <UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="调整函数的实现"><param name="Local" value="_d_p_i__m_f_c.html#adjfun"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="设置dpi"><param name="Local" value="_d_p_i__m_f_c.html#setdpi"><param name="ImageNumber" value="11"></OBJECT>
+  </UL>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="从动态库中获取静态库"><param name="Local" value="dll_to_lib.html"><param name="ImageNumber" value="11"></OBJECT>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="随笔"><param name="Local" value="radom_note.html"><param name="ImageNumber" value="1"></OBJECT>
+  <UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="ld版本太低"><param name="Local" value="radom_note.html#ld-ver"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="使指定端口（如8983）通过防火墙"><param name="Local" value="radom_note.html#passport"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="使用mvn生成单一的jar包"><param name="Local" value="radom_note.html#mvnsingle"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="如何判断某设备能否播放wmv文件"><param name="Local" value="radom_note.html#playsound"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="清理Temporary Internet Files"><param name="Local" value="radom_note.html#delbig"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="ie主页被hao.169x.cn劫持的解决办法"><param name="Local" value="radom_note.html#hao169"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="Eclipse安装插件"><param name="Local" value="radom_note.html#elpinr"><param name="ImageNumber" value="11"></OBJECT>
+  </UL>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="小老鼠随笔"><param name="Local" value="_random_notes.html"><param name="ImageNumber" value="1"></OBJECT>
+  <UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="获取CPU线程数和当前进程的线程数"><param name="Local" value="_random_notes.html#getcpu"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="DirectShow Filter 组件中的merit值(From 陆其明《DirectShow开发指南》)"><param name="Local" value="_random_notes.html#dsmerit"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="为对话框上的控件添加ToolTip"><param name="Local" value="_random_notes.html#tooltip"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="修改CentOS root权限密码"><param name="Local" value="_random_notes.html#linuxpass"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="不要忽略有符号类型和无符号类型比对时的警告"><param name="Local" value="_random_notes.html#signunsing"><param name="ImageNumber" value="11"></OBJECT>
+  </UL>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="C++及Windows异常处理（try，catch; __try,__finally; __try, __except）—— 一道笔试题引起的探究"><param name="Local" value="try_catch.html"><param name="ImageNumber" value="1"></OBJECT>
+  <UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="C++ 异常处理：try，catch"><param name="Local" value="try_catch.html#cpptry"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="__try, __except"><param name="Local" value="try_catch.html#tryexcept"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="小结："><param name="Local" value="try_catch.html#littcon"><param name="ImageNumber" value="11"></OBJECT>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="__try, __finally"><param name="Local" value="try_catch.html#tryfina"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="小结："><param name="Local" value="try_catch.html#litconc"><param name="ImageNumber" value="11"></OBJECT>
+    </UL>
+  </UL>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="User Account Control"><param name="Local" value="_u_a_c.html"><param name="ImageNumber" value="11"></OBJECT>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="VS2008使用问题集锦"><param name="Local" value="vs2008p.html"><param name="ImageNumber" value="1"></OBJECT>
+  <UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="ATL添加方法或属性的问题"><param name="Local" value="vs2008p.html#abatl"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="不能进入断点的问题"><param name="Local" value="vs2008p.html#breakpointprb"><param name="ImageNumber" value="11"></OBJECT>
+  </UL>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="windows x64 file/registry redirection"><param name="Local" value="x64redirect.html"><param name="ImageNumber" value="11"></OBJECT>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="Windows系统登录接口总结"><param name="Local" value="logoninterface.html"><param name="ImageNumber" value="1"></OBJECT>
+  <UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="ICredentialProviderCredential接口"><param name="Local" value="logoninterface.html#ICPC"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="认证提供程序最佳实践"><param name="Local" value="logoninterface.html#cpbp"><param name="ImageNumber" value="11"></OBJECT>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="ICredentialProvider接口"><param name="Local" value="logoninterface.html#icpseti"><param name="ImageNumber" value="11"></OBJECT>
+  </UL>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="授权笔记"><param name="Local" value="authnoth.html"><param name="ImageNumber" value="11"></OBJECT>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="文件"><param name="Local" value="files.html"><param name="ImageNumber" value="1"></OBJECT>
+  <UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="文件列表"><param name="Local" value="files.html"><param name="ImageNumber" value="1"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="CrashDemo.cpp"><param name="Local" value="_crash_demo_8cpp.html"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="_tmain"><param name="Local" value="_crash_demo_8cpp.html#a353674c5af92be7fb389265cde4e5e03"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="CrashDemoThread.cpp"><param name="Local" value="_crash_demo_thread_8cpp.html"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="MAX_BUFF_SIZE"><param name="Local" value="_crash_demo_thread_8cpp.html#a212979f5fc9dcf0a420e90b9b21d780a"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="_tmain"><param name="Local" value="_crash_demo_thread_8cpp.html#a524c4ffe15dc4219b9f40f04a7322537"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="func"><param name="Local" value="_crash_demo_thread_8cpp.html#a91d0fa22abd2e5751dd38335e6e0d7d6"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="make_minidump"><param name="Local" value="_crash_demo_thread_8cpp.html#a069228d643b6273dd1e3aafa74d6d62a"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="unhandled_handler"><param name="Local" value="_crash_demo_thread_8cpp.html#aa59696fc05cef206faa9380c7abd943c"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="PerfmonCRT/main.cpp"><param name="Local" value="_perfmon_c_r_t_2main_8cpp.html"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="_CRTDBG_MAP_ALLOC"><param name="Local" value="_perfmon_c_r_t_2main_8cpp.html#afc30e481f763a8d68a861dba91be7316"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="fileread"><param name="Local" value="_perfmon_c_r_t_2main_8cpp.html#a7710f201d90794112f94a6adf1915f19"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="GetComputerName"><param name="Local" value="_perfmon_c_r_t_2main_8cpp.html#a6a0d6c67220e860479ad8dfb9ee24c2f"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="GetUserName"><param name="Local" value="_perfmon_c_r_t_2main_8cpp.html#a1dece2757bafaa7f21a94e507e80eb9e"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="main"><param name="Local" value="_perfmon_c_r_t_2main_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="PerfmonDemo/main.cpp"><param name="Local" value="_perfmon_demo_2main_8cpp.html"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="fileread"><param name="Local" value="_perfmon_demo_2main_8cpp.html#a7710f201d90794112f94a6adf1915f19"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="GetComputerName"><param name="Local" value="_perfmon_demo_2main_8cpp.html#a6a0d6c67220e860479ad8dfb9ee24c2f"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="GetUserName"><param name="Local" value="_perfmon_demo_2main_8cpp.html#a1dece2757bafaa7f21a94e507e80eb9e"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="main"><param name="Local" value="_perfmon_demo_2main_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="stdafx.cpp"><param name="Local" value="stdafx_8cpp.html"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="hread/stdafx.cpp"><param name="Local" value="hread_2stdafx_8cpp.html"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="stdafx.h"><param name="Local" value="stdafx_8h.html"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="hread/stdafx.h"><param name="Local" value="hread_2stdafx_8h.html"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="targetver.h"><param name="Local" value="targetver_8h.html"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="_WIN32_WINNT"><param name="Local" value="targetver_8h.html#ac50762666aa00bd3a4308158510f1748"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="hread/targetver.h"><param name="Local" value="hread_2targetver_8h.html"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="_WIN32_WINNT"><param name="Local" value="hread_2targetver_8h.html#ac50762666aa00bd3a4308158510f1748"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="文件成员"><param name="Local" value="globals.html"><param name="ImageNumber" value="11"></OBJECT>
+    <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="全部"><param name="Local" value="globals.html"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="函数"><param name="Local" value="globals_func.html"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="变量"><param name="Local" value="globals_vars.html"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="宏定义"><param name="Local" value="globals_defs.html"><param name="ImageNumber" value="11"></OBJECT>
+    </UL>
+  </UL>
+</UL>
+</BODY>
+</HTML>

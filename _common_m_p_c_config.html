@@ -1,0 +1,128 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">MPC常用配置 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>李进安 </dd></dl>
+<dl class="section date"><dt>日期</dt><dd>2013-09-04 <hr/>
+ <a class="anchor" id=""></a>
+<table width="1000" border="1" id="rmtable">
+<caption align="bottom">小老鼠MPC常用配置备忘</caption>
+<tr>
+<th width="100" height="26" bgcolor="#66FFFF" scope="col">配置项 </th><th width="550" height="26" bgcolor="#66FFFF" scope="col">说明 </th><th width="350" height="26" bgcolor="#66FFFF" scope="col">使用示例  </th></tr>
+<tr>
+<td>libpaths</td><td>依赖的lib库路径</td><td>libpaths+=..\Common\lib </td></tr>
+<tr>
+<td>includes</td><td>依赖的头文件的路径</td><td>includes+=..\Common\include </td></tr>
+<tr>
+<td>exename</td><td>指定目标文件名，且生产文件类型为exe</td><td>exename=aaabbbxxx </td></tr>
+<tr>
+<td>exeout</td><td>指定exe文件的输出位置</td><td>exeout=path </td></tr>
+<tr>
+<td>sharedname</td><td>指定工程类型为动态（默认）或静态库，给出动态库的文件名</td><td>sharedname=aaa </td></tr>
+<tr>
+<td>dllout</td><td>指定动态库的输出位置</td><td>dllout=path </td></tr>
+<tr>
+<td>dynamicflags</td><td>指定动态库预处理标识</td><td>dynamicflags=TRY_EXPORT </td></tr>
+<tr>
+<td>libout</td><td>指定静态库文件的输出位置</td><td>libout=path </td></tr>
+<tr>
+<td>staticname</td><td>指定工程类型为动态（默认）或静态库，给出静态库的文件名</td><td>staticname=bbb </td></tr>
+<tr>
+<td>postbuild</td><td>指定编译完成后执行的命令</td><td>postbuild+= </td></tr>
+<tr>
+<td>prebuild</td><td>指定编译开始前执行的命令</td><td>prebuild += PreBuild.bat    1 prebuild += &lt;mv%&gt; .rc version.rc </td></tr>
+<tr>
+<td>after</td><td>该工程必须在after指定的工程编译完成之后才能编译</td><td>after+=aaa bbb ccc </td></tr>
+<tr>
+<td>specific(prop:microsoft){...}</td><td>Visual Studio 专有配置</td><td>后面标有（VS专用）的项要做大括号中设置  </td></tr>
+<tr>
+<td>type_is_static</td><td>用于生成静态库（VS专用）</td><td>type_is_static = 1 </td></tr>
+<tr>
+<td>LanguageStandard</td><td>指定使用的C++标准，不指定为C++98（VS专用）</td><td>LanguageStandard=stdcpp17(stdcpp14) </td></tr>
+<tr>
+<td>PlatformToolset</td><td>兼容xp（VS2010及以后版本专用）</td><td>PlatformToolset=v100_xp PlatformToolset=v110_xp PlatformToolset=v120_xp PlatformToolset=v140_xp  </td></tr>
+<tr>
+<td>GenerateManifest</td><td>控制是否生成manifest文件（VS专用）</td><td>GenerateManifest = 0 </td></tr>
+<tr>
+<td>warning_level</td><td>警告级别（VS专用）</td><td>warning_level=4 </td></tr>
+<tr>
+<td>DisableSpecificWarnings</td><td>禁止报告特定警告（VS专用）</td><td>DisableSpecificWarnings+=4706;4100;4127;4244;4211...... </td></tr>
+<tr>
+<td>x64::XXX</td><td>64位版本专用配置（VS专用）</td><td>x64::exeout=... </td></tr>
+<tr>
+<td>Win32::XXX</td><td>32位版本专用配置（VS专用）</td><td>Win32::exeout=... </td></tr>
+<tr>
+<td>unicode=1</td><td>使用unicode编码（VS专用）</td><td>... </td></tr>
+<tr>
+<td>runtime_library</td><td>链接使用的运行时库（VS专用）</td><td>0MT；1MTd；2MD；3MDd </td></tr>
+<tr>
+<td>dll_ext,exe_ext</td><td>修改输出的dll或exe扩展名VS专用）</td><td>dll_ext=.ocx </td></tr>
+<tr>
+<td>defines</td><td>增加宏定义（VS专用）</td><td>defines += __STDC_CONSTANT_MACROS </td></tr>
+<tr>
+<td>ignore_default_library_names</td><td>忽略指定默认库（VS专用）</td><td>Debug::ignore_default_library_names=LIBCMTD.lib uafxcwd.lib Release::ignore_default_library_names=LIBCMT.lib uafxcw.lib </td></tr>
+<tr>
+<td>ModuleDefinitionFile</td><td>指定模块定义文件（VS专用）</td><td>ModuleDefinitionFile=projectname.def </td></tr>
+<tr>
+<td>lit_libs</td><td>依赖的非标准的lib库(注1)</td><td>lit_libs+= aalibname bblibname </td></tr>
+<tr>
+<td>libs</td><td>依赖的库文件</td><td>ditto  </td></tr>
+<tr>
+<td>TreatWChar_tAsBuiltInType</td><td>将wchar_t当做内置类型（VS专用）</td><td>TreatWChar_tAsBuiltInType = false </td></tr>
+<tr>
+<td>pch_header</td><td>指定预编译头文件</td><td>pch_header=stdafx.h </td></tr>
+<tr>
+<td>pch_source</td><td>指定预编译源文件</td><td>pch_source=stdafx.cpp </td></tr>
+<tr>
+<td>Define_Custom</td><td>自定义文件组</td><td><pre class="fragment">Define_Custom(Build) {
+    inputext = .mpc, .mpb, .mwc
+  } // 摘自build_files.mpb
+</pre>   </td></tr>
+<tr>
+<td>no_pch=1</td><td>对特定文件不使用预编译头文件</td><td><pre class="fragment">Source_Files{
+    no_pch=1
+    stdsoap2.cpp
+    InfoVerifyC.cpp
+    InfoVerifyInfoVerifyService.cpp
+  }
+</pre>  </td></tr>
+<tr>
+<td>lib_modifier</td><td>去掉dll输出中的debug版本中的d后缀（VS专用）</td><td>lib_modifier= </td></tr>
+<tr>
+<td>optimize GenerateDebugInformation</td><td>禁用优化开启发布版的调试功能（VS专用）</td><td>Release::optimize=0 (optimize=Disabled for vc10 or later)Release::GenerateDebugInformation=true Release::debug_format=3 </td></tr>
+</table>
+</dd></dl>
+<h1><a class="anchor" id="templateusage"></a>
+常用模板文件说明</h1>
+<ol type="1">
+<li>build_files:将mpc文件也加入到工程中</li>
+<li>命令行中-exclude后面的路径将不会被处理，如mwc.pl -type vc9 -features mfc=1 -exclude FlagRect,OtherFolder 当前路径FlagRect和OtherFolder文件夹下的mpc文件将被忽略</li>
+<li>只生成32位版本的示例：mwc.pl -type vc9 -features mfc=1 -value_template platforms=Win32</li>
+<li>只生成Release版本的示例：mwc.pl -type vc9 -features mfc=1 -value_template "configurations = 'Release'"</li>
+<li>修改编译输出选项示例：mwc.pl -type vc9 -value_template "configurations = 'MFC Release' 'MFC Debug'" -features mfc=1 -name_modifier "*_mfc_vc9" ACE.mwc </li>
+</ol>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

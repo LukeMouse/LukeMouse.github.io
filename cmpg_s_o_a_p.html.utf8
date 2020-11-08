@@ -1,0 +1,42 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">编译gSOAP框架工具 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>李进安 <hr/>
+<ol type="1">
+<li>首先根据soapcpp2工程源码所在路径下的readme文件提示，下载Bison和Flex的安装包，我使用的Bason版本是（bison-2.4.1-setup.exe），flex版本是（flex-2.5.4a-1.exe）；</li>
+<li>将Bison和Flex安装到没有空格的路径下（是否支持中文我没有测试，但是空格不行），建议路径中也不要有中文，将安装路径的bin文件夹添加到Path路径；</li>
+<li>下载最新版本的gSOAP（2.8.22）并解压里面的gsoap子文件夹到D:\Program Files，复制VisualStudio2005到同级目录并改名为VisualStudio2008SSL</li>
+<li>修改sln、vcproj文件为VS2008版本，修改soapcpp2.vcproj里面的 <pre class="fragment">RelativePath="..\..\..\..\..\..\..\MSDN\Sample\VC++\vccustombr\FlexBison.rules"
+</pre> 为 <pre class="fragment">RelativePath="..\..\..\..\..\FlexBison.rules"
+</pre> 并将<a href="addin/FlexBison.rar">附件</a>中的FlexBison.rules拷贝到D盘根目录下。</li>
+<li>编译soapcpp2后将生成的soapcpp2.exe拷贝到wsdl2h.vcproj同一路径下</li>
+<li>编译wsdl2h，出现link错误后将bpel.cpp添加到工程后编译通过</li>
+<li><b>gSOAP框架工具与SSL没有关系</b> </li>
+</ol>
+</dd></dl>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

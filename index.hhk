@@ -1,0 +1,228 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML><HEAD></HEAD><BODY>
+<OBJECT type="text/site properties">
+<param name="FrameName" value="right">
+</OBJECT>
+<UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="codegenration.html"><param name="Name" value="__cdecl,__stdcall,__fastcall的区别"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_perfmon_c_r_t_2main_8cpp.html#afc30e481f763a8d68a861dba91be7316"><param name="Name" value="_CRTDBG_MAP_ALLOC"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_crash_demo_8cpp.html#a353674c5af92be7fb389265cde4e5e03"><param name="Name" value="_tmain"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="_crash_demo_8cpp.html#a353674c5af92be7fb389265cde4e5e03"><param name="Name" value="CrashDemo.cpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_crash_demo_thread_8cpp.html#a524c4ffe15dc4219b9f40f04a7322537"><param name="Name" value="_tmain"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="hread_2targetver_8h.html#ac50762666aa00bd3a4308158510f1748"><param name="Name" value="_WIN32_WINNT"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="hread_2targetver_8h.html#ac50762666aa00bd3a4308158510f1748"><param name="Name" value="hread/targetver.h"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="targetver_8h.html#ac50762666aa00bd3a4308158510f1748"><param name="Name" value="_WIN32_WINNT"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="adformatstring.html"><param name="Name" value="ACE_DEBUG 格式化参数说明"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_a_c_e__t_a_o__index.html"><param name="Name" value="ACE_TAO相关文档整理"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="ao.html"><param name="Name" value="ACE主动对象模式"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="ace_reactor.html"><param name="Name" value="ACE反应器(Reactor)模式"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="boost_compile.html"><param name="Name" value="boost库编译指南"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_size_of_operator.html"><param name="Name" value="C++ sizeof 使用规则及陷阱分析"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_cpp_transaction.html"><param name="Name" value="c++中如何实现事务"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="try_catch.html"><param name="Name" value="C++及Windows异常处理（try，catch; __try,__finally; __try, __except）—— 一道笔试题引起的探究"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_cpp_charset_index.html"><param name="Name" value="C++字符编码相关知识整理"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="debug_knowledge.html"><param name="Name" value="C++调试相关总结"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="csbsdiff.html"><param name="Name" value="C/S架构和B/S架构的概念和区别"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="centos_mini_vmtools.html"><param name="Name" value="CentOS 6.5 minimal 安装配置VMware tools"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="gitlinux.html"><param name="Name" value="Centos Git1.7.1升级到Git2.2.1"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="centos_python.html"><param name="Name" value="CentOS6.7 升级安装Python 2.7.9"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="cloudera_inst.html"><param name="Name" value="cloudera5.4.8安装笔记"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="hread_2_read_me_8txt.html#aab1e9a0b414d106b6d4a67a9a9bbd024"><param name="Name" value="configurations"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="hread_2_read_me_8txt.html#aab1e9a0b414d106b6d4a67a9a9bbd024"><param name="Name" value="hread/ReadMe.txt"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_read_me_8txt.html#aab1e9a0b414d106b6d4a67a9a9bbd024"><param name="Name" value="configurations"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="consoleout.html"><param name="Name" value="cout和wcout、ofstream和wofstream、printf和wprintf"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_crash_demo_8cpp.html#a353674c5af92be7fb389265cde4e5e03"><param name="Name" value="CrashDemo.cpp"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_crash_demo_thread_8cpp.html"><param name="Name" value="CrashDemoThread.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="_crash_demo_thread_8cpp.html#a524c4ffe15dc4219b9f40f04a7322537"><param name="Name" value="_tmain"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_crash_demo_thread_8cpp.html"><param name="Name" value="CrashDemoThread.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="_crash_demo_thread_8cpp.html#a91d0fa22abd2e5751dd38335e6e0d7d6"><param name="Name" value="func"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_crash_demo_thread_8cpp.html"><param name="Name" value="CrashDemoThread.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="_crash_demo_thread_8cpp.html#a069228d643b6273dd1e3aafa74d6d62a"><param name="Name" value="make_minidump"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_crash_demo_thread_8cpp.html"><param name="Name" value="CrashDemoThread.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="_crash_demo_thread_8cpp.html#a212979f5fc9dcf0a420e90b9b21d780a"><param name="Name" value="MAX_BUFF_SIZE"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_crash_demo_thread_8cpp.html#aa59696fc05cef206faa9380c7abd943c"><param name="Name" value="CrashDemoThread.cpp"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="debug_release_diff.html"><param name="Name" value="Debug与Release版本的区别详解"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="docker.html"><param name="Name" value="docker 学习笔记"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="docker_index.html"><param name="Name" value="docker相关知识"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="emacs_index.html"><param name="Name" value="Emacs学习总结"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="emacs_note.html"><param name="Name" value="Emacs学习笔记"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="emmbasic.html"><param name="Name" value="Emacs迷你手册（第一部分）-基础知识"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_perfmon_c_r_t_2main_8cpp.html#a7710f201d90794112f94a6adf1915f19"><param name="Name" value="fileread"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="_perfmon_c_r_t_2main_8cpp.html#a7710f201d90794112f94a6adf1915f19"><param name="Name" value="PerfmonCRT/main.cpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_perfmon_demo_2main_8cpp.html#a7710f201d90794112f94a6adf1915f19"><param name="Name" value="fileread"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="hread_2_read_me_8txt.html#aeb13145550439a30444f406297dfa5e9"><param name="Name" value="files"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="hread_2_read_me_8txt.html#aeb13145550439a30444f406297dfa5e9"><param name="Name" value="hread/ReadMe.txt"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_read_me_8txt.html#aeb13145550439a30444f406297dfa5e9"><param name="Name" value="files"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_crash_demo_thread_8cpp.html#a91d0fa22abd2e5751dd38335e6e0d7d6"><param name="Name" value="func"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="makefilecfg.html"><param name="Name" value="GCC 64位程序的makefile条件编译心得——32位版与64位版、debug版与release版（兼容MinGW、TDM-GCC）"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="gccstudy.html"><param name="Name" value="gcc学习笔记"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_perfmon_c_r_t_2main_8cpp.html#a6a0d6c67220e860479ad8dfb9ee24c2f"><param name="Name" value="GetComputerName"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="_perfmon_c_r_t_2main_8cpp.html#a6a0d6c67220e860479ad8dfb9ee24c2f"><param name="Name" value="PerfmonCRT/main.cpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_perfmon_demo_2main_8cpp.html#a6a0d6c67220e860479ad8dfb9ee24c2f"><param name="Name" value="GetComputerName"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_perfmon_c_r_t_2main_8cpp.html#a1dece2757bafaa7f21a94e507e80eb9e"><param name="Name" value="GetUserName"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="_perfmon_c_r_t_2main_8cpp.html#a1dece2757bafaa7f21a94e507e80eb9e"><param name="Name" value="PerfmonCRT/main.cpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_perfmon_demo_2main_8cpp.html#a1dece2757bafaa7f21a94e507e80eb9e"><param name="Name" value="GetUserName"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="git_daily.html"><param name="Name" value="git日常命令"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="git_server.html"><param name="Name" value="git服务器的搭建与配置管理"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="dbg_c_p.html"><param name="Name" value="How to debug a Credential Provider locally"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="hread_2_read_me_8txt.html"><param name="Name" value="hread/ReadMe.txt"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="hread_2_read_me_8txt.html#aab1e9a0b414d106b6d4a67a9a9bbd024"><param name="Name" value="configurations"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="hread_2_read_me_8txt.html"><param name="Name" value="hread/ReadMe.txt"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="hread_2_read_me_8txt.html#aeb13145550439a30444f406297dfa5e9"><param name="Name" value="files"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="hread_2_read_me_8txt.html#abe2a01b7211ebe5732626f6469d3cd04"><param name="Name" value="hread/ReadMe.txt"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="hread_2targetver_8h.html#ac50762666aa00bd3a4308158510f1748"><param name="Name" value="hread/targetver.h"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="https.html"><param name="Name" value="HTTPS原理与证书生成"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_java_write_file.html"><param name="Name" value="java写文件的方法"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="kerberos_inst.html"><param name="Name" value="Kerberos 基本安装与配置"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="kerberos_cfg.html"><param name="Name" value="kerberos安装配置"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="linusdaily.html"><param name="Name" value="Linux学习笔记"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="timing_task.html"><param name="Name" value="Linux定时任务Crontab详解"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="linuscfg.html"><param name="Name" value="Linux常用配置"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="linux_index.html"><param name="Name" value="linux笔记索引"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_perfmon_c_r_t_2main_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4"><param name="Name" value="main"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="_perfmon_c_r_t_2main_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4"><param name="Name" value="PerfmonCRT/main.cpp"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_perfmon_demo_2main_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4"><param name="Name" value="main"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_crash_demo_thread_8cpp.html#a069228d643b6273dd1e3aafa74d6d62a"><param name="Name" value="make_minidump"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_crash_demo_thread_8cpp.html#a212979f5fc9dcf0a420e90b9b21d780a"><param name="Name" value="MAX_BUFF_SIZE"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_d_p_i__m_f_c.html"><param name="Name" value="MFC程序改变系统DPI后界面错位问题的处理"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="faqmongo.html"><param name="Name" value="mongodb日常笔记"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_common_m_p_c_config.html"><param name="Name" value="MPC常用配置"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="mpc_for_android.html"><param name="Name" value="MPC生成Windows安卓交叉编译C++可执行文件"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="mpc_follow_me.html"><param name="Name" value="MPC配置一起学"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="mysql57_config.html"><param name="Name" value="MySQL5.7 安装完成后的配置"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="opensslusage.html"><param name="Name" value="OpenSSL小结"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_perfmon_c_r_t_2main_8cpp.html"><param name="Name" value="PerfmonCRT/main.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="_perfmon_c_r_t_2main_8cpp.html#afc30e481f763a8d68a861dba91be7316"><param name="Name" value="_CRTDBG_MAP_ALLOC"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_perfmon_c_r_t_2main_8cpp.html"><param name="Name" value="PerfmonCRT/main.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="_perfmon_c_r_t_2main_8cpp.html#a7710f201d90794112f94a6adf1915f19"><param name="Name" value="fileread"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_perfmon_c_r_t_2main_8cpp.html"><param name="Name" value="PerfmonCRT/main.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="_perfmon_c_r_t_2main_8cpp.html#a6a0d6c67220e860479ad8dfb9ee24c2f"><param name="Name" value="GetComputerName"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_perfmon_c_r_t_2main_8cpp.html"><param name="Name" value="PerfmonCRT/main.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="_perfmon_c_r_t_2main_8cpp.html#a1dece2757bafaa7f21a94e507e80eb9e"><param name="Name" value="GetUserName"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_perfmon_c_r_t_2main_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4"><param name="Name" value="PerfmonCRT/main.cpp"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_perfmon_demo_2main_8cpp.html"><param name="Name" value="PerfmonDemo/main.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="_perfmon_demo_2main_8cpp.html#a7710f201d90794112f94a6adf1915f19"><param name="Name" value="fileread"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_perfmon_demo_2main_8cpp.html"><param name="Name" value="PerfmonDemo/main.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="_perfmon_demo_2main_8cpp.html#a6a0d6c67220e860479ad8dfb9ee24c2f"><param name="Name" value="GetComputerName"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_perfmon_demo_2main_8cpp.html"><param name="Name" value="PerfmonDemo/main.cpp"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="_perfmon_demo_2main_8cpp.html#a1dece2757bafaa7f21a94e507e80eb9e"><param name="Name" value="GetUserName"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_perfmon_demo_2main_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4"><param name="Name" value="PerfmonDemo/main.cpp"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="hread_2_read_me_8txt.html#abe2a01b7211ebe5732626f6469d3cd04"><param name="Name" value="platforms"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="hread_2_read_me_8txt.html#abe2a01b7211ebe5732626f6469d3cd04"><param name="Name" value="hread/ReadMe.txt"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_read_me_8txt.html#abe2a01b7211ebe5732626f6469d3cd04"><param name="Name" value="platforms"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="py_setting.html"><param name="Name" value="python环境配置"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="python_index.html"><param name="Name" value="python资料整理"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_read_me_8txt.html"><param name="Name" value="ReadMe.txt"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="_read_me_8txt.html#aab1e9a0b414d106b6d4a67a9a9bbd024"><param name="Name" value="configurations"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_read_me_8txt.html"><param name="Name" value="ReadMe.txt"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="_read_me_8txt.html#aeb13145550439a30444f406297dfa5e9"><param name="Name" value="files"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_read_me_8txt.html#abe2a01b7211ebe5732626f6469d3cd04"><param name="Name" value="ReadMe.txt"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="solr_cloud.html"><param name="Name" value="solr5.5.4单机部署向SolrCloud迁移"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="abtsolr.html"><param name="Name" value="SolrCloud之分布式索引及与Zookeeper的集成"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="solr_index.html"><param name="Name" value="solr相关"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="tao_wiki.html"><param name="Name" value="TAO维基百科翻译"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="targetver_8h.html#ac50762666aa00bd3a4308158510f1748"><param name="Name" value="targetver.h"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_crash_demo_thread_8cpp.html#aa59696fc05cef206faa9380c7abd943c"><param name="Name" value="unhandled_handler"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_u_a_c.html"><param name="Name" value="User Account Control"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="rel_debug_release.html"><param name="Name" value="VC调试版本与发布版本编译链接选项差异和区别"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="vc_remote.html"><param name="Name" value="Visual Studio 远程调试"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="vs2008p.html"><param name="Name" value="VS2008使用问题集锦"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="x64redirect.html"><param name="Name" value="windows x64 file/registry redirection"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_emacs_home.html"><param name="Name" value="Windows下设置Emacs的HOME目录"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="logoninterface.html"><param name="Name" value="Windows系统登录接口总结"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_windows_debug_main.html"><param name="Name" value="Windows调试技术"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_windows_debug1.html"><param name="Name" value="Windows调试技术第一部分&ndash;使用Windbg调试应用程序崩溃"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_windows_debug3.html"><param name="Name" value="Windows调试技术第三部分&ndash;调试应用程序崩溃（自动生成转储）"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_windows_debug2.html"><param name="Name" value="Windows调试技术第二部分&ndash;使用DebugDiag和AppVerifier调试应用程序崩溃"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_windows_debug5.html"><param name="Name" value="Windows调试技术第五部分&ndash;调试内存泄露（CRT 应用程序接口）"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_windows_debug4.html"><param name="Name" value="Windows调试技术第四部分&ndash;调试内存泄露（性能监视器）"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="yuvrgb.html"><param name="Name" value="YUV和RGB格式分析"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="abzooker.html"><param name="Name" value="Zookeeper理论与搭建"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_ivsign_funtions.html"><param name="Name" value="人脸识别相关函数收集"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="dll_to_lib.html"><param name="Name" value="从动态库中获取静态库"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="git_backup.html"><param name="Name" value="使用Gitlab一键安装包后的日常备份恢复与迁移"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="oci_blob.html"><param name="Name" value="使用OCI向数据库中插入BLOB字段"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_dll_export.html"><param name="Name" value="关于C++的动态链接库"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="git_patch.html"><param name="Name" value="关于git的打patch的功能"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="flfbs.html"><param name="Name" value="函数对象、lambda、function、bind学习"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="db_conn_string.html"><param name="Name" value="各种数据库的连接字符串"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="docker_offline.html"><param name="Name" value="在CentOS6.5上离线安装docker"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="clanglinux.html"><param name="Name" value="在CentOS上安装clang"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="epythonsetting.html"><param name="Name" value="在Emacs中打造python IDE"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="emacs_cpp.html"><param name="Name" value="在Emacs中搭建C/C++开发环境"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="bigdata_index.html"><param name="Name" value="大数据相关知识收集"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="winsymbol.html"><param name="Name" value="如何安装并使用Windows Symbol"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="how_to_compile.html"><param name="Name" value="如何编译"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_create_filter.html"><param name="Name" value="如何设计自定义的transform filter"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_try_util_fun.html"><param name="Name" value="小老鼠常用函数收集"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_random_notes.html"><param name="Name" value="小老鼠随笔"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_program_config_error.html"><param name="Name" value="应用程序配置不正确或初始化失败"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="char__convert.html"><param name="Name" value="彻底解密C++宽字符"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="add_swap.html"><param name="Name" value="手动添加swap分区"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_bat_file_summ.html"><param name="Name" value="批处理文件语法总结"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="authnoth.html"><param name="Name" value="授权笔记"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="databaserel.html"><param name="Name" value="数据库相关知识总结"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="daily_notes.html"><param name="Name" value="日积月累"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="oracle_noclient.html"><param name="Name" value="没有oracle客户端使用PL/SQL访问远程的Oracle"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="centos_prod_config.html"><param name="Name" value="生产环境下Centos 6.5优化配置"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="usersync.html"><param name="Name" value="用户方式中线程的同步"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="cmpg_s_o_a_p.html"><param name="Name" value="编译gSOAP框架工具"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="cmpopenssl.html"><param name="Name" value="编译openssl"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="cmbsqlite.html"><param name="Name" value="编译带加解密功能的sqlite"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="webcellc.html"><param name="Name" value="网络文章摘选"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="unicode_encode.html"><param name="Name" value="软件开发者必须知道的最基本的Unicode字符集"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="common_setting.html"><param name="Name" value="通用插件配置"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="redist_v_c2008.html"><param name="Name" value="部署VC2008应用程序"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="radom_note.html"><param name="Name" value="随笔"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="_use_of_pre_compile_header.html"><param name="Name" value="预编译头文件的作用"></OBJECT>
+</UL>
+</BODY>
+</HTML>

@@ -1,0 +1,77 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">MFC程序改变系统DPI后界面错位问题的处理 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>from <a href="https://www.xdty.org/1778">https://www.xdty.org/1778</a> <hr/>
+ </dd></dl>
+<p>MFC程序默认系统DPI96时调整的界面，在 【个性设置-显示-中等(win7, xp类似)】 后，出现控件错位的问题，是因为调整后DPI发生变化，相对的坐标也需要重新调整，修改方法如下：</p>
+<h1><a class="anchor" id="adjfun"></a>
+调整函数的实现</h1>
+<pre class="fragment">#define DEFAULT_DPI 96.0
+static int dpiX;
+static int dpiY;
+
+void moveWindow( CWnd &amp;wnd )
+{
+     CRect rect;
+     wnd.GetWindowRect(rect);
+     wnd.GetParent()-&gt;ScreenToClient(rect);
+     rect.left = (int)(rect.left*DEFAULT_DPI/dpiX);
+     rect.right = (int)(rect.right*DEFAULT_DPI/dpiX);
+     rect.top = (int)(rect.top*DEFAULT_DPI/dpiY);
+     rect.bottom = (int)(rect.bottom*DEFAULT_DPI/dpiY);
+     rect.OffsetRect(CPoint((int)((dpiX-DEFAULT_DPI)/2), (int)((dpiY-DEFAULT_DPI)/2)));
+
+     wnd.MoveWindow(rect);
+}
+
+void SetDPI( int x, int y )
+{
+     dpiX = x;
+     dpiY = y;
+}
+
+int GetDPIX()
+{
+     return dpiX;
+}
+
+int GetDPIY()
+{
+     return dpiY;
+}
+</pre> <h1><a class="anchor" id="setdpi"></a>
+设置dpi</h1>
+<p>在程序第一个对话框初始化OnInitDialog()时，添加如下代码：</p>
+<pre class="fragment">CDC* dc = GetDC();
+int dpiX = GetDeviceCaps(dc-&gt;GetSafeHdc(), LOGPIXELSX);
+int dpiY = GetDeviceCaps(dc-&gt;GetSafeHdc(), LOGPIXELSY);
+SetDPI(dpiX, dpiY);
+ReleaseDC(dc);
+</pre><p> 如果有通过SetWindowPos函数设置的控件，需要进行比例转换，例如： </p><pre class="fragment">button.SetWindowPos(NULL,0,0,(size_t)(width/DEFAULT_DPI*dpiX),(size_t)(height/DEFAULT_DPI*dpiY),SWP_NOMOVE);
+</pre><p> 之后再调用函数moveWindow(CWnd &amp;wnd)就可以进行坐标转换了。 </p>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

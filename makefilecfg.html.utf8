@@ -1,0 +1,383 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">GCC 64位程序的makefile条件编译心得——32位版与64位版、debug版与release版（兼容MinGW、TDM-GCC） </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>zyl910(from <a href="http://www.cnblogs.com/zyl910/archive/2012/08/14/gcc64_make.html">http://www.cnblogs.com/zyl910/archive/2012/08/14/gcc64_make.html</a>) <hr/>
+ </dd></dl>
+<p>为了适应现在越来越流行的64位系统，经常需要将代码分别编译为32位版和64位版。其次，除了需要生成debug版用于开发测试外，还需要生成release版用于发布。本文介绍了如何利用makefile条件编译来生成这些版本，而且不仅兼容Linux下的GCC，还支持MinGW、TDM-GCC等Windows下的GCC编译器。</p>
+<h1><a class="anchor" id="fstccode"></a>
+C程序代码</h1>
+<p>为了测试条件编译的效果，以下面这个C语言程序为例（gcc64_make.c）—— </p><pre class="fragment">#include &lt;stdio.h&gt;
+#include &lt;assert.h&gt;
+
+// 获取程序位数（被编译为多少位的代码）
+int GetProgramBits()
+{
+    return sizeof(int*) * 8;
+}
+
+int main(int argc, char* argv[])
+{
+    printf("bits:\t%d\n", GetProgramBits());
+    assert( argc&gt;1 );
+    return 0;
+}
+</pre> <p>main函数中，前两条语句的含义为——第一条语句用于显示当前程序的位数。如果编译为32位版，将会显示“bits: 32”；如果编译为64位版，将会显示“bits: 64”。第二条语句是一条断言，需要argc变量大于1。如果编译为debug版，若运行时未加命令参数，该断言失败，于是输出错误信息并终止程序；如果编译为release版，所有断言被屏蔽，不会有错误信息。</p>
+<h1><a class="anchor" id="gcccmd"></a>
+GCC命令行参数</h1>
+<p>复习一下GCC命令行参数，看看各个版本的区别——</p>
+<ol type="1">
+<li>32位版：加上 -m32 参数，生成32位的代码。</li>
+<li>64位版：加上 -m64 参数，生成64位的代码。</li>
+<li>debug版：加上 -g 参数，生成调试信息。</li>
+<li>release版：加上 -static 参数，进行静态链接，使程序不再依赖动态库。加上 -O3 参数，进行最快速度优化。加上-DNDEBUG参数，定义NDEBUG宏，屏蔽断言。 </li>
+</ol>
+<p>当没有-m32或-m64参数时，一般情况下会生成跟操作系统位数一致的代码，但某些编译器存在例外，例如——</p>
+<ol type="1">
+<li>32位Linux下的GCC，默认是编译为32位代码。</li>
+<li>64位Linux下的GCC，默认是编译为64位代码。</li>
+<li>Window系统下的MinGW，总是编译为32位代码。因为MinGW只支持32位代码。</li>
+<li>Window系统下的MinGW-w64（例如安装了TDM-GCC，选择MinGW-w64），默认是编译为64位代码，包括在32位的Windows系统下。 </li>
+</ol>
+<h1><a class="anchor" id="makefilecode"></a>
+makefile代码</h1>
+<pre class="fragment"># flags
+CC = gcc
+CFLAGS = -Wall
+LFLAGS = 
+
+# args
+RELEASE =0
+BITS =
+
+# [args] 生成模式. 0代表debug模式, 1代表release模式. make RELEASE=1.
+ifeq ($(RELEASE),0)
+    # debug
+    CFLAGS += -g
+else
+    # release
+    CFLAGS += -static -O3 -DNDEBUG
+    LFLAGS += -static
+endif
+
+# [args] 程序位数. 32代表32位程序, 64代表64位程序, 其他默认. make BITS=32.
+ifeq ($(BITS),32)
+    CFLAGS += -m32
+    LFLAGS += -m32
+else
+    ifeq ($(BITS),64)
+        CFLAGS += -m64
+        LFLAGS += -m64
+    else
+    endif
+endif
+
+.PHONY : all clean
+
+# files
+TARGETS = gcc64_make
+OBJS = gcc64_make.o
+
+all : $(TARGETS)
+
+gcc64_make : $(OBJS)
+    $(CC) $(LFLAGS) -o $@ $^
+
+
+gcc64_make.o : gcc64_make.c
+    $(CC) $(CFLAGS) -c $&lt;
+
+
+clean :
+    rm -f $(OBJS) $(TARGETS) $(addsuffix .exe,$(TARGETS))
+</pre> <p>为了控制条件编译，定义了RELEASE、BITS这两个变量，分别赋初值。然后用ifeq判断RELEASE、BITS变量的值，分别加上不同的参数。因赋有初值，直接执行“make”时，编译得到的是默认位数的debug版。若在执行make时给变量赋值，将会得到不同的版本——</p>
+<ol type="1">
+<li>make RELEASE=0：（默认位数的）debug版。</li>
+<li>make RELEASE=1：（默认位数的）release版。</li>
+<li>make BITS=32：32位（的debug）版。</li>
+<li>make BITS=64：64位（的debug）版。</li>
+<li>make RELEASE=0 BITS=32：32位的debug版。</li>
+<li>make RELEASE=0 BITS=64：64位的debug版。</li>
+<li>make RELEASE=1 BITS=32：32位的release版。</li>
+<li>make RELEASE=1 BITS=64：64位的release版。 </li>
+</ol>
+<p>该makefile的代码风格是精心设计的，可以很方便的扩展——</p>
+<ol type="1">
+<li>需要增加代码文件或依赖关系时，修改“# files”之后的内容。</li>
+<li>需要调整编译参数时，修改前半部分的参数变量。</li>
+<li>需要增加新的条件编译参数时，在“# args”定义一个变量并赋初值，然后再在后面用“ifeq”判断变量来调整编译参数。 </li>
+</ol>
+<p>最后的“rm -f   $(addsuffix .exe,)”是为了兼容MinGW、TDM-GCC等Windows下的GCC编译器而设计的——</p>
+<ol type="1">
+<li>装好MSYS，再配置一下PATH环境变量，Windows中也可以使用rm命令删除文件。</li>
+<li>因Windows下的可执行文件的扩展名是exe，所以使用了addsuffix函数增加“.exe”扩展名。</li>
+<li>因Linux下不会生成.exe可执行文件，而Windows下不会生成无扩展名的可执行文件，导致rm会因找不到文件而报错。这时可以加上-f参数忽略该错误。 </li>
+</ol>
+<h1><a class="anchor" id="testresult"></a>
+测试结果</h1>
+<h2><a class="anchor" id="fed1764"></a>
+Fedora 17 64位版下的 GCC 4.7.0</h2>
+<p>打开终端，使用cd命令进入程序所在目录，并执行以下命令——</p>
+<pre class="fragment">make clean
+make
+./gcc64_make
+make clean
+make RELEASE=1
+./gcc64_make
+make clean
+make BITS=32
+./gcc64_make
+make clean
+make RELEASE=1 BITS=32
+./gcc64_make
+gcc --version
+</pre> <p>运行结果——</p>
+<center><div class="image">
+<img src="Linux_makefile_01.png" alt="Linux_makefile_01.png"/>
+</div>
+ </center> <h2><a class="anchor" id="xpsp3"></a>
+Windows XP SP3 32位版下的 GCC 4.6.2（MinGW (20120426)）</h2>
+<p>打开命令提示符，使用cd命令进入程序所在目录，并执行以下命令——</p>
+<pre class="fragment">make clean
+make
+gcc64_make
+make clean
+make RELEASE=1
+gcc64_make
+make clean
+make BITS=64
+gcc --version
+</pre> <p>运行结果——</p>
+<center><div class="image">
+<img src="Linux_makefile_02.png" alt="Linux_makefile_02.png"/>
+</div>
+ </center> <h2><a class="anchor" id="xpsp364"></a>
+Windows 7 SP1 64位版下的 GCC 4.6.1（TDM-GCC (MinGW-w64)）</h2>
+<p>打开命令提示符，使用cd命令进入程序所在目录，并执行以下命令——</p>
+<pre class="fragment">make clean
+make
+gcc64_make
+make clean
+make RELEASE=1
+gcc64_make
+make clean
+make BITS=32
+gcc64_make
+make clean
+make RELEASE=1 BITS=32
+gcc64_make
+gcc --version
+</pre> <p>运行结果——</p>
+<center><div class="image">
+<img src="Linux_makefile_03.png" alt="Linux_makefile_03.png"/>
+</div>
+ </center> <hr/>
+<p> 参考文献——</p><ol type="1">
+<li>《跟我一起写 Makefile》. 陈皓. <a href="http://blog.csdn.net/haoel/article/details/2886">http://blog.csdn.net/haoel/article/details/2886</a></li>
+<li>《Makefile条件编译debug版和release版》. 功夫Panda. <a href="http://www.cnblogs.com/caosiyang/archive/2012/06/13/2548051.html">http://www.cnblogs.com/caosiyang/archive/2012/06/13/2548051.html</a></li>
+<li>《assert()函数用法总结》. Glroy. <a href="http://www.cnblogs.com/ggzss/archive/2011/08/18/2145017.html">http://www.cnblogs.com/ggzss/archive/2011/08/18/2145017.html</a></li>
+<li>《Windows版GCC之TDM-GCC 4.5.2》. 单鱼游弋. <a href="http://www.cnblogs.com/wxxweb/archive/2011/05/30/2063434.html">http://www.cnblogs.com/wxxweb/archive/2011/05/30/2063434.html</a></li>
+</ol>
+<p><a href="addin/gcc64_make.rar">源码下载</a></p>
+<dl class="section author"><dt>作者</dt><dd>zyl910(from <a href="http://www.cnblogs.com/zyl910/archive/2012/08/14/gcc64_make.html">http://www.cnblogs.com/zyl910/archive/2012/08/14/gcc64_make.html</a>) <hr/>
+ </dd></dl>
+<p>为了适应现在越来越流行的64位系统，经常需要将代码分别编译为32位版和64位版。其次，除了需要生成debug版用于开发测试外，还需要生成release版用于发布。本文介绍了如何利用makefile条件编译来生成这些版本，而且不仅兼容Linux下的GCC，还支持MinGW、TDM-GCC等Windows下的GCC编译器。</p>
+<h1><a class="anchor" id="fstdsccode"></a>
+C程序代码</h1>
+<p>为了测试条件编译的效果，以下面这个C语言程序为例（gcc64_make.c）—— </p><pre class="fragment">#include &lt;stdio.h&gt;
+#include &lt;assert.h&gt;
+
+// 获取程序位数（被编译为多少位的代码）
+int GetProgramBits()
+{
+    return sizeof(int*) * 8;
+}
+
+int main(int argc, char* argv[])
+{
+    printf("bits:\t%d\n", GetProgramBits());
+    assert( argc&gt;1 );
+    return 0;
+}
+</pre> <p>main函数中，前两条语句的含义为——第一条语句用于显示当前程序的位数。如果编译为32位版，将会显示“bits: 32”；如果编译为64位版，将会显示“bits: 64”。第二条语句是一条断言，需要argc变量大于1。如果编译为debug版，若运行时未加命令参数，该断言失败，于是输出错误信息并终止程序；如果编译为release版，所有断言被屏蔽，不会有错误信息。</p>
+<h1><a class="anchor" id="gcccmpamd"></a>
+GCC命令行参数</h1>
+<p>复习一下GCC命令行参数，看看各个版本的区别——</p>
+<ol type="1">
+<li>32位版：加上 -m32 参数，生成32位的代码。</li>
+<li>64位版：加上 -m64 参数，生成64位的代码。</li>
+<li>debug版：加上 -g 参数，生成调试信息。</li>
+<li>release版：加上 -static 参数，进行静态链接，使程序不再依赖动态库。加上 -O3 参数，进行最快速度优化。加上-DNDEBUG参数，定义NDEBUG宏，屏蔽断言。 </li>
+</ol>
+<p>当没有-m32或-m64参数时，一般情况下会生成跟操作系统位数一致的代码，但某些编译器存在例外，例如——</p>
+<ol type="1">
+<li>32位Linux下的GCC，默认是编译为32位代码。</li>
+<li>64位Linux下的GCC，默认是编译为64位代码。</li>
+<li>Window系统下的MinGW，总是编译为32位代码。因为MinGW只支持32位代码。</li>
+<li>Window系统下的MinGW-w64（例如安装了TDM-GCC，选择MinGW-w64），默认是编译为64位代码，包括在32位的Windows系统下。 </li>
+</ol>
+<h1><a class="anchor" id="makefilecoewde"></a>
+makefile代码</h1>
+<pre class="fragment"># flags
+CC = gcc
+CFLAGS = -Wall
+LFLAGS =
+
+# args
+RELEASE =0
+BITS =
+
+# [args] 生成模式. 0代表debug模式, 1代表release模式. make RELEASE=1.
+ifeq ($(RELEASE),0)
+    # debug
+    CFLAGS += -g
+else
+    # release
+    CFLAGS += -static -O3 -DNDEBUG
+    LFLAGS += -static
+endif
+
+# [args] 程序位数. 32代表32位程序, 64代表64位程序, 其他默认. make BITS=32.
+ifeq ($(BITS),32)
+    CFLAGS += -m32
+    LFLAGS += -m32
+else
+    ifeq ($(BITS),64)
+        CFLAGS += -m64
+        LFLAGS += -m64
+    else
+    endif
+endif
+
+.PHONY : all clean
+
+# files
+TARGETS = gcc64_make
+OBJS = gcc64_make.o
+
+all : $(TARGETS)
+
+gcc64_make : $(OBJS)
+    $(CC) $(LFLAGS) -o $@ $^
+
+
+gcc64_make.o : gcc64_make.c
+    $(CC) $(CFLAGS) -c $&lt;
+
+
+clean :
+    rm -f $(OBJS) $(TARGETS) $(addsuffix .exe,$(TARGETS))
+</pre> <p>为了控制条件编译，定义了RELEASE、BITS这两个变量，分别赋初值。然后用ifeq判断RELEASE、BITS变量的值，分别加上不同的参数。因赋有初值，直接执行“make”时，编译得到的是默认位数的debug版。若在执行make时给变量赋值，将会得到不同的版本——</p>
+<ol type="1">
+<li>make RELEASE=0：（默认位数的）debug版。</li>
+<li>make RELEASE=1：（默认位数的）release版。</li>
+<li>make BITS=32：32位（的debug）版。</li>
+<li>make BITS=64：64位（的debug）版。</li>
+<li>make RELEASE=0 BITS=32：32位的debug版。</li>
+<li>make RELEASE=0 BITS=64：64位的debug版。</li>
+<li>make RELEASE=1 BITS=32：32位的release版。</li>
+<li>make RELEASE=1 BITS=64：64位的release版。 </li>
+</ol>
+<p>该makefile的代码风格是精心设计的，可以很方便的扩展——</p>
+<ol type="1">
+<li>需要增加代码文件或依赖关系时，修改“# files”之后的内容。</li>
+<li>需要调整编译参数时，修改前半部分的参数变量。</li>
+<li>需要增加新的条件编译参数时，在“# args”定义一个变量并赋初值，然后再在后面用“ifeq”判断变量来调整编译参数。 </li>
+</ol>
+<p>最后的“rm -f   $(addsuffix .exe,)”是为了兼容MinGW、TDM-GCC等Windows下的GCC编译器而设计的——</p>
+<ol type="1">
+<li>装好MSYS，再配置一下PATH环境变量，Windows中也可以使用rm命令删除文件。</li>
+<li>因Windows下的可执行文件的扩展名是exe，所以使用了addsuffix函数增加“.exe”扩展名。</li>
+<li>因Linux下不会生成.exe可执行文件，而Windows下不会生成无扩展名的可执行文件，导致rm会因找不到文件而报错。这时可以加上-f参数忽略该错误。 </li>
+</ol>
+<h1><a class="anchor" id="testreseweult"></a>
+测试结果</h1>
+<h2><a class="anchor" id="fede1764"></a>
+Fedora 17 64位版下的 GCC 4.7.0</h2>
+<p>打开终端，使用cd命令进入程序所在目录，并执行以下命令——</p>
+<pre class="fragment">make clean
+make
+./gcc64_make
+make clean
+make RELEASE=1
+./gcc64_make
+make clean
+make BITS=32
+./gcc64_make
+make clean
+make RELEASE=1 BITS=32
+./gcc64_make
+gcc --version
+</pre> <p>运行结果——</p>
+<center><div class="image">
+<img src="Linux_makefile_01.png" alt="Linux_makefile_01.png"/>
+</div>
+ </center> <h2><a class="anchor" id="xepsp3"></a>
+Windows XP SP3 32位版下的 GCC 4.6.2（MinGW (20120426)）</h2>
+<p>打开命令提示符，使用cd命令进入程序所在目录，并执行以下命令——</p>
+<pre class="fragment">make clean
+make
+gcc64_make
+make clean
+make RELEASE=1
+gcc64_make
+make clean
+make BITS=64
+gcc --version
+</pre> <p>运行结果——</p>
+<center><div class="image">
+<img src="Linux_makefile_02.png" alt="Linux_makefile_02.png"/>
+</div>
+ </center> <h2><a class="anchor" id="xpswep364"></a>
+Windows 7 SP1 64位版下的 GCC 4.6.1（TDM-GCC (MinGW-w64)）</h2>
+<p>打开命令提示符，使用cd命令进入程序所在目录，并执行以下命令——</p>
+<pre class="fragment">make clean
+make
+gcc64_make
+make clean
+make RELEASE=1
+gcc64_make
+make clean
+make BITS=32
+gcc64_make
+make clean
+make RELEASE=1 BITS=32
+gcc64_make
+gcc --version
+</pre> <p>运行结果——</p>
+<center><div class="image">
+<img src="Linux_makefile_03.png" alt="Linux_makefile_03.png"/>
+</div>
+ </center> <hr/>
+<p> 参考文献——</p><ol type="1">
+<li>《跟我一起写 Makefile》. 陈皓. <a href="http://blog.csdn.net/haoel/article/details/2886">http://blog.csdn.net/haoel/article/details/2886</a></li>
+<li>《Makefile条件编译debug版和release版》. 功夫Panda. <a href="http://www.cnblogs.com/caosiyang/archive/2012/06/13/2548051.html">http://www.cnblogs.com/caosiyang/archive/2012/06/13/2548051.html</a></li>
+<li>《assert()函数用法总结》. Glroy. <a href="http://www.cnblogs.com/ggzss/archive/2011/08/18/2145017.html">http://www.cnblogs.com/ggzss/archive/2011/08/18/2145017.html</a></li>
+<li>《Windows版GCC之TDM-GCC 4.5.2》. 单鱼游弋. <a href="http://www.cnblogs.com/wxxweb/archive/2011/05/30/2063434.html">http://www.cnblogs.com/wxxweb/archive/2011/05/30/2063434.html</a></li>
+</ol>
+<p><a href="addin/gcc64_make.rar">源码下载</a> </p>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

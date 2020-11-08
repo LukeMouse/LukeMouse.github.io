@@ -1,0 +1,45 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">CentOS 6.5 minimal 安装配置VMware tools </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><hr/>
+<ul>
+<li>使用root账户登录到系统。</li>
+<li>配置网络，编辑/etc/sysconfig/network-script/ifcfg-eth0，修改NM_CONTROLLED取值为"no"【不依赖NetworkManager控制】，ONBOOT取值为"yes"【设置开机启动】。</li>
+<li>安装perl：yum -y install perl</li>
+<li>在VMware菜单中点击“安装VMware Tools(T)...</li>
+<li>执行如下命令进行安装 <pre class="fragment">mkdir /media/mnt
+mount /dev/cdrom /media/mnt/
+cp VMwareTools-&lt;XXX&gt;.tar.gz /root
+umount /dev/cdrom
+cd /root
+tar -zxvf VMwareTools-&lt;XXX&gt;.tar.gz
+cd vmware-tools-distrib
+./vmware-install.pl -d
+</pre> </li>
+</ul>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

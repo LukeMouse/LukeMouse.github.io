@@ -1,0 +1,36 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">授权笔记 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>李进安 <hr/>
+ 认证包包含在动态链接库中，本地安全认证（LSA）通过注册表中的配置信息加载认证包。通过加载多个认证包使得LSA可以支持多个登录进程和多种安全协议。 登录进程使用认证包分析登录数据，新的登录进程通过增加一个GINA（）收集需要的登录数据（如果需要的话可以增加一个新的认证包分析数据）加入到系统中。 认证包实现安全协议，认证包按照安全协议中的规则和程序分析登录数据。 认证包需要支持以下功能<ul>
+<li>分析登录数据以确定是否允许安全主体（security principal）登录系统；</li>
+<li>为授权成功的主体创建一个新的登录会话和一个唯一的登录标识；</li>
+<li>将安全信息传输到LSA以获得主体的安全令牌 用户尝试交互式登录时，LSA调用认证包以确定是否允许其登录；例如MSV1_0是随微软操作系统安装的一个认证包，它接收用户名和密码的哈希值，然后在SAM（安全账户管理）数据库中查询该组合，如果登录数据与存储的凭证相匹配，认证包将允许用户登录。 成功验证安全主体的凭证后，认证包负责为主体创建一个新的登录会话，并创建一个登录标记唯一标识该会话。认证包可能将认证信息与登录会话相关联以便于后续的认证请求。如微软提供的MSV1_0认证包将用户名和密码的哈希值与每一个登录会话相关联。 认证包还提供了一组安全标识（SID）及其他信息以便于包含在由LSA创建的令牌中，该令牌为主体获取Windows操作提供了安全上下文。 登录会话创建并与主体关联后，为主体创建的认证请求处理方式与开始登录时不同。认证包不会创建新的登录会话，也不会返回创建令牌的信息。然而，认证包可以将后续获得的补充认证与已存在的主体登录会话相关联。补充认证主要在获取初始登录凭证授权之外的资源时得到。例如，登录用户请求Novell网络登录，Novell的认证包可能被调用，Novell凭证可能被认证并与登录会话关联。用户获取Novell的网络资源时，这些认证可以被Novell的重定向模块（通过Novell的认证包）参考。 </li>
+</ul>
+</dd></dl>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

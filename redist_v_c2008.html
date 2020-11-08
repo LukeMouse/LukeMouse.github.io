@@ -1,0 +1,69 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">部署VC2008应用程序 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>CSDN (From:http://blog.csdn.net/laiboy/article/details/5038165) <hr/>
+ </dd></dl>
+<h1><a class="anchor" id="question"></a>
+问题提出</h1>
+<p>如果你编译了一个VC2008的默认的CRT/MFC的应用程序,如果目标部署电脑上没有安装相应的VC2008的动态库,当运行你的程序的时个,会出现如下错误信息.</p>
+<div class="image">
+<img src="redist_error.jpg" alt="redist_error.jpg"/>
+</div>
+<p> 这是因为程序使用了基于VC2008的CRT/MFC的动态库版本.</p>
+<h1><a class="anchor" id="answer"></a>
+解决方法</h1>
+<p>解决这个问题,有三种方法:</p>
+<ol type="1">
+<li>使用静态链接库编译(缺点,生成的exe的程序过于庞大)</li>
+<li>使用vcredist_x86.exe / vcredist_x64.exe 将VC2008的发行版的DLL安装在你的系统上.(缺点,只能支持发行版,调试版程序不能支持)</li>
+<li>将你的程序依赖的CRT/MFC的动态库与你的程序一起发布(放在与你的发布程序同一目录中) </li>
+</ol>
+<h1><a class="anchor" id="detail"></a>
+细化</h1>
+<p>第一种和第二种就不详细讲如何实现了,只要讲第三种方法如何实现.尤其是程序的开发是使用了VC2008 SP1的版本开发的程序.</p>
+<p>在你的VC2008的安装目录下有两个目录:VC/redist/x86/Microsoft.VC90.CRT和VC/redist/x86/Microsoft.VC90.MFC只要将这两个目录下的文件一同拷贝到发布程序的同一目录下:</p><ul>
+<li>Microsoft.VC90.CRT.manifest</li>
+<li>msvcr90.dll</li>
+<li>msvcp90.dll</li>
+<li>msvcm90.dll</li>
+<li>Microsoft.VC90.MFC.manifest</li>
+<li>mfc90.dll</li>
+<li>mfc90u.dll</li>
+<li>mfcm90.dll</li>
+<li>mfcm90u.dll 这些是这个程序依赖的发行版动态库,同理,如果是调试版的发布程序,也一样把相应的调试动态库拷贝到相应目录.程序如你意运行起来了! </li>
+</ul>
+<h1><a class="anchor" id="exception"></a>
+意外</h1>
+<p>但是,如果你安装的是VC2008 SP1的版本的时候,问题就来了,你的程序也一样运行不起来了!原因就是安装了VC2008 SP1的时候,它把"VC/redist"用新的版本文件代替了,问题不大,但是,这个程序的版本是依赖于新的manifest的文件的,当你编译VC2008-SP1的程序的时候,它同时把RTM-version写入程序的manifest文件中,这个是旧的RTM-version,不与新版本的VC2008-SP1的"CRT/MFC"manifest版本一致,因此程序运行的时候是拒绝导入这些新的VC2008-SP1的CRT/MFC的运态库! </p>
+<h2><a class="anchor" id="solution"></a>
+两种解决办法</h2>
+<ol type="1">
+<li>最简单的,修改Microsoft.VC90.CRT.manifest和Microsoft.VC90.MFC.manifest文件,将新的版本号改为旧的版本号,如果是依赖其它的Microsoft.VC90.*.manifest的文件,也同样是如此修改!如果是装了VC2008-SP1后,它的版本号是“9.0.30729.8″，未装VC2008-SP1前的版本号为"9.0.21022.8"，过程如下:将所依的动态库的及它们的 manifest 文件拷贝到发布应用程序的同一目录下,并修改Microsoft.VC90.*.manifest文件,将version="9.0.30729.1"修改为：version="9.0.21022.8"恭喜你,你的程序运行起来了!</li>
+<li>修改你的程序的所依赖的manifest,这样程序会依整于新的manifest.过程如下:在stdafx.h。这个文件中,增加如下宏定义:<div class="fragment"><div class="line"><span class="preprocessor">#define _BIND_TO_CURRENT_VCLIBS_VERSION 1 </span></div></div><!-- fragment --> 程序编译后就会依赖于新的manifest,版本号为"9.0.30729.1"无须再修改manifest文件中的version版本号了.将所依的动态库的及它们的 manifest 文件拷贝到发布应用程序的同一目录下，恭喜你,程序又运行起来了!，注意:如果你是想要新的MFC-feature-pack的功能,用这种方法是最好的.注意一点,非常重要,如果已经安装了vcredist_*.exe程序包,注意的是Dll会自动把引用调到系统目录下的WinSxS目录下的,即不再引用同一目录下的动态库!如果是编译时使用了(/clr)这个编译选项去支持.net开发,你必须要安装.net framework redistributable包! </li>
+</ol>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

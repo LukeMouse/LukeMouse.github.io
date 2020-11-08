@@ -1,0 +1,140 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">git服务器的搭建与配置管理 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section date"><dt>日期</dt><dd>20160616 <hr/>
+ </dd></dl>
+<p>这几天不知道怎么回事，我使用的云平台上的虚机挂了，虽然没有造成损失，但是这也是一次警钟，综合这些日子的经验总结，我决定将我所有的代码和文档使用git进行管理，本文记录了整个git服务的搭建过程。</p>
+<h1><a class="anchor" id="ubtins"></a>
+在VMWare中安装ubuntu server</h1>
+<p>由于git在linux操作系统上安装和配置较为简单，综合参考网上和同事的做法，我决定使用当前最新版本的Ubuntu1604 Server版本作为我的服务载体。在VMWare中安装，分配了2G内存和60G硬盘空间，安装过程中使用了默认的英语。手动分区划分如下：</p><ol type="1">
+<li>根分区/ 15G</li>
+<li>/home 40G</li>
+<li>/boot 200M</li>
+<li>交换分区swap 4G </li>
+</ol>
+<p>系统安装成功后，安装VMTool，在菜单中选择安装VM Tool，然后执行下述命令：</p>
+<ol type="1">
+<li>mkdir /mnt/cdrom</li>
+<li>mount /dev/cdrom /mnt/cdrom</li>
+<li>cd /opt</li>
+<li>tar zxvf /mnt/cdrom/XXXX.tar.gz</li>
+<li>cd wmwareXXXX</li>
+<li>./vmXXXX.pl</li>
+<li>umount /dev/cdrom</li>
+<li>rm -Rf /mnt.cdrom </li>
+</ol>
+<p>为服务器配置使用静态IP地址和静态DNS，运行sudo vim /etc/network/interfaces，修改后面的内容如下： </p><pre class="fragment"># The primary network interface
+auto ens33
+iface ens33 inet static #dhcp
+
+address 192.168.30.234
+netmask 255.255.255.0
+gateway 192.168.30.254
+</pre> <p>运行sudo vi /etc/resolvconf/resolv.conf.d/head配置静态DNS地址，输入如下内容： </p><pre class="fragment">nameserver 202.106.196.115
+nameserver 8.8.8.8
+</pre><p>安装ssh服务，使得系统可以通过xshell等工具远程登录 </p><pre class="fragment">sudo apt-get update
+sudo apt-get install openssh-server
+sudo service ssh start</pre> <h1><a class="anchor" id="instgit"></a>
+安装github</h1>
+<p>参照网址https://mirror.tuna.tsinghua.edu.cn/help/gitlab-ce/安装gitlab社区版，然后运行sudo gitlab-ctl reconfigure进行初始配置。 </p>
+<h1><a class="anchor" id="gitccfg"></a>
+客户端配置</h1>
+<p>由于要将代码分别放置在公司git个自己的git服务上，我使用了两个邮箱，分别进行管理，这时需要使用两个ssh key，生成公司ssh-key使用如下语句 ssh-keygen -t rsa -f ~/.ssh/id_rsa.company -C "lijinan@hisign.com.cn" 生成个人使用的ssh-key使用如下语句 ssh-keygen -t rsa -f ~/.ssh/id_rsa.private -C "ruralmouse@163.com" 在~/.ssh目录下创建一个config文件，添加如下内容： </p><pre class="fragment"># gitlab
+Host gitlab.com
+    HostName gitlab.com
+    PreferredAuthentications publickey
+    IdentityFile ~/.ssh/id_rsa
+# github
+Host github.com
+    HostName github.com
+    PreferredAuthentications publickey
+    IdentityFile ~/.ssh/id_rsa_github
+</pre> <p>将公钥添加到git服务器上，并将.ssh文件夹拷贝备份，和家中笔记本的.ssh文件夹合并，这样家中和公司的git客户端都可以访问两个git服务了。</p>
+<h1><a class="anchor" id="gitlabcewe"></a>
+gitlabce的配置管理</h1>
+<p>默认时GitLab的仓库存储位置在“/var/opt/gitlab/git-data/repositories”，在实际生产中一般都会划分一个独立的分区来存储仓库的数据，这里假设数据存放在“/data/git-data”目录下。运行</p><ol type="1">
+<li>gitlab-ctl stop停止服务</li>
+<li>mkdir -p /data/git-data</li>
+<li>将external_url设置为想要显示的url，'<a href="http://192.168.30.49'">http://192.168.30.49'</a>，修改# git_data_dirs({"default" =&gt; "/var/opt/gitlab/git-data"})为git_data_dirs({"default" =&gt; "/data/git-data/"})</li>
+<li>如果git仓库已经存在参考如下步骤 <pre class="fragment"># Prevent users from writing to the repositories while you move them.
+sudo gitlab-ctl stop
+
+# Note there is _no_ slash behind 'repositories', but there _is_ a
+# slash behind 'git-data'.
+sudo rsync -av /var/opt/gitlab/git-data/repositories /data/git-data/
+
+# Fix permissions if necessary
+sudo gitlab-ctl reconfigure
+
+# Double-check directory layout in /data/git-data. Expected output:
+# repositories
+sudo ls /data/git-data/
+
+# Done! Start GitLab and verify that you can browse through the repositories in
+# the web interface.
+sudo gitlab-ctl start
+</pre> </li>
+</ol>
+<h1><a class="anchor" id="usebc"></a>
+使用Beyond Compare作为比较合并工具</h1>
+<p>在版本库所在路径打开命令窗口执行以下命令： </p><pre class="fragment">#configure diff
+git config --global diff.tool lukebc
+git config --global difftool.lukebc.cmd "\"C:/Program Files/Beyond Compare 4/BCompare.exe\" \"$LOCAL\" \"$REMOTE\""
+git config --global difftool.prompt false 
+#configure merge
+git config --global merge.tool lukebc
+git config --global mergetool.lukebc.cmd "\"C:/Program Files/Beyond Compare 4/BCompare.exe\" \"$LOCAL\" \"$REMOTE\" \"$BASE\" \"$MERGED\""
+git config --global mergetool.lukebc.trustExitCode true 
+</pre> <h1><a class="anchor" id="radnotgit"></a>
+git命令随笔</h1>
+<ol type="1">
+<li>跳过使用暂存区提交版本：git commit -a</li>
+<li>增加标签：git tag -a v1.4 -m ‘My version 1.4'</li>
+<li>轻量标签（不使用-a，-m或-s）：git tag v1.4-lw</li>
+<li>补打标签，假设提交历史如下,假设在 v1.2 时你忘记给项目打标签，也就是在 “updated rakefile” 提交。你可以在之后补上标签。要在那个提交上打标签，你需要在命令的末尾指定提交的校验和（或部分校验和）:$ git tag -a v1.2 9fceb02 <pre class="fragment">$ git log --pretty=oneline
+15027957951b64cf874c3557a0f3547bd83b3ff6 Merge branch 'experiment'
+a6b4c97498bd301d84096da251c98a07c7723e65 beginning write support
+0d52aaab4479697da7686c15f77a3d64d9165190 one more thing
+6d52a271eda8725415634dd79daabbc4d9b6008e Merge branch 'experiment'
+0b7434d86859cc7b8c3d5e1dddfed66ff742fcbc added a commit function
+4682c3261057305bdd616e23b64b0857d832627b added a todo file
+166ae0c4d3f420721acbb115cc33848dfcc2121a started write support
+9fceb02d0ae598e95dc970b74767f19372d61af8 updated rakefile
+964f16d36dfccde844893cac5b347e7b3d44abbc commit the todo
+8a5cbc430f1a9c3d00faaeffd07798508422908a updated readme
+</pre></li>
+<li>共享标签:默认情况下，git push 命令并不会传送标签到远程仓库服务器上。在创建完标签后你必须显式地推送标签到共享服务器上。 这个过程就像共享远程分支一样 - 你可以运行 git push origin [tagname]。</li>
+<li>检出标签:在Git中你并不能真的检出一个标签，因为它们并不能像分支一样来回移动。如果你想要工作目录与仓库中特定的标签版本完全一样，可以使用 git checkout -b [branchname] [tagname] 在特定的标签上创建一个新分支：$ git checkout -b version2 v2.0.0</li>
+<li>删除指定标签：git tag -g &lt;tagname&gt;</li>
+<li>删除分支：git branch -d &lt;branchname&gt;</li>
+<li>“origin” 是当你运行 git clone 时默认的远程仓库名字。如果你运行git clone -o booyah，那么你默认的远程分支名字将会是 booyah/master。</li>
+<li>克隆一个本地版本库，可以执行如下的命令：$ git clone /opt/git/project.git或你可以执行这个命令：$ git clone <a href="file:///opt/git/project.git">file:///opt/git/project.git</a> 。如果在 URL 开头明确的指定 <a href="file://">file://</a>，那么 Git 的行为会略有不同。 如果仅是指定路径，Git 会尝试使用硬链接（hard link）或直接复制所需要的文件。 如果指定 <a href="file://">file://</a>，Git 会触发平时用于网路传输资料的进程，那通常是传输效率较低的方法。 指定 <a href="file://">file://</a> 的主要目的是取得一个没有外部参考（extraneous references）或对象（object）的干净版本库副本– 通常是在从其他版本控制系统导入后或一些类似情况需要这么做。 在此我们将使用普通路径，因为这样通常更快。</li>
+<li>通过克隆你的仓库来创建一个新的裸仓库，需要在克隆命令后加上 <code>--bare</code>选项,按照惯例，裸仓库目录名以 .git 结尾，就像这样：$ git clone &ndash;bare my_project.git</li>
+<li>有了裸仓库的副本，剩下要做的就是把裸仓库放到服务器上并设置你的协议。 假设一个域名为git.example.com 的服务器已经架设好，并可以通过 SSH 连接，你想把所有的 Git 仓库放在 /opt/git 目录下。 假设服务器上存在 /opt/git/ 目录，你可以通过以下命令复制你的裸仓库来创建一个新仓库：$ scp -r my_project.git <a href="#" onclick="location.href='mai'+'lto:'+'use'+'r@'+'git'+'.e'+'xam'+'pl'+'e.c'+'om'; return false;">user@<span style="display: none;">.nosp@m.</span>git.<span style="display: none;">.nosp@m.</span>examp<span style="display: none;">.nosp@m.</span>le.c<span style="display: none;">.nosp@m.</span>om</a>:/opt/git 。此时，其他通过 SSH 连接这台服务器并对 /opt/git 目录拥有可读权限的使用者，通过运行以下命令就可以克隆你的仓库。$ git clone <a href="#" onclick="location.href='mai'+'lto:'+'use'+'r@'+'git'+'.e'+'xam'+'pl'+'e.c'+'om'; return false;">user@<span style="display: none;">.nosp@m.</span>git.<span style="display: none;">.nosp@m.</span>examp<span style="display: none;">.nosp@m.</span>le.c<span style="display: none;">.nosp@m.</span>om</a>:/opt/git/my_project.git </li>
+</ol>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

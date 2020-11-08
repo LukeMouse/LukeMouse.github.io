@@ -1,0 +1,89 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">通用插件配置 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><hr/>
+ <h1><a class="anchor" id="cset"></a>
+配置包源路径</h1>
+<p>在.emacs文件或其他启动文件中输入如下脚本，配置使用package插件管理和包源路径</p>
+<pre class="fragment">;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(package-initialize)
+
+;;; Also use Melpa for most packages
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
+(add-to-list 'package-archives '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/"))
+
+(setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+                         ("tuna" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+                         ("melpa" . "http://melpa.milkbox.net/packages/")
+                         ("melpa-stable" . "http://melpa-stable.milkbox.net/packages/")
+             ("elpy" . "https://jorgenschaefer.github.io/packages/")
+                          ("tuna-stable" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa-stable/")))
+</pre><p> 配置完成后运行M-X package-refresh-contents更新插件缓存记录 </p>
+<h1><a class="anchor" id="use_smex"></a>
+smex插件的使用</h1>
+<p>插件可以帮助快速输入命令，使用工具包中的smex-master.zip或在https://github.com/nonsequitur/smex下载最新版本，解压后将smex.el放在emacs的加载路径上。或者直接使用M-X package-install [ret] smex [ret]，使用包管理器进行安装然后在.emacs文件中输入下面的代码：</p>
+<pre class="fragment">(require 'smex) ; Not needed if you use package.el
+(smex-initialize) ; Can be omitted. This might cause a (minimal) delay
+                  ; when Smex is auto-initialized on its first run.
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+;; This is your old M-x.
+(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
+</pre><p> 就可以完成对smex的支持，这时输入M-x就会看到提示信息 </p>
+<h1><a class="anchor" id="ac"></a>
+自动补全功能</h1>
+<p>运行M-X package-install[ret] auto-complete[ret]进行安装，将下面的脚本输入.emacs后重启emacs，即可使用自动补全功能</p>
+<pre class="fragment">(require 'auto-complete-config)
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
+(ac-config-default)
+</pre> <h1><a class="anchor" id="pyac"></a>
+支持python的自动补全功能</h1>
+<ol type="1">
+<li>升级python到2.7或以上版本，python2.6及较低版本不能正常使用pip 参考 <a href="centos_python.html">升级CentOS的Python到2.7 </a> 和 <a href="py_setting.html#ugsetpip">python设置</a></li>
+<li>安装python依赖包 <pre class="fragment"># Either of these
+pip install rope
+pip install jedi
+# flake8 用来检查语法错误
+pip install flake8
+# importmagic 用来自动引入需要的包
+pip install importmagic
+# autopep8 用来检查PEP8规范
+pip install autopep8
+# yapf 用来格式化代码
+pip install yapf
+</pre></li>
+<li>如果包源中找不到elpy添加https://jorgenschaefer.github.io/packages/到包源中，在.emacs中添加 <pre class="fragment">(add-to-list 'package-archives
+             '("elpy" . "https://jorgenschaefer.github.io/packages/"))
+</pre></li>
+<li>打开emacs运行 M-x package-refresh-contents加载新的库，然后运行M-x package-install RET elpy RET（RET即回车键）安装elpy</li>
+<li>在.emacs中添加(elpy-enable)，启用elpy </li>
+</ol>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

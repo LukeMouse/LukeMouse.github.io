@@ -1,0 +1,63 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">使用Gitlab一键安装包后的日常备份恢复与迁移 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>from <a href="https://segmentfault.com/a/1190000002439923">https://segmentfault.com/a/1190000002439923</a> <hr/>
+ </dd></dl>
+<h1><a class="anchor" id="gback"></a>
+Gitlab 创建备份</h1>
+<p>使用Gitlab一键安装包安装Gitlab非常简单, 同样的备份恢复与迁移也非常简单. 使用一条命令即可创建完整的Gitlab备份:</p>
+<pre class="fragment">gitlab-rake gitlab:backup:create
+</pre> <p>使用以上命令会在/var/opt/gitlab/backups目录下创建一个名称类似为1393513186_gitlab_backup.tar的压缩包, 这个压缩包就是Gitlab整个的完整部分, 其中开头的1393513186是备份创建的日期.</p>
+<h1><a class="anchor" id="moddir"></a>
+Gitlab 修改备份文件默认目录</h1>
+<p>你也可以通过修改/etc/gitlab/gitlab.rb来修改默认存放备份文件的目录:</p>
+<pre class="fragment">gitlab_rails['backup_path'] = '/mnt/backups'
+</pre> <p>/mnt/backups修改为你想存放备份的目录即可, 修改完成之后使用gitlab-ctl reconfigure命令重载配置文件即可.</p>
+<h1><a class="anchor" id="autobak"></a>
+Gitlab 自动备份</h1>
+<p>也可以通过crontab使用备份命令实现自动备份:</p>
+<pre class="fragment">sudo su -
+crontab -e
+</pre> <p>加入以下, 实现每天凌晨2点进行一次自动备份:</p>
+<pre class="fragment">0 2 * * * /opt/gitlab/bin/gitlab-rake gitlab:backup:create
+</pre> <h1><a class="anchor" id="gitrest"></a>
+Gitlab 恢复</h1>
+<p>同样, Gitlab的从备份恢复也非常简单:</p>
+<pre class="fragment"># 停止相关数据连接服务
+gitlab-ctl stop unicorn
+gitlab-ctl stop sidekiq
+
+# 从1393513186编号备份中恢复
+gitlab-rake gitlab:backup:restore BACKUP=1393513186
+
+# 启动Gitlab
+sudo gitlab-ctl start
+</pre> <h1><a class="anchor" id="gitmove"></a>
+Gitlab迁移</h1>
+<p>迁移如同备份与恢复的步骤一样, 只需要将老服务器/var/opt/gitlab/backups目录下的备份文件拷贝到新服务器上的/var/opt/gitlab/backups即可(如果你没修改过默认备份目录的话). 但是需要注意的是新服务器上的Gitlab的版本必须与创建备份时的Gitlab版本号相同. 比如新服务器安装的是最新的7.60版本的Gitlab, 那么迁移之前, 最好将老服务器的Gitlab 升级为7.60在进行备份.</p>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

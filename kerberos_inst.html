@@ -1,0 +1,203 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">Kerberos 基本安装与配置 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>From Web（http://blog.csdn.net/post_yuan/article/details/54406148） <hr/>
+ </dd></dl>
+<p>由于最近环境需要用到Kerberos认证，之前对Kerberos这块了解甚少，今天抽空自己手动安装一下Kerberos，以此加深对Kerberos的理解。</p>
+<h1><a class="anchor" id="intprek"></a>
+1 选择一台机器运行KDC，安装Kerberos相关服务</h1>
+<pre class="fragment">[root@cent-1 ~]# yum install -y krb5-server krb5-libs krb5-auth-dialog krb5-workstation
+[root@cent-1 ~]# rpm -qa | grep krb5
+krb5-workstation-1.10.3-57.el6.x86_64
+krb5-libs-1.10.3-57.el6.x86_64
+krb5-devel-1.10.3-57.el6.x86_64
+krb5-server-1.10.3-57.el6.x86_64
+krb5-auth-dialog-0.13-5.el6.x86_64
+</pre> <h1><a class="anchor" id="conf_ker"></a>
+2 配置Kerberos，包括krb5.conf和kdc.conf，修改其中的realm，把默认的EXAMPLE.COM修改为自己要定义的值</h1>
+<pre class="fragment">[root@cent-1 ~]# cat /etc/krb5.conf
+[logging]
+ default = FILE:/var/log/krb5libs.log
+ kdc = FILE:/var/log/krb5kdc.log
+ admin_server = FILE:/var/log/kadmind.log
+
+[libdefaults]
+ default_realm = ESGYN.COM
+ dns_lookup_realm = false
+ dns_lookup_kdc = false
+ ticket_lifetime = 24h
+ renew_lifetime = 7d
+ forwardable = true
+
+[realms]
+ ESGYN.COM = {
+  kdc = kerberos.esgyn.com
+  admin_server = kerberos.esgyn.com
+ }
+
+[domain_realm]
+ .esgyn.com = ESGYN.COM
+ esgyn.com = ESGYN.COM
+
+[root@cent-1 ~]# cat /var/kerberos/krb5kdc/kdc.conf
+[kdcdefaults]
+ kdc_ports = 88
+ kdc_tcp_ports = 88
+
+[realms]
+ ESGYN.COM = {
+  #master_key_type = aes256-cts
+  acl_file = /var/kerberos/krb5kdc/kadm5.acl
+  dict_file = /usr/share/dict/words
+  admin_keytab = /var/kerberos/krb5kdc/kadm5.keytab
+  supported_enctypes = aes128-cts:normal des3-hmac-sha1:normal arcfour-hmac:normal des-hmac-sha1:normal des-cbc-md5:normal des-cbc-crc:normal
+ }</pre> <h1><a class="anchor" id="crkerdb"></a>
+3 创建Kerberos数据库，其中需要设置管理员密码，创建完成会在/var/kerberos/krb5kdc/下面生成一系列文件，若重建数据库则需先删除/var/kerberos/krb5kdc下面principal相关文件</h1>
+<pre class="fragment">[root@cent-1 ~]# /usr/sbin/kdb5_util create -s
+Loading random data
+Initializing database '/var/kerberos/krb5kdc/principal' for realm 'ESGYN.COM',
+master key name 'K/M@ESGYN.COM'
+You will be prompted for the database Master Password.
+It is important that you NOT FORGET this password.
+Enter KDC database master key:
+Re-enter KDC database master key to verify:
+
+[root@cent-1 ~]# ll /var/kerberos/krb5kdc/
+total 24
+-rw-------. 1 root root   22 Mar  9  2016 kadm5.acl
+-rw-------. 1 root root  403 Jan 13 10:18 kdc.conf
+-rw-------. 1 root root 8192 Jan 13 10:23 principal
+-rw-------. 1 root root 8192 Jan 13 10:23 principal.kadm5
+-rw-------. 1 root root    0 Jan 13 10:23 principal.kadm5.lock
+-rw-------. 1 root root    0 Jan 13 10:24 principal.ok
+</pre> <h1><a class="anchor" id="admandb"></a>
+4 添加数据库管理员，注意kadmin.local可以直接运行在KDC上，而无需通过Kerberos认证</h1>
+<pre class="fragment">[root@cent-1 ~]# /usr/sbin/kadmin.local -q "addprinc admin/admin"
+Authenticating as principal centos/admin@ESGYN.COM with password.
+WARNING: no policy specified for admin/admin@ESGYN.COM; defaulting to no policy
+Enter password for principal "admin/admin@ESGYN.COM":
+Re-enter password for principal "admin/admin@ESGYN.COM":
+Principal "admin/admin@ESGYN.COM" created.
+[root@cent-1 ~]# kadmin.local
+Authenticating as principal centos/admin@ESGYN.COM with password.
+kadmin.local:  listprinc
+kadmin.local: Unknown request "listprinc".  Type "?" for a request list.
+kadmin.local:  listprincs
+K/M@ESGYN.COM
+admin/admin@ESGYN.COM
+kadmin/admin@ESGYN.COM
+kadmin/cent-1.novalocal@ESGYN.COM
+kadmin/changepw@ESGYN.COM
+krbtgt/ESGYN.COM@ESGYN.COM
+</pre> <h1><a class="anchor" id="adsclman"></a>
+5 给数据库管理员添加ACL权限，修改kadm5.acl文件，*代表全部权限</h1>
+<pre class="fragment">[root@cent-1 ~]# cat /var/kerberos/krb5kdc/kadm5.acl
+*/admin@ESGYN.COM   *
+</pre> <h1><a class="anchor" id="serunauto"></a>
+6 启动Kerberos进程并设置开机启动，通过/var/log/krb5kdc.log 和 /var/log/kadmind.log查看日志，通过kinit检查Kerberos正常运行</h1>
+<pre class="fragment">[root@cent-1 ~]# service krb5kdc start
+Starting Kerberos 5 KDC:                                   [  OK  ]
+[root@cent-1 ~]# service kadmin start
+Starting Kerberos 5 Admin Server:                          [  OK  ]
+[root@cent-1 ~]# service krb5kdc status
+krb5kdc (pid  25980) is running...
+[root@cent-1 ~]# service kadmin status
+kadmind (pid  26017) is running...
+[root@cent-1 ~]# chkconfig krb5kdc on
+[root@cent-1 ~]# chkconfig kadmin on
+
+[root@cent-1 krb5kdc]# kinit trafodion
+Password for trafodion@ESGYN.COM:
+[root@cent-1 krb5kdc]#
+</pre> <h1><a class="anchor" id="cfgjce"></a>
+7 配置JCE，这是因为CentOS6.5及以上系统默认使用AES-256加密，因此需要所有节点安装并配置JCE，JCE下载路径: http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html</h1>
+<pre class="fragment">[root@cent-1 UnlimitedJCEPolicyJDK8]# ll
+total 16
+-rw-rw-r--. 1 root root 3035 Dec 21  2013 local_policy.jar
+-rw-r--r--. 1 root root 7323 Dec 21  2013 README.txt
+-rw-rw-r--. 1 root root 3023 Dec 21  2013 US_export_policy.jar
+[root@cent-1 security]# cp /home/centos/UnlimitedJCEPolicyJDK8/ /usr/java/jdk1.8.0_11/jre/lib/security/
+local_policy.jar      README.txt            US_export_policy.jar
+[root@cent-1 security]# cp /home/centos/UnlimitedJCEPolicyJDK8/US_export_policy.jar /usr/java/jdk1.8.0_11/jre/lib/security/
+cp: overwrite `/usr/java/jdk1.8.0_11/jre/lib/security/US_export_policy.jar'? y
+</pre> <h1><a class="anchor" id="kertst"></a>
+8 到此，Kerberos服务端已搭好，现在选择另外一台机器安装客户端，包括安装及配置/etc/krb5.conf与KDC相同</h1>
+<pre class="fragment">[root@cent-2 ~]# yum install -y krb5-workstation krb5-libs krb5-auth-dialog
+</pre> <h1><a class="anchor" id="kacket"></a>
+9 kadmin生成keytab，如果是KDC上面直接运行kadmin.local,如果是在客户端先kinit再kadmin</h1>
+<ul>
+<li>KDC <pre class="fragment">[root@cent-1 ~]# kadmin.local
+Authenticating as principal trafodion/admin@ESGYN.COM with password.
+kadmin.local:  listprincs
+K/M@ESGYN.COM
+kadmin/admin@ESGYN.COM
+kadmin/cent-1.novalocal@ESGYN.COM
+kadmin/changepw@ESGYN.COM
+krbtgt/ESGYN.COM@ESGYN.COM
+trafodion@ESGYN.COM
+kadmin.local:  xst -k /opt/trafodion.keytab trafodion
+Entry for principal trafodion with kvno 2, encryption type aes128-cts-hmac-sha1-96 added to keytab WRFILE:/opt/trafodion.keytab.
+Entry for principal trafodion with kvno 2, encryption type des3-cbc-sha1 added to keytab WRFILE:/opt/trafodion.keytab.
+Entry for principal trafodion with kvno 2, encryption type arcfour-hmac added to keytab WRFILE:/opt/trafodion.keytab.
+Entry for principal trafodion with kvno 2, encryption type des-hmac-sha1 added to keytab WRFILE:/opt/trafodion.keytab.
+Entry for principal trafodion with kvno 2, encryption type des-cbc-md5 added to keytab WRFILE:/opt/trafodion.keytab.
+
+[root@cent-1 opt]# ll /opt/trafodion.keytab
+-rw-------. 1 root root 279 Jan 13 13:05 /opt/trafodion.keytab
+</pre></li>
+<li>Client(需先kinit) <pre class="fragment">[root@cent-2 ~]# kinit kadmin/admin
+Password for kadmin/admin@ESGYN.COM:
+[root@cent-2 ~]# kadmin
+Authenticating as principal kadmin/admin@ESGYN.COM with password.
+Password for kadmin/admin@ESGYN.COM:
+kadmin:  addprinc centos
+WARNING: no policy specified for centos@ESGYN.COM; defaulting to no policy
+Enter password for principal "centos@ESGYN.COM":
+Re-enter password for principal "centos@ESGYN.COM":
+Principal "centos@ESGYN.COM" created.
+kadmin:  listprincs
+K/M@ESGYN.COM
+centos@ESGYN.COM
+kadmin/admin@ESGYN.COM
+kadmin/cent-1.novalocal@ESGYN.COM
+kadmin/changepw@ESGYN.COM
+krbtgt/ESGYN.COM@ESGYN.COM
+trafodion@ESGYN.COM
+</pre> </li>
+</ul>
+<h1><a class="anchor" id="authuser"></a>
+10 kinit -kt认证用户，klist查看当前认证用户</h1>
+<pre class="fragment">[root@cent-2 ~]# kinit -kt /opt/trafodion.keytab trafodion
+[root@cent-2 ~]# klist
+Ticket cache: FILE:/tmp/krb5cc_0
+Default principal: trafodion@ESGYN.COM
+
+Valid starting     Expires            Service principal
+01/13/17 13:35:41  01/14/17 13:35:41  krbtgt/ESGYN.COM@ESGYN.COM
+        renew until 01/13/17 13:35:41
+</pre> </div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

@@ -1,0 +1,226 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">Linux学习笔记 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><hr/>
+ <h1><a class="anchor" id="mntusb"></a>
+mount挂载插入的usb</h1>
+<p>首先运行lsblk命令，查看新插入的usb的卷标，如下图所示，假设红框内的为新插入的usb的卷标，且文件系统类型为FAT32 </p><center> <div class="image">
+<img src="lsblk-mnt01.jpg" alt="lsblk-mnt01.jpg"/>
+<div class="caption">
+lsblk 结果</div></div>
+ </center> <p>在/opt下面创建一个文件夹，如tmpmnt，用于挂载usb，输入以下命令即可： </p><pre class="fragment">mount -t vfat /dev/sdb4 /opt/tmpmnt/
+</pre> <p>挂载完成后，运行lsblk可以看到下图的变化： </p><center> <div class="image">
+<img src="lsblk-mnt02.jpg" alt="lsblk-mnt02.jpg"/>
+<div class="caption">
+挂载后lsblk 结果</div></div>
+ </center> <p>可用的文件系统类型如下:</p>
+<ul>
+<li>auto - this is a special one. It will try to guess the fs type when you use this.</li>
+<li>ext4 - this is probably the most common Linux fs type of the last few years</li>
+<li>ext3 - this is the most common Linux fs type from a couple years back</li>
+<li>ntfs - this is the most common Windows fs type or larger external hard drives</li>
+<li>vfat - this is the most common fs type used for smaller external hard drives</li>
+<li>exfat - is also a file system option commonly found on USB flash drives and other external drives </li>
+</ul>
+<h1><a class="anchor" id="autostartlin"></a>
+Linux 添加开机启动项的三种方法</h1>
+<h2><a class="anchor" id="edtrcloc"></a>
+编辑文件 /etc/rc.local</h2>
+<p>输入命令：vim /etc/rc.local 将出现类似如下的文本片段： </p><pre class="fragment"> #!/bin/sh
+ #
+ # This script will be executed *after* all the other init scripts.
+ # You can put your own initialization stuff in here if you don't
+ # want to do the full Sys V style init stuff.
+
+touch /var/lock/subsys/local
+ /etc/init.d/mysqld start #mysql开机启动
+/etc/init.d/nginx start #nginx开机启动
+/etc/init.d/php-fpm start #php-fpm开机启动
+/etc/init.d/memcached start #memcache开机启动
+</pre> <p>在文件末尾（exit 0之前）加上你开机需要启动的程序或执行的命令即可（执行的程序需要写绝对路径，添加到系统环境变量的除外），如： </p><pre class="fragment">/usr/local/thttpd/sbin/thttpd  -C /usr/local/thttpd/etc/thttpd.conf
+</pre><h2><a class="anchor" id="selfsc"></a>
+自己写一个shell脚本</h2>
+<p>将写好的脚本（.sh文件）放到目录 /etc/profile.d/ 下，系统启动后就会自动执行该目录下的所有shell脚本。 </p>
+<h2><a class="anchor" id="thrckhcfg"></a>
+通过chkconfig命令设置</h2>
+<p>将启动文件cp到 /etc/init.d/或者/etc/rc.d/init.d/（前者是后者的软连接）下,vim 启动文件，文件前面务必添加如下三行代码，否侧会提示chkconfig不支持 </p><pre class="fragment">#!/bin/sh 告诉系统使用的shell,所以的shell脚本都是这样
+#chkconfig: 35 20 80 分别代表运行级别，启动优先权，关闭优先权，此行代码必须
+#description: http server（自己随便发挥）//两行都注释掉！！！，此行代码必须
+</pre> <p>chkconfig &ndash;add 脚本文件名 操作后就已经添加了。</p>
+<h1><a class="anchor" id="instvnc"></a>
+安装VNC Server支持远程桌面</h1>
+<p>安装tigervnc-server </p><pre class="fragment">yum install tigervnc-server -y
+</pre><p> 运行vncserver后根据提示输入两遍密码，齐活儿 </p>
+<h1><a class="anchor" id="instoracl"></a>
+oracle静默安装</h1>
+<p>安装依赖包先决条件 </p><pre class="fragment">yum -y install binutils compat-libstdc++-33 compat-libstdc++-33.i686 elfutils-libelf elfutils-libelf-devel gcc gcc-c++
+glibc glibc.i686 glibc-common glibc-devel glibc-devel.i686 glibc-headers ksh libaio libaio.i686 libaio-devel libaio-devel.i686
+libgcc libgcc.i686 libstdc++ libstdc++.i686 libstdc++-devel make sysstat unixODBC unixODBC-devel
+</pre><p> 云主机要求： 1、最小内存1G，推荐2G或2G以上 2、1GB跟2GB物理内存之间的，设定swap大小为物理内存的1.5倍,2GB跟16GB物理内存之间的，设置swap大小与物理内存相等,16GB物理内存以上的，设置swap大小为16GB 3、硬盘要求空间至少5-6GB 设定swap空间 1.在/home/下生成swap文件 设定大16GB[目标机器内存为32G] </p><pre class="fragment">dd if=/dev/zero of=/home/swapfile bs=1G count=16
+</pre><p> 2.设定使用/home/swapfile交换文件 </p><pre class="fragment">mkswap /home/swapfile
+</pre><p> 3.##启用交换分区 </p><pre class="fragment">swapon /home/swapfile
+</pre><p> 4.##编辑文件/ect/fstab </p><pre class="fragment">emacs -nw /etc/fstab
+</pre><p> ##以便引导系统时启用交换文件，文件最下方插入 </p><pre class="fragment">/home/swapfile swap swap defaults 0 0
+</pre><p> 3、添加oracle用户 ##创建oinstall、dba组 将oracle用户加入组 修改并设定oracle用户密码 </p><pre class="fragment">　　groupadd oinstall
+　　groupadd dba
+　　useradd -g oinstall -G dba oracle
+　　passwd oracle
+</pre><p> 4、修改内核参数 </p><pre class="fragment">##编辑文件/etc/sysctl.conf　　
+
+　　vi /etc/sysctl.conf
+
+\#\#配置文件内加入 修改以下参数。如果没有可以自己添加，如果默认值比参考值大，则不需要修改。
+
+　　fs.aio-max-nr = 1048576
+　　fs.file-max = 6815744
+　　kernel.shmall = 2097152
+　　kernel.shmmax = 536870912
+　　kernel.shmmni = 4096
+　　kernel.sem = 250 32000 100 128
+　　net.ipv4.ip_local_port_range = 9000 65500
+　　net.core.rmem_default = 262144
+　　net.core.rmem_max = 4194304
+　　net.core.wmem_default = 262144
+　　net.core.wmem_max = 1048586
+##执行命令sysctl使其自检并生效
+
+　　sysctl -p
+</pre><p> 5、修改用户资源限制 </p><pre class="fragment">## 1.修改/etc/security/limits.conf配置文件
+
+    vi /etc/security/limits.conf
+
+## 2.配置文件下方加入
+
+    oracle              soft    nproc  2047
+    oracle              hard    nproc  16384
+    oracle              soft    nofile  1024
+    oracle              hard    nofile  65536
+    oracle              soft    stack   10240
+
+## 3.修改/etc/pam.d/login配置文件
+
+    vi /etc/pam.d/login
+
+## 4.配置文件内加入
+
+    session required /lib/security/pam_limits.so
+    session required pam_limits.so
+</pre><p> 6、创建安装目录 </p><pre class="fragment">##创建安装目录  /usr/local/oracle     /usr/local/oraInventory     /usr/local/oradata  并赋予组用户及权限
+mkdir -p /usr/local/oracle /usr/local/oraInventory /usr/local/oradata/
+chown -R oracle:oinstall /usr/local/oracle /usr/local/oraInventory /usr/local/oradata/
+chmod -R 775 /usr/local/oracle /usr/local/oraInventory /usr/local/oradata/
+</pre><p> 7、创建oraInst.loc文件 </p><pre class="fragment">##创建/etc/oraInst.loc文件
+
+　　vi /etc/oraInst.loc
+
+##文件内加入以下内容
+
+　　inventory_loc=/usr/local/oraInventory
+　　inst_group=oinstall
+
+##保存退出后执行以下命令。设定该文件的用户组及权限。
+
+　　chown oracle:oinstall /etc/oraInst.loc
+　　chmod 664 /etc/oraInst.loc
+</pre><p> 9、准备oracle安装应答模板文件db_install.rsp文件。 </p><pre class="fragment">## 1、该文件默认存放在解压后的安装包内，也就是本例中/home/database/response下，
+##　　 将oracle静默安装所需应答文件全部拷贝至 /usr/local/oracle文件夹下
+
+    cp /home/database/response/* /usr/local/oracle/
+
+## 2、修改安装所需的所有应答文件的所属组及权限
+
+    chown  oracle:oinstall /usr/local/oracle*.rsp
+    chmod 755 /usr/local/oracle/*.rsp
+
+## 3、配置db_install.rsp文件
+
+    vi /usr/local/oracle/db_install.rsp
+
+## 4、文件内修改相应的参数配置如下：
+
+   oracle.install.option=INSTALL_DB_SWONLY     　　　　　　　　//安装类型,只装数据库软件
+   ORACLE_HOSTNAME=db             　　　　　　　　　　　　　　　 //主机名称（命令hostname查询）
+   UNIX_GROUP_NAME=oinstall       　　　　　　　　　　　　　　　 // 安装组
+   INVENTORY_LOCATION=/usr/local/oraInventory  　　　　　　　　//INVENTORY目录（**不填就是默认值,本例此处需修改,因个人创建安装目录而定）
+　　SELECTED_LANGUAGES=en,zh_CN            　　　　　　　　 　　// 选择语言
+　　ORACLE_HOME=/usr/local/oracle/product/11.2.0/db_1  　　　　// oracle_home *路径根据目录情况注意修改 本例安装路径/usr/local/oracle
+　　ORACLE_BASE=/usr/local/oracle                       　　　 // oracle_base *注意修改
+　　oracle.install.db.InstallEdition=EE          　　　　　　　 // oracle版本
+　　oracle.install.db.isCustomInstall=false      　　　　　　　 //自定义安装，否，使用默认组件
+　　oracle.install.db.DBA_GROUP=dba              　　　　　　　 //dba用户组
+　　oracle.install.db.OPER_GROUP=oinstall        　　　　　　　 //oper用户组
+　　oracle.install.db.config.starterdb.type=GENERAL_PURPOSE   //数据库类型
+　　oracle.install.db.config.starterdb.globalDBName=orcl      //globalDBName
+　　oracle.install.db.config.starterdb.SID=orcl  　　　　　　　 //SID（**此处注意与环境变量内配置SID一致）
+　　oracle.install.db.config.starterdb.memoryLimit=81920      //自动管理内存的内存(M)
+　　oracle.install.db.config.starterdb.password.ALL=oracle    //设定所有数据库用户使用同一个密码
+　　SECURITY_UPDATES_VIA_MYORACLESUPPORT=false       　　　　　 //（手动写了false）
+　　DECLINE_SECURITY_UPDATES=true　　　　　　　　　　　　　　　　　// **注意此参数 设定一定要为true</pre><p> 11、在oracle用户下开始安装。 </p><pre class="fragment">如果系统启用了界面，需要先执行下面的语句
+unset DISPLAY
+然后
+## 执行命令。
+
+/home/database/./runInstaller -silent -force -ignorePrereq -responseFile /usr/local/oracle/db_install.rsp
+
+##参数说明
+　　/home/database是安装包解压后的路径，此处根据安装包解压所在位置做修改，因人而异。
+　　runInstaller 是主要安装脚本
+　　-silent 静默模式
+　　-force 强制安装
+　　-ignorePrereq忽略warning直接安装。
+　　-responseFile读取安装应答文件。
+12、xshell另起窗口并以root登陆。
+通过 watch -d -n 2 'du -sh /usr/local/oracle' 监测oracle安装目录是否变化。或者直接tail -f命令监测安装log日志。不赘述。
+13、等待安装编译直至出现以下内容，在新创建的root窗口内执行以下提示内的脚本，既/usr/oracle/oraInventory/orainstRoot.sh  /usr/oracle/product/11.2.0/db_1/root.sh。
+\verbatim
+#-------------------------------------------------------------------
+    /usr/local/oracle/product/11.2.0/db_1/root.sh
+　　To execute the configuration scripts:
+　　1. Open a terminal window
+　　2. Log in as "root"
+　　3. Run the scripts
+　　4. Return to this window and hit"Enter" key to continue
+　　Successfully Setup Software.
+#-------------------------------------------------------------------
+</pre><p>安装完成后 emacs -nw /usr/local/oracle/.bash_profile </p><pre class="fragment">export ORACLE_HOME=$ORACLE_BASE/product/11.2.0/db_1
+export TNS_ADMIN=$ORACLE_HOME/network/admin
+export PATH=.:${PATH}:$HOME/bin:$ORACLE_HOME/bin
+export PATH=${PATH}:/usr/bin:/bin:/usr/bin/X11:/usr/local/bin
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$ORACLE_HOME/lib
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$ORACLE_HOME/oracm/lib
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/lib:/usr/lib:/usr/local/lib
+export CLASSPATH=${CLASSPATH}:$ORACLE_HOME/JRE
+export CLASSPATH=${CLASSPATH}:$ORACLE_HOME/JRE/lib
+export CLASSPATH=${CLASSPATH}:$ORACLE_HOME/jlib
+export CLASSPATH=${CLASSPATH}:$ORACLE_HOME/rdbms/jlib
+export CLASSPATH=${CLASSPATH}:$ORACLE_HOME/network/jlib
+export LIBPATH=${CLASSPATH}:$ORACLE_HOME/lib:$ORACLE_HOME/ctx/lib
+export ORACLE_OWNER=oracle
+export SPFILE_PATH=$ORACLE_HOME/dbs
+export ORA_NLS10=$ORACLE_HOME/nls/data
+</pre> </div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

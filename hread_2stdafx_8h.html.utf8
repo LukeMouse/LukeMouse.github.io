@@ -1,0 +1,62 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_d0f2c36edb6a50530b794a1208b26ce9.html">RuralMouseNotes</a></li><li class="navelem"><a class="el" href="dir_ac683163d9dea956196ec4a7572d50dc.html">Debug</a></li><li class="navelem"><a class="el" href="dir_cfdab29e8040c9bd6f9e648046899983.html">Translation</a></li><li class="navelem"><a class="el" href="dir_386ae72221f4784799bca9c42481380d.html">AppCrashThread</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">hread/stdafx.h 文件参考</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="hread_2targetver_8h_source.html">targetver.h</a>&quot;</code><br />
+<code>#include &lt;stdio.h&gt;</code><br />
+<code>#include &lt;tchar.h&gt;</code><br />
+</div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> hread/stdafx.h 的引用(Include)关系图:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="hread_2stdafx_8h__incl.png" border="0" usemap="#stdafx_8h" alt=""/></div>
+<map name="stdafx_8h" id="stdafx_8h">
+<area shape="rect"  title=" " alt="" coords="109,5,177,32"/>
+<area shape="rect"  href="hread_2targetver_8h.html" title=" " alt="" coords="5,80,88,107"/>
+<area shape="rect"  title=" " alt="" coords="112,80,173,107"/>
+<area shape="rect"  title=" " alt="" coords="198,80,261,107"/>
+</map>
+</div>
+</div><div class="textblock"><div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> 此图展示该文件直接或间接的被哪些文件引用了:</div>
+<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-1-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="hread_2stdafx_8h__dep__incl.png" border="0" usemap="#stdafx_8hdep" alt=""/></div>
+<map name="stdafx_8hdep" id="stdafx_8hdep">
+<area shape="rect"  title=" " alt="" coords="119,5,187,32"/>
+<area shape="rect"  href="_crash_demo_thread_8cpp.html" title=" " alt="" coords="5,80,160,107"/>
+<area shape="rect"  href="hread_2stdafx_8cpp.html" title=" " alt="" coords="184,80,267,107"/>
+</map>
+</div>
+</div>
+<p><a href="hread_2stdafx_8h_source.html">浏览源代码.</a></p>
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

@@ -1,0 +1,42 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">MySQL5.7 安装完成后的配置 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><hr/>
+<ul>
+<li>找到my.ini文件找到[mysqld]部分，在下面增加skip-grant-tables，重启mysql服务</li>
+<li>以管理员身份运行cmd</li>
+<li>执行mysqld &ndash;initialize</li>
+<li>登录数据库mysql -uroot -p，提示输入密码时直接回车</li>
+<li>进入mysql数据库执行以下命令 <pre class="fragment">use mysql;
+update user set authentication_string=password("root") where user="root";
+flush privileges;
+quit;
+</pre></li>
+<li>去掉my.ini文件中新增的skip-grant-tables，重启mysql服务 </li>
+</ul>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

@@ -1,0 +1,48 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">关于C++的动态链接库 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>李进安 </dd></dl>
+<dl class="section date"><dt>日期</dt><dd>2013-10-09 <hr/>
+ </dd></dl>
+<h1><a class="anchor" id="reason"></a>
+起因</h1>
+<p>今天完成了一个动态库，不知道自己怎么想的，使用了def文件导出接口的形式，结果编写测试程序进行调试的时候无论如何也不能进入断点，耗费了两吨脑细胞终于把问题解决了，关于不能进断点的总结见《调试总结》，写这篇文章的原因是在查资料的过程中了解到自己对动态链接库认识的浅薄，以笔记之，资日后参考。</p>
+<h1><a class="anchor" id="exportpandc"></a>
+函数导出方式的优缺点</h1>
+<p>通常导出函数接口可以使用def文件和__declspec(dllexport)两种方式，既然存在两种方式，就说明这两种方式都有自己的长处和缺陷。这里摘除MSDN进行一下总结：</p>
+<p>使用哪种导出方式需要对下面的问题进行讨论：1）你会持续的增加导出函数吗？2）谁会使用你的dll，简言之，你的动态库将作为第三方库被许多你不能重新编译的可执行文件使用还是用于你可以方便的重新编译的程序使用？</p>
+<h2><a class="anchor" id="aboutdef"></a>
+使用def文件的优缺点</h2>
+<p>使用def文件导出函数使你可以控制函数的导出顺序。当你为自己的动态库增加函数时，你可以给他们指定较大的顺序值（比已经导出的函数序号大）。这样使用隐式链接使用你的dll的程序，无需重新链接新的导入库。这对于你设计的用于许多程序的第三方库非常重要。你可以通过增加新的函数扩展你的dll的功能，同时保证了已有的使用你的dll的程序可以使用新的dll正常工作。MFC的动态库就是使用def文件的方式实现函数导出的。</p>
+<p>另一个使用def文件的优势是你可以使用NONAME属性导出函数，这种方式导出函数在导出表中只可以看到顺序号，在有大量导出函数的动态库中使用NONAME属性可以减小DLL文件的大小。</p>
+<p>使用def文件的主要缺点是：当你使用def文件导出函数时，你要么在def文件中写上修饰名，或者通过将你的导出函数定义在exter "C"中而使用标准C链接，以避免编译器对导出名字的修改。</p>
+<p>如果你想在def文件中使用修饰名，可以使用DUMPBIN工具或者使用链接器的/MAP（工程右键-》属性-》链接器-》调试-》Map文件名）选项指定输出文件。编译器提供的修饰名与编译器相关，如果将VC生成的修饰名放到def文件中，链接你的动态库的程序也必须用同一版本的VC编译器进行编译，以使调用程序的修饰名与导出动态库的def文件一致。</p>
+<h2><a class="anchor" id="decl"></a>
+__declspec(dllexport)的优缺点</h2>
+<p>由于不需要关心def文件的维护和获取导出函数的修饰名，使用__declspec(dllexport)方式导出函数非常方便。这种方式非常适合为一个自己可以控制的程序写动态库。但是如果你因为增加了新的接口而重新构建你的动态库，你必须重建调用该动态库的程序，这是因为导出函数的修饰名可能因为你使用了不同版本的编译器而发生改变。</p>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

@@ -1,0 +1,38 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">git日常命令 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>lukemouse <hr/>
+ </dd></dl>
+<h1><a class="anchor" id="fhsdfa"></a>
+合并特定分支的几个文件或文件夹</h1>
+<p>git merge命令用于合并特定分支，合并时会合并所有的文件，要想合并特定分支的特定文件可以使用如下命令： </p><pre class="fragment">git checkout &lt;branchname&gt; filename1 filename2 foldername
+</pre><p> 这样就可以将分支bruanchname下的filename1 filename2 foldername合并到当前分支的暂存区中 </p>
+<h1><a class="anchor" id="fsjdfs"></a>
+暂存当前修改</h1>
+<p>常常有这种情况：当前分支还没有开发完成，需要切换到另一个分支进行工作，但当前分支的代码不满足约定的提交条件或功能不成熟，这时可以使用git stash命令暂存当前的进度后，切换到其他分支，等完成其他分支的工作后再切换回来，使用git stash pop [&lt;stash&gt;]即可恢复指定的暂存到切换前的进度，同时删除暂存，继续后面的工作。git stash apply 与 git stash pop 相同，只是不会删除暂存的进度，git stash drop用于删除一个暂存的进度。git stash clear用于删除所有的存储的进度，git stash list可以列出所有暂存的进度列表。</p>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

@@ -1,0 +1,45 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">小老鼠日常笔记 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>李进安 <hr/>
+ </dd></dl>
+<p>随着接触到的知识越来越多，大脑这台PC已经疲于检索了，为了提高工作效率，将日常经常用到的技术和随想信息记录到本文件中以备后查。</p>
+<center>内容分类</center><ol type="1">
+<li><a class="el" href="_a_c_e__t_a_o__index.html">ACE_TAO相关文档整理</a> 集中整理了ACE TAO相关的文章和摘要；</li>
+<li><a class="el" href="how_to_compile.html">如何编译</a> 记录了我用到的几个比较难编译的开源库的编译方法；</li>
+<li><a class="el" href="_cpp_charset_index.html">C++字符编码相关知识整理</a> 字符编码太复杂了，这里集中整理一下</li>
+<li><a class="el" href="debug_knowledge.html">C++调试相关总结</a> 整理了C++调试的技术</li>
+<li><a class="el" href="databaserel.html">数据库相关知识总结</a> 对数据库相关技术进行了总结</li>
+<li><a class="el" href="linux_index.html">linux笔记索引</a> 整理了Linux学习过程中记录的笔记</li>
+<li><a class="el" href="emacs_index.html">Emacs学习总结</a> 记录了学习Emacs过程中的知识总结</li>
+<li><a class="el" href="webcellc.html">网络文章摘选</a> 记录了平时上网查找的一些不错的文章</li>
+<li><a href="dll_to_lib.html">从动态库中获取静态库</a></li>
+<li><a href="_u_a_c.html">关于User Account Control</a></li>
+<li><a href="db_conn_string.html">数据库连接字符串</a> </li>
+</ol>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

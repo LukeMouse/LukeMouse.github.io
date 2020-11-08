@@ -1,0 +1,108 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">Windows调试技术第二部分&ndash;使用DebugDiag和AppVerifier调试应用程序崩溃 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>shailesh91082 </dd></dl>
+<dl class="section date"><dt>日期</dt><dd>2014-02-13 <hr/>
+ </dd></dl>
+<h1><a class="anchor" id="intr2"></a>
+简介</h1>
+<p>这是Windows调试技巧的第二部分。本文继续关注程序崩溃，介绍了如何使用AppVerifier和DebugDiag调试解决程序崩溃。</p>
+<h1><a class="anchor" id="prereq2"></a>
+前期准备</h1>
+<p>完成本文的练习，需要下面两个工具：</p>
+<ol type="1">
+<li><a href="http://www.microsoft.com/en-in/download/details.aspx?id=26798">DebugDiag</a></li>
+<li><a href="http://www.microsoft.com/en-in/download/details.aspx?id=20028">2.Application Verifier</a> </li>
+</ol>
+<h1><a class="anchor" id="backg"></a>
+背景知识</h1>
+<p>本文将介绍转储分析的其他技巧，这些技巧比Windbg简单，但是也有其局限性，让我们逐一介绍。</p>
+<h1><a class="anchor" id="dedi"></a>
+DebugDiag</h1>
+<p>调试诊断工具（DebugDiag）旨在辅助解决诸如挂起、性能下降、内存泄露或断裂及任何用户模式进程中的崩溃问题。与其他工具相比，DebugDiag的使用非常简单。最有特色的是HTML报表输出中给出了所有的详细信息。DebugDiag有很多功能，诸如：</p>
+<ol type="1">
+<li>崩溃分析</li>
+<li>挂起分析</li>
+<li>内存泄露分析</li>
+<li>性能分析 </li>
+</ol>
+<p>当前，本文讨论的内容仅限于崩溃分析，我们将逐步展开。</p>
+<p>首先，启动DebugDiag，启动后的画面如下图所示： </p><div class="image">
+<img src="WDT010.png" alt="WDT010.png"/>
+</div>
+<p>该界面给出了DebugDiag提供的不同可选项，现在我们点击“cancel"并继续。 </p>
+<p>接下来，配置应用程序符号。在菜单Tools-&gt;Options&amp;settings点击后将会出现下面的界面 </p><div class="image">
+<img src="WDT011.png" alt="WDT011.png"/>
+</div>
+<p>在第二个编辑框内选择符号路径，用以定位pdb文件，我们将继续上一部分的示例Appcrash.exe。 </p><pre class="fragment">int _tmain(int argc, _TCHAR* argv[])
+{
+    int *p = NULL;
+    cout&lt;&lt;"This is Start";
+    *p = 10;
+    cout&lt;&lt;"This is End";
+    return 0;
+}
+</pre> <p>第三步，初始化转储分析。点击AdvancedAnalysis标签页，选择Crash/Hang Analyzers，如下图所示： </p><div class="image">
+<img src="WDT012.png" alt="WDT012.png"/>
+</div>
+<p>第四步:添加转储文件进行分析。点击”Add Data Files“按钮，选择转储文件，如下图所示 </p><div class="image">
+<img src="WDT013.png" alt="WDT013.png"/>
+</div>
+ <p>第五步：开始分析。点击“开始分析”按钮将会得到下图所示的报表： </p><div class="image">
+<img src="WDT014.png" alt="WDT014.png"/>
+</div>
+<p>实际报表可能与上图有细微的差异，这里只剪切了我们最关心的地方。这里的转储跟踪看起来与windbg非常的相似，<b>AppCrash!wmain+2e l:\ruralmousedocument\ _Notcollecttions\ruralmousenotes\translation\appcrash\<a class="el" href="_crash_demo_8cpp.html">crashdemo.cpp</a> @ 13 + 5 </b> 因为，这里禁用了优化，所以这里的行数是我的代码中真正的行数，相关问题可以参考本系列文章的上一篇。</p>
+<p>该工具还提供了一些其他的信息，如PID、用户模式耗时、内核模式耗时等等。这些信息在Windbg中也有所提及，但是DebugDiag提供的信息更加便于阅读、理解和转换。它的缺点是，我们只能查看生成的报表，不能像在Windbg里面一样使用命令进行分析。这在我们只想快速获得转储报告并不进行定位和分析时非常有用。 </p>
+<h1><a class="anchor" id="appverify"></a>
+Application Verifier(应用程序验证工具)</h1>
+<p>”应用程序验证程序有助于开发人员快速找到细微的程序错误，这些错误使用常规程序测试将很难定位到。在Visual Studio中使用应用程序验证工具，可以通过鉴别由于堆栈破坏、错误的句柄和关键位置（critical section）的使用造成的错误，使创建可信任的应用程序非常简单“（摘自MSDN）。我们将使用应用程序验证工具生成和分析崩溃转储。</p>
+<p>第一步，运行应用程序验证工具，在运行窗口中输入“Appverif.exe"如下图所示：
+\image html WDT015.png "" </p>
+<p>将会出现如下图所示界面： </p><div class="image">
+<img src="WDT016.png" alt="WDT016.png"/>
+</div>
+<p>第二步，添加将要验证的程序，这里是AppCrash.exe， </p><div class="image">
+<img src="WDT017.png" alt="WDT017.png"/>
+</div>
+<p>我们还需要为调试配置不同的参数。本例中我们选择”Basics":
+\image html WDT018.png "" </p>
+<p>第三步，点击保存按钮后点击退出</p>
+<p>第四步，运行应用程序，本例中为Appcrash.exe</p>
+<p>第五步，运行完成后，参照第一步再次打开应用程序验证工具</p>
+<p>第六步，配置Symbols，点击View菜单下的Logs选项。在弹出界面的最下方输入AppCrash.exe的pdb文件路径 </p><div class="image">
+<img src="WDT019.png" alt="WDT019.png"/>
+</div>
+<p>第七步，点击View按钮，将会出现下图的数据分析，和Windbg及DebugDiag相同 </p><div class="image">
+<img src="WDT020.png" alt="WDT020.png"/>
+</div>
+<p>有人要问，有什么是我们使用应用程序验证工具能完成，而其他工具不能完成的呢？主要的优势是，不需要关注采集崩溃转储，该工具将自动完成。我们只需要配置一次应用程序并正常启动，无论何时出现异常我们都可以检查该工具生成的报告。其缺点是需要安装在目标机器上，这通常是不可行的。应用程序验证工具是在开发周期内在程序开发人员的系统上定位问题的工具，通过该工具我们在进行发布之前评估潜在的问题。 </p>
+<h1><a class="anchor" id="summ2"></a>
+总结</h1>
+<p>本文中我们学习了DebugDiag和AppVerifier，这两个工具都给出了几乎相同的输出，只是DebugDiag更加详细一些。AppVerifier可以考虑在开发阶段使用。DebugDiag应该用于在发布周期内进行快速分析，但是想要获取详尽的分析，WinDbg是不二之选。</p>
+<p>在本系列文章的第一和第二部分，我们讨论了多种方案来分析应用程序的崩溃问题，然而这些方案有一个缺陷：我们需要人工获取dump采样，而dump采样只有在问题产生时才会生成，然而在很多情况下崩溃可能不会产生。请参考本系列文章的<a href="_windows_debug3.html">第三部分</a>，以理解如何自动生成dump。 </p>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

@@ -1,0 +1,59 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">Centos Git1.7.1升级到Git2.2.1 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd><a href="http://www.tuicool.com/articles/Y3eqIf">http://www.tuicool.com/articles/Y3eqIf</a> <hr/>
+ </dd></dl>
+<h1><a class="anchor" id="prefsd"></a>
+安装需求：</h1>
+<pre class="fragment">&gt;# yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel asciidoc
+&gt;# yum install  gcc perl-ExtUtils-MakeMaker   
+&gt;# wget http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.14.tar.gz
+&gt;# tar zxvf libiconv-1.14.tar.gz 
+&gt;# cd libiconv-1.14
+&gt;# ./configure --prefix=/usr/local/libiconv
+&gt;# make &amp;&amp; make install
+</pre> <h1><a class="anchor" id="ungitces"></a>
+卸载Centos自带的git1.7.1:</h1>
+<p>通过git –version查看系统带的版本，Cento6.5应该自带的是git版本是1.7.1 </p><pre class="fragment">&gt;# yum remove git
+</pre> <h1><a class="anchor" id="instgi"></a>
+下载git2.10.0并将git添加到环境变量中</h1>
+<pre class="fragment">&gt;# wget https://github.com/git/git/archive/v2.10.0.tar.gz
+&gt;# tar zxvf v2.10.0.tar.gz
+&gt;# cd git-2.10.0
+&gt;# make configure
+&gt;# ./configure --prefix=/usr/local/git --with-iconv=/usr/local/libiconv
+&gt;# make all doc
+&gt;# sudo make install install-doc install-html
+&gt;# echo "export PATH=$PATH:/usr/local/git/bin" &gt;&gt; /etc/profile.d/git.sh
+&gt;# source /etc/profile
+</pre> <h1><a class="anchor" id="fini"></a>
+查看版本号</h1>
+<pre class="fragment">&gt;# git --version
+&gt;git version 2.2.1
+</pre><p> 参考文章：http://www.dbpoo.com/centos-65-git-update/ </p>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

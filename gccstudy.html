@@ -1,0 +1,75 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">gcc学习笔记 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><hr/>
+ <p>gcc是一个可移植的编译器，支持多种硬件平台，不仅仅是一个本地编译器，还能跨平台交叉编译。gcc是自由软件。</p>
+<h1><a class="anchor" id="cpro"></a>
+gcc编译程序的过程:</h1>
+<ol type="1">
+<li>预处理（pre-processing）：将源程序预处理为.i文件，将头文件和宏进行展开，展开后的文件仍然是文本文件；</li>
+<li>编译（Compiling）：将展开后的文件进行编译，生产文本格式的汇编文件；</li>
+<li>汇编（Assembling）：使用汇编工具进行编译生成（可重定位）目标文件；</li>
+<li>链接（Linking）：地址定位和外部库链接，生成加载到内存即可运行的可执行文件 </li>
+</ol>
+<h1><a class="anchor" id="cogccit"></a>
+gcc常用选项</h1>
+<ol type="1">
+<li>-o 产生目标（.i、.s、.o、可执行文件等）</li>
+<li>-c 通知gcc取消链接步骤，即编译源码并在最后生成目标文件</li>
+<li>-E 只运行预处理器，只进行预编译；</li>
+<li>-S 告诉编译器产生汇编语言文件后停止编译，产生的汇编语言扩展名为.s</li>
+<li>-Wall 使gcc在编译过程中对源文件的代码中有问题的地方发出警告</li>
+<li>-Idir 将dir的目录加入搜索头文件的目录路径</li>
+<li>-Ldir 将dir的目录加入搜索库文件的目录路径</li>
+<li>-llib 链接lib库</li>
+<li>-g 在目标文件汇总嵌入调试信息，以便gdb之类的调试程序调试</li>
+<li>-shared 表示生成共享库</li>
+<li>-fPIC产生位置无关码（position independent code) </li>
+</ol>
+<h1><a class="anchor" id="exgcc"></a>
+实例展示</h1>
+<p>编写hello.c文件，内容如下： </p><pre class="fragment">#include &lt;stdio.h&gt;
+
+#define HELLOWORLD "Hello world !!!\n"
+
+int main()
+{
+  printf(HELLOWORLD);
+  return 0;
+}
+</pre><ol type="1">
+<li>通过gcc -E hello.c -o hello.i 可以生产预处理（预编译）文件；</li>
+<li>通过gcc -S hello.i -o hello.s 生成汇编语言文件；</li>
+<li>通过gcc -c hello.s -o hello.o 生成目标文件（二进制)</li>
+<li>通过gcc hello.o -o hello 生成最终可执行文件</li>
+<li>通过ar rcs libhello.a hello.o可以将.o文件打包成静态库（ar是归档工具，rcs表示replace and create static）</li>
+<li>通过gcc -Wall main.c libhello.a -o main 可以调用生成的库文件产生可执行文件</li>
+<li>通过gcc -Wall -L. main.o -o main -lhello同上</li>
+</ol>
+<p>静态库动态库同时存在时，链接优先使用动态库。使用ldd命令查看可执行文件依赖的动态链接库 </p>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

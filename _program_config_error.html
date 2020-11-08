@@ -1,0 +1,51 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">应用程序配置不正确或初始化失败 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>百度文库作者不详 <hr/>
+ </dd></dl>
+<p>与VC6不同, VC2003、VC2005、VC2008及其后续版本，引入了manifest清单的概念，即应用程序编译后会同时生成对应的.manifest文件,并将该.manifest文件作为资源编译到dll或者exe中去。manifest文件实际上是一个XML格式的文本文件，里面记录了dll或exe中要引用的CRT、MFC、ATL库的版本和名称。</p>
+<p>VC6编译的应用程序对CRT、MFC、ATL的dll都是直接调用，而VC2003、VC2005、VC2008编译的程序都是先查询编译到资源中的manifest中的记录，然后按照记录提供的版本和名称去搜寻对应的CRT、MFC、ATL库，搜索路径为环境变量中定义的路径，若搜索到的<b>文件版本号不匹配，则不会调用</b>，从而导致应用程序配置不正确，程序无法启动或初始化失败等错误（<b>相关信息可以在电脑日志中查看得知</b>）。</p>
+<p>DLL的版本信息可以使用HA-eXeScope650-moming.exe软件查看，如下图所示(红色框内既为版本号)：</p>
+<div class="image">
+<img src="ViewVersion.jpg" alt="ViewVersion.jpg"/>
+</div>
+ <p>至于你系统内的版本号，可以到VS安装目录下的查看，本文以VS2008 CRT库为例：</p>
+<div class="image">
+<img src="VC_CRT_Dir.jpg" alt="VC_CRT_Dir.jpg"/>
+</div>
+ <div class="image">
+<img src="CRT_Version_info.jpg" alt="CRT_Version_info.jpg"/>
+</div>
+<p> 可以看到，其版本号均为9.0.30729.4148，与上面DLL的一致，故不会存在问题</p>
+<p>VS2008的使用库目前为止分为三个版本：</p>
+<ol type="1">
+<li>没有打过任何补丁的VS2008，该版本对应的CRT/MFC/ATL库的版本号为9.0.21022.8。</li>
+<li>打过SP1补丁的VS2008和KB973675补丁，打过该补丁后，系统中存在着两个版本的CRT/MFC/ATL库，版本号分别为9.0.21022.8和9.0.30729.1，这导致了manifest文件中记录的版本号和实际库的版本号不一致（程序要求它们的版本号一致才能运行）。这时需要在工程设置中增加一个宏定义_BIND_TO_CURRENT_VCLIBS_VERSION，该宏定义于VCINSTALLDIR%/VC/include/crtassem.h文件中，然后重新编译程序。然后还得将VS安装目录下的相对应库以及对应的manifest文件拷贝到执行程序同目录下。</li>
+<li>打过SP1补丁、KB973675补丁与KB971092补丁，这是最新的更新，将CRT/MFC/ATL库的版本号升级到了9.0.30729.4148，仍需在工程设置中增加一个宏定义_BIND_TO_CURRENT_VCLIBS_VERSION，以及将对应的库文件和manifest文件拷贝到执行程序同目录下，这样程序到任何机器上都能够正常运行了。 </li>
+</ol>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

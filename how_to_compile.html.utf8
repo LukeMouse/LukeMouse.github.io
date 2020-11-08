@@ -1,0 +1,38 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">如何编译 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><hr/>
+ <p>本文为常用代码库编译方法备忘的链接，除用mpc管理现有代码外，还有很多开源的第三方库的编译需要进行一些特殊的配置和处理，这里将我现在用到且无法使用mpc进行管理的代码库的编译方法进行集中整理。</p>
+<p>现在已经整理的编译方法有：</p>
+<ol type="1">
+<li><a class="el" href="boost_compile.html">boost库编译指南</a></li>
+<li><a class="el" href="cmpopenssl.html">编译openssl</a></li>
+<li><a class="el" href="cmbsqlite.html">编译带加解密功能的sqlite</a></li>
+<li><a class="el" href="cmpg_s_o_a_p.html">编译gSOAP框架工具</a> </li>
+</ol>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

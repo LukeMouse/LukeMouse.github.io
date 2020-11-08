@@ -1,0 +1,70 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">boost库编译指南 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>luke <hr/>
+ </dd></dl>
+<h1><a class="anchor" id="prp"></a>
+编译选项说明</h1>
+<p>从boost官网上下载了1.62版本的压缩包，解压到本地磁盘。我把它解压到这里D:\boost\boost_1_62_0。从控制台进入D:\boost\boost_1_62_0目录中，输入命令 bootstrap后回车，这时会在boost_1_62_0下面生成b2.exe，这就是我们后续编译boost库需要的文件。boost库编译参数很多，这里只提常用的编译选项：</p>
+<ul>
+<li>stage|install 编译还是安装，前者仅编译和安装编译出来的库到stage目录下，后者安装头文件和编译出来的库文件到指定的路径下，该路径由 &ndash;prefix=&lt;PREFIX&gt;指定。</li>
+<li>&ndash;build-type包括最小（minimal[默认]）和完全（complete），前者生成极小部分的编译，在Windows下生成debug和release模式的静态多线程库，在Linux下为release版的静态和动态多线程库。后者生成所有可能的组合</li>
+<li>&ndash;prefix配置安装路径。</li>
+<li>toolset用于指定使用的编译器</li>
+<li>link取值包括static和shared前者生成静态库，后者生成动态库</li>
+<li>threading取值包括single和multi前者生成单线程二进制后者为多线程</li>
+<li>runtime-link取值包括static和shared，指定静态或静态链接C和C++运行时库</li>
+<li>&ndash;build-dir用于指定编译时中间文件的生成路径，建议不使用默认路径</li>
+<li>architecture=x86 address-model=64 用于编译生成64位版本 </li>
+</ul>
+<p>下面是几个编译参数示例，前两个结果的和等于第三个，第三第四个结果的和等于第五个： </p><pre class="fragment">b2 stage --build-type=complete toolset=msvc-12.0 link=shared threading=multi runtime-link=shared --build-dir="C:\boostbuild" architecture=x86 address-model=64
+b2 stage --build-type=complete toolset=msvc-12.0 link=static threading=multi runtime-link=static --build-dir="C:\boostbuild" architecture=x86 address-model=64
+b2 stage --build-type=complete toolset=msvc-12.0 threading=multi --build-dir="C:\boostbuild" architecture=x86 address-model=64
+b2 stage --build-type=complete toolset=msvc-12.0 threading=single --build-dir="C:\boostbuild" architecture=x86 address-model=64
+b2 stage --build-type=complete toolset=msvc-12.0 --build-dir="C:\boostbuild" architecture=x86 address-model=64
+</pre> <p>boost不支持生成使用/MT和/MTD选项的动态库</p>
+<h1><a class="anchor" id="nam"></a>
+命名解读</h1>
+<p>以 libboost_regex-vc120-mt-d-1_62.lib 为例：</p><ul>
+<li>lib前缀：除了Microsoft Windows之外，每一个Boost库的名字都以此字符串开始。在Windows上，只有普通的静态库使用lib前缀；导入库和DLL不使用。</li>
+<li>boost_regex库名称：所有boost库名文件以boost_开头。</li>
+<li>vc120 Toolset 标记：标识了构建该库所用的toolset和版本。</li>
+<li>mt Threading 标记：标识构建该库启用了多线程支持。不支持多线程的库没有-mt。</li>
+<li>d ABI标记：编码了影响库和其他编译代码交互的细节。对于每一种特性，向标记中添加一个字母<ol type="1">
+<li>s 静态链接到C++标准库和编译器运行时支撑库</li>
+<li>g 使用标准库和运行时支撑库的调试版本</li>
+<li>y 使用Python的特殊调试构建</li>
+<li>d 构建代码的调试版本</li>
+<li>p 使用STLPort标准库而不是编译器提供的默认库</li>
+<li>n 使用STLPort已被弃用的“native iostreams”</li>
+</ol>
+</li>
+<li>1_62 版本标记：完整的Boost发布号，下划线代替点。例如，1.62版本将被标记为“-1_62”。</li>
+<li>lib 扩展名：取决于操作系统。在大多数unix平台上，.a是静态库，.so是共享库。在Windows上，.dll表示共享库，.lib是静态或导入库。 </li>
+</ul>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

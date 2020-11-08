@@ -1,0 +1,99 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">从动态库中获取静态库 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section date"><dt>日期</dt><dd>2013-06-27 </dd></dl>
+<dl class="section author"><dt>作者</dt><dd>RuralMouse <hr/>
+ </dd></dl>
+<p>昨天给香港客户提供指纹SDK使用支持，发现指纹SDK发布时不提供lib文件和头文件，使用时要使用LoadLibrary的方式加载，我很讨厌这种调用方式，忽然想起来以前用sqlite的dll生成lib的做法。哼哼，既然官方不允许发布，我可以私人使用吧。经翻查以前的笔记，可以使用VC的LIB.EXE工具+def文件+dll文件获取lib。下面是我的操作步骤：</p>
+<ol type="1">
+<li>我的机器上只装了VS2008，根据我的安装路径将如下内容保存在指纹SDK动态库所在位置的Getlib.bat里面： <pre class="fragment">    SET PATH="D:/Program Files/Microsoft Visual Studio 9.0/VC/bin";%PATH%
+    LIB /DEF:GALS1701.def /MACHINE:IX86
+</pre></li>
+<li>用文本工具创建一个GALS1701.def文件，打开文件输入如下内容： <pre class="fragment">       LIBRARY      GALS1701   //注意这里的名称必须和动态库一致
+       EXPORTS
+</pre></li>
+<li>用depends工具打开GALS1701.dll，在导出函数列表上点右键，选择Select All。参考下图 <div class="image">
+<img src="Sample001.jpg" alt="Sample001.jpg"/>
+</div>
+</li>
+<li>再次点击右键选择Copy Function Names， 将剪切板上面的内容粘贴到GALS1701.def文件中EXPORT下面一行。 保存，退出。这样准备工作就完成了。参考图 <div class="image">
+<img src="Sample002.jpg" alt="Sample002.jpg"/>
+</div>
+</li>
+<li>将剪切板上的内容粘贴到 的后面，最终的 文件如下所示： <pre class="fragment">LIBRARY      GALS1701
+EXPORTS
+    LIVESCAN_BeginCapture
+    LIVESCAN_Close
+    LIVESCAN_EndCapture
+    LIVESCAN_FeatureExtractMem
+    LIVESCAN_FeatureMatchMem
+    LIVESCAN_GetBright
+    LIVESCAN_GetChannelCount
+    LIVESCAN_GetContrast
+    LIVESCAN_GetDesc
+    LIVESCAN_GetErrorInfo
+    LIVESCAN_GetFPBmpData
+    LIVESCAN_GetFPRawData
+    LIVESCAN_GetVersion
+    LIVESCAN_Get_Version
+    LIVESCAN_Init
+    LIVESCAN_IsSupportSetup
+    LIVESCAN_SetBright
+    LIVESCAN_SetContrast
+    LIVESCAN_SetVideoWindow
+    LIVESCAN_Setup
+</pre></li>
+<li>双击批处理，提示少mspdb80.dll，我#￥%%&amp;*……*&amp;……#……::￥::￥，看来微软也有马虎的时候，不知道为什么我的VS2008应该使用mspdb90.dll啊，这种错误也犯，在安装路径下的Common7\IDE文件夹下找到了mspdb80.dll并将其拷贝到VC\bin路径，运行批处理，果然可以得到lib文件。</li>
+<li>满怀欣喜将头文件和lib文件加入到我的工程中，编译，IDE提示：什么什么mspdb80等等(有时是更为隐晦的fatal error C1902: Program database manager mismatch; please check your installation）</li>
+<li>猜测可能是上述步骤中拷贝的mspdb80.dll引起的，删除之，编译器提示未解决的_LIVESCAN_BeginCapture@4等等，奇怪为什么前面多了一个下划线，@后面的内容是参数所占大小，不解。 上网谷歌之，网上有一中解决办法是在导出函数名后面加@参数长度（空格）@顺序，可以解决该问题，马上报def文件修改成如下所示： <pre class="fragment">LIBRARY      GALS1701
+EXPORTS
+    LIVESCAN_BeginCapture@4 @1
+    LIVESCAN_Close@0 @2
+    LIVESCAN_EndCapture@4 @3
+    LIVESCAN_FeatureMatchMem@8 @4
+    LIVESCAN_FeatureExtractMem@12 @5
+    LIVESCAN_GetBright@8 @6
+    LIVESCAN_GetChannelCount@0 @7
+    LIVESCAN_GetContrast@8 @8
+    LIVESCAN_GetDesc@4 @9
+    LIVESCAN_GetErrorInfo@8 @10
+    LIVESCAN_GetFPBmpData@8 @11
+    LIVESCAN_GetFPRawData@8 @12
+    LIVESCAN_GetVersion@0 @13
+    LIVESCAN_Get_Version@4 @14
+    LIVESCAN_Init@0 @15
+    LIVESCAN_IsSupportSetup@0 @16
+    LIVESCAN_SetBright@8 @17
+    LIVESCAN_SetContrast@8 @18
+    LIVESCAN_SetVideoWindow@4 @19
+    LIVESCAN_Setup@0 @20
+</pre></li>
+<li>重新生成lib文件，加入到工程中，编译，果然好使，哈哈哈哈。马上运行，初始化成功，可是准备抓图的时候却总返回-1（非法参数），问了一下指纹的同事，他说不可能，0是唯一合法参数。一盆冷水啊，我的试验失败了。微软的VS2008的lib.exe有问题？指纹SDK封装有问题？种种怀疑。突然想到查询资料时有一个说法是调用约定的问题，看了一下指纹的头文件，每个函数都有__stdcall声明，先将测试工程的调用约定由原来的__cdecl修改为__stdcall，编译，重试，仍然失败。去掉头文件中的所有的__stdcall编译提示未解决的LIVESCAN_BeginCapture，啊啊啊啊？怎么又变成这样了，将def文件换回以前的定义方式，重新生成lib，加入到工程中编译、链接、运行，55555555555555555居然这次好使了，绕了一个大圈子，尝试了多种解决方式，终于解决了，虽然没有找到相关的参考资料佐证我的做法，但觉的这种方式是从动态库获取lib文件的一种解决方案。笔记之以备后查。 <a href="addin/RMDemos.rar">下载本文示例源代码</a><br />
+ </li>
+</ol>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

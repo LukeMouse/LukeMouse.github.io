@@ -1,0 +1,163 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">Windows调试技术第一部分&ndash;使用Windbg调试应用程序崩溃 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>shailesh91082 </dd></dl>
+<dl class="section date"><dt>日期</dt><dd>2014-02-13 <hr/>
+ </dd></dl>
+<h1><a class="anchor" id="intr"></a>
+简介</h1>
+<p>本文介绍了使用简单易用的技巧，调试Windows应用程序中的崩溃。本文仅限于用户模式的调试，介绍了使用WinDbg，procdump进行基本调试的方法。</p>
+<h1><a class="anchor" id="prereq"></a>
+前期准备</h1>
+<p>为了实现后续的任务，需要准备如下工具:</p>
+<ol type="1">
+<li><a href="http://technet.microsoft.com/en-in/sysinternals/dd996900.aspx">Procdump</a></li>
+<li><a href="http://msdn.microsoft.com/en-us/library/windows/hardware/ff551063(v=vs.85).aspx">Windows 调试工具</a> </li>
+</ol>
+<h1><a class="anchor" id="background"></a>
+背景知识</h1>
+<p>使用Windows应用程序的时候，我们经常发现程序由于某种未知的原因不能工作，并且出现一个类似下图的对话框：</p>
+<div class="image">
+<img src="WDT001.png" alt="WDT001.png"/>
+</div>
+ <p>通常我们看到这个对话框的时候我们会点击“关闭程序”按钮，并重启应用程序。如果这种现象反复出现，并且这是一个第三方应用程序，我们会上报问题并等待解决。</p>
+<p>现在让我们转换一下角色，如果我们是一个要分析问题并尽快给出解决方案的团队，因为这已经影响到了我们的用户。让我们由浅入深，一步步探索程序为什么会崩溃，崩溃是如何发生的，还有我们要如何解决它。</p>
+<h1><a class="anchor" id="Definition"></a>
+定义</h1>
+<p>应用程序崩溃是一个中断程序正常功能的意外状态。让我们研究一下下面的代码：</p>
+<pre class="fragment">int _tmain(int argc, _TCHAR* argv[])
+{
+    int *p = NULL;
+    cout&lt;&lt;"This is Start";
+    *p = 10;
+    cout&lt;&lt;"This is End";
+    return 0;
+}
+</pre> <p>当我们运行这个程序的时候我们就会遇到类似上图的对话框。程序之所以会崩溃，是因为“*p=10”，这个语句，我们给一个未分配空间的指针进行了赋值，换言之，“我们对一个空指针进行了赋值”。我们之所以能够给出答案，是因为我们有源码，并且代码很简短。在上百万行的代码中定位到问题就显得比较困难了，更别说解决掉了。因此，我们需要某种技术，通过该技术我们可以精确的找到（或接近）问题的根源，而不是发掘所有代码。</p>
+<h1><a class="anchor" id="DebugTech"></a>
+调试技术</h1>
+<p>有多种不同的技术手段用于鉴定程序崩溃的原因，但是这些技术大同小异。</p>
+<h2><a class="anchor" id="locError"></a>
+第一步、定位出错模块</h2>
+<p>可以使用事件查看器定位出错模块，以我们现在的例子，如AppCrash.exe为例，一旦发生崩溃，将向事件查看器发送一个事件。在“运行”中输入eventvwr回车，调出事件查看器窗口。 </p><div class="image">
+<img src="WDT002.png" alt="WDT002.png"/>
+</div>
+ <p>看一下常规页下面的文本，有两个地方我们比较感兴趣：</p>
+<ol type="1">
+<li>错误应用程序名称: 给出出错程序名称，本例中为AppCrash.exe</li>
+<li>错误模块名称:指出应用程序或可执行程序中那个模块表现异常。本例中依然是AppCrash.exe。 </li>
+</ol>
+<p>这说明了问题出在AppCrash.exe里面，如果错误模块为，例如AppCrashLib.dll，这说明该模块是罪魁祸首，我们需要对它进行调试。</p>
+<p>另一个需要注意的地方是“异常代码”，它代表了错误的含义，本例中异常代码为0XC0000005,表示违规访问，这说明我们的程序试图获取非法内存地址。可以通过下面的网址，获取所有异常代码：</p>
+<ol type="1">
+<li><a href="http://msdn.microsoft.com/en-us/library/cc704588(d=lightweight,l=en-us,v=PROT.10).aspx">http://msdn.microsoft.com/en-us/library/cc704588(d=lightweight,l=en-us,v=PROT.10).aspx</a> </li>
+</ol>
+<p>这些大大帮助了我们对异常含义的理解。</p>
+<h2><a class="anchor" id="retrivecd"></a>
+第二步、获取崩溃转储（Crash Dump）</h2>
+<p>异常转储中通常保留了异常终止的程序当时的工作状态，并可以获取当前内存的完整状态，这将有助于我们分析问题。最简单的获取崩溃转储的方式是procdump，procdump需要在崩溃发生前进行配置，如：procdump -ma -x C:\dumps "M:\CoProject\Demo\CrashDemo\Release\AppCrash.exe",这是procdump最基本的一个示例，我们可以导出更多的选项。通过该命令，将运行应用程序，当应用程序崩溃时，它将获取完整的内存转储并保持到c:\dumps下面。 </p>
+<h2><a class="anchor" id="anacd"></a>
+第三步、分析崩溃转储（Crash Dump）</h2>
+<p>接下来我们需要对我们获得的崩溃转储进行分析，最好的分析转储的工具是Windbg,Windbg是Windows上所有可以获取的调试工具（编写本文时）之父。我将不会探讨Windbg错综复杂的领域，这超出了本文的范围。这里只关注如何使用Windbg分析转储中的内容。分析转储内容之前，我们需要准备与崩溃的可执行文件版本相应的pdb文件。pdb是应用程序数据库，它包含了调试一个应用程序所需的所有调试信息。唯一的限制是pdb文件和对应的可执行文件必须具有相同的时间戳，否则一旦应用程序数据库标志不匹配，我们将不能分析转储。</p>
+<p>接下来，启动Windbg并配置pdb文件如下：</p>
+<div class="image">
+<img src="WDT003.png" alt="WDT003.png"/>
+</div>
+<ol type="1">
+<li>在Windbg中，使用菜单File-&gt;Open Crash Dump，定位到输出的转储文件，并点击“打开”按钮。 <div class="image">
+<img src="WDT004.png" alt="WDT004.png"/>
+</div>
+</li>
+<li>转储文件成功打开后将显示如下界面： <div class="image">
+<img src="WDT005.png" alt="WDT005.png"/>
+</div>
+</li>
+<li>在命令行窗口中输入：!analyze -v ,如下图所示，回车； <div class="image">
+<img src="WDT006.png" alt="WDT006.png"/>
+</div>
+</li>
+<li>执行完命令后我们将得到如下视图： <div class="image">
+<img src="WDT007.png" alt="WDT007.png"/>
+</div>
+ </li>
+</ol>
+<p>接下来我们需要根据不同的参数来定位问题。观察窗口中的输出，可以知道崩溃发生在Appcrash.exe，位置是wmain位移0x1f。这里并没有给出导致问题的确切源码。</p>
+<p>我们观察一下，下面的语句：AppCrash!wmain+1f [m:\coproject\demo\crashdemo\<a class="el" href="_crash_demo_8cpp.html">crashdemo.cpp</a> @ 14]。这句给出了崩溃产生的确切位置，下面的代码给了我们更为详尽的信息：</p>
+<pre class="fragment">FAULTING_SOURCE_CODE:  
+    10: {
+    11:     int *p = NULL;
+    12:     cout&lt;&lt;"This is Start";
+    13:     *p = 10;
+&gt;   14:     cout&lt;&lt;"This is End";
+    15:     return 0;
+    16: }
+</pre> <p>上面的分析中，崩溃实际发生在第13行，但是Windbg指向了第14行。这是编译时的优化选项造成的。因此，如果我们想确定哪一行引发了崩溃，我们应该选择第13行。因为空指针被赋值了，我试图想在一个不存在的位置输入数据。 </p>
+<h2><a class="anchor" id="step4"></a>
+第四步、修正问题并发布</h2>
+<p>既然我们定位到了问题的所在，我们现在先为指针分配内存，然后再赋值。修改后的代码如下：</p>
+<pre class="fragment">int _tmain(int argc, _TCHAR* argv[])
+{
+    int *p = NULL;
+    cout&lt;&lt;"This is Start";
+    p = new (std::nothrow)int;
+    if (NULL == p)
+    {
+        return -1;
+    }
+    *p = 10;
+    cout&lt;&lt;"This is End";
+    return 0;
+}
+</pre> <h1><a class="anchor" id="optimization"></a>
+优化</h1>
+<p>由于进行编译优化后，我们不能定位到问题发生的确切位置，我们这里对优化进行一下讨论</p>
+<div class="image">
+<img src="WDT008.png" alt="WDT008.png"/>
+</div>
+ <p>优化选项等级意味着我们要求编译器优化到什么水平，如果我们将等级增加为“Full Optimization”这意味着二进制文件体积更小，pdb文件中的调试信息更少。如果我们降低等级，如“Disable Optimization”我们将获得更多的调试信息，二进制文件和pdb文件也将越大，如果我们编译调试版本的二进制文件，我们将获得更多的调试信息和更大的二进制文件。</p>
+<p>从上图可以看出，总共有四种选项可以配置。通常大多数工程中选用“Maximize Speed”，这已经足够用于调试用户反馈的崩溃信息。上例中，如果我们禁用优化，我们将得到如下结果：</p>
+<div class="image">
+<img src="WDT009.png" alt="WDT009.png"/>
+</div>
+ <p>可以看到它指向了问题发生的确切位置（*p=10）。之所以这样是因为调试信息做够用于定位问题发生的位置。作为一个经验法则，我们生产发布版本的时候，我们应该维护pdb文件，以便于用其分析客户端发生的崩溃信息。</p>
+<p>如果问题发生在本地，建议禁用优化选项，重新编译可执行文件，收集最近的转储信息并进行分析，这样我们的生活会变得很美好。不建议使用调试模式，这是因为调试模式下很多问题都不会发生。</p>
+<h1><a class="anchor" id="pdbfile"></a>
+pdb文件</h1>
+<p>任意非托管代码编译时，pdb文件都会伴随可执行文件产生，这些pdb文件中保存了调试信息，这些信息是调试任何问题的必要元素。换言之，这个文件也被称为符号文件（Symbol file)。符号文件包含调试时非常有用的各种符号。简单列举几个：本地变量（Local Variables），全局变量（Global Variables），函数名称，源码行数等。这些信息都被称作符号。可以获取的符号分为两类：</p>
+<ol type="1">
+<li>私有符号：包含函数，本地变量，全局变量，用户自定义数据结构，源码行号</li>
+<li>公有符号：有函数，全局变量 </li>
+</ol>
+<p>与私有符号相比，公有符号包含相当少的信息。公有符号仅包含可以跨文件查看的信息。这种分类将本地变量划分到了公有符号之外。即便是公有符号中的大多数函数会拥有修饰名。</p>
+<p>调试私有符号可以获得问题发生的具体位置（如上例所示），但是公有符号却做不到。</p>
+<p>多数公司维护两套符号服务，一套私有的供内部使用，一套公有符号用于对外发布</p>
+<p>默认情况下使用Visual Studio编译将产生私有符号，将之转换为公有可以在链接部分增加/pdbstripped标识。点击<a href="http://msdn.microsoft.com/en-us/library/y87kw2fd.aspx">这里</a>获取更多信息。</p>
+<h1><a class="anchor" id="summ"></a>
+总结</h1>
+<p>这是一个非常简单和直接的调试方法，通常会遇到更加复杂的情况。这些复杂情况包括多模块、多线程、跟踪输出的误导，这需要我们仔细进行分析。我们只讨论了非常基本的情况，还有更多的地方需要进行探索。</p>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

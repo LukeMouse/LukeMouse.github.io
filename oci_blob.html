@@ -1,0 +1,61 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">使用OCI向数据库中插入BLOB字段 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><hr/>
+<h1><a class="anchor" id="step1"></a>
+1、插入空的blob</h1>
+<pre class="fragment">Statement*stmt = conn-&gt;createStatement();
+std::string  sql = "insert into feature_1 (batch_job_id,person_id,image_id,fea) values(:x,:y,:z,empty_blob())";
+stmt-&gt;setSQL(sql);
+stmt-&gt;setInt(1,batch_job_id);
+stmt-&gt;setInt(2,person_id_);
+stmt-&gt;setInt(3,image_id_);
+stmt-&gt;executeUpdate();
+</pre><h1><a class="anchor" id="step2"></a>
+2、更新该blob</h1>
+<pre class="fragment">ACE_TCHAR sql_1[MAX_LENGTH] = {'\0'};
+
+ACE_OS::sprintf(sql_1,"select fea from  feature_1 where image_id = %s for update",image_id.c_str());
+ResultSet* rst = stmt-&gt;executeQuery(sql_1); 
+while (rst-&gt;next())
+{
+    Blob blob = rst-&gt;getBlob(1);
+    vector&lt;Blob&gt; blobs;
+    blobs.push_back(blob);
+    oraub8 byteAmts = feature_len;  
+    oraub8 offsets =  1 ;   
+    char* buffers = feature_data;
+    oraub8 bufferLens = feature_len ;
+    unsigned char* pszTemp[1];
+    pszTemp[0] = new unsigned char[bufferLens];
+    memcpy(pszTemp[0], buffers, bufferLens);
+
+    writeVectorOfBlobs(conn, blobs, &amp;byteAmts, &amp;offsets, pszTemp, &amp;bufferLens);
+    delete []pszTemp[0];
+}
+</pre> </div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

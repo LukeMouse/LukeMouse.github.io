@@ -1,0 +1,116 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">MPC生成Windows安卓交叉编译C++可执行文件 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>李进安 <hr/>
+ </dd></dl>
+<h1><a class="anchor" id="prefmpqq"></a>
+第一步 准备环境</h1>
+<p>下载r18以后版本的NDK，执行下面的语句拷贝生成相应架构的交叉编译环境 </p><pre class="fragment">set NDK_ROOT=D:\AndroidEclipse\android-ndk-r21
+REM 拷贝arm32环境
+%NDK_ROOT%\prebuilt\windows-x86_64\bin\python.exe %NDK_ROOT%\build\tools\make_standalone_toolchain.py --arch arm --api 21 --install-dir "D:\AndroidARM32"
+REM 拷贝arm64环境
+%NDK_ROOT%\prebuilt\windows-x86_64\bin\python.exe %NDK_ROOT%\build\tools\make_standalone_toolchain.py --arch arm64 --api 21 --install-dir "D:\AndroidARM64"
+REM 合并arm环境
+mv D:\AndroidARM32 D:\AndroidARM
+mv D:\AndroidARM\bin D:\AndroidARM\bin32
+mv D:\AndroidARM\share\gdbserver D:\AndroidARM\share\gdbserver_32
+mv D:\AndroidARM64\bin D:\AndroidARM\bin64
+mv D:\AndroidARM64\share\gdbserver D:\AndroidARM\share\gdbserver_64
+rm -rf D:\AndroidARM64
+</pre> <h1><a class="anchor" id="sdfad"></a>
+第二步 编写测试代码</h1>
+<p>编写如下测试代码main.cpp </p><pre class="fragment"># include &lt;iostream&gt;
+
+int main(int argc, char const *argv[])
+{
+  for(int i = 0; i &lt; 7; ++i)
+    std::cout &lt;&lt; "Hello World" &lt;&lt; std::endl;
+    
+  int j = 5;
+  int *p_int = &amp;j;
+  std::cout&lt;&lt;"111111111111111111 "&lt;&lt;std::endl;  
+  * p_int = 5;
+  std::cout&lt;&lt;"2222222222222 "&lt;&lt;std::endl; 
+  std::cout&lt;&lt;"sizeof p_int is: "&lt;&lt;sizeof(p_int)&lt;&lt;std::endl;  
+  return 0;
+}
+</pre> <h1><a class="anchor" id="fshdkduyqw"></a>
+第三步 编写mpb文件</h1>
+<p>armeabi-v7a配置：lukearm32.mpb 内容如下： </p><pre class="fragment">feature(armv32) {
+    requires+=armv32
+    expand(NDK_ROOT) {
+        $NDK_ROOT
+        $(NDK_ROOT)
+    }
+    includes+=$(NDK_ROOT)/sysroot/usr/include $(NDK_ROOT)/sysroot/usr/include/arm-linux-androideabi
+}
+</pre> <p>arm64-v8a配置：lukearm64.mpb 内容如下： </p><pre class="fragment">feature(armv64) {
+    requires+=armv64
+    expand(NDK_ROOT) {
+        $NDK_ROOT
+        $(NDK_ROOT)
+    }
+    includes+=$(NDK_ROOT)/sysroot/usr/include $(NDK_ROOT)/sysroot/usr/include/aarch64-linux-android
+}
+</pre> <h1><a class="anchor" id="fshdfdskduyqw"></a>
+第四步 编写mpc文件与生成脚本文件</h1>
+<h2><a class="anchor" id="sdasijfisd"></a>
+生成32位版本</h2>
+<p>build32.mpc </p><pre class="fragment">project(androidarm):build_files,lukearm32{
+    exename=androidtest
+    macros+=ANDROID
+    Source_Files{
+        main.cpp
+    }
+}
+</pre> <p>build32.bat </p><pre class="fragment">set NDK_ROOT=D:/AndroidEclipse/android-ndk-r21
+mwc.pl -type make -value_template "CXX=clang++ --target=armv7-none-linux-androideabi21 -static-libstdc++"  --features arm32=1
+set PATH=D:/AndroidARM/bin32;D:\AndroidARM\arm-linux-androideabi\bin;%PATH%
+make 
+</pre> <h2><a class="anchor" id="sdasijsdjhsdfisd"></a>
+生成64位版本</h2>
+<p>build64.mpc </p><pre class="fragment">project(androidarm):build_files,lukearm64{
+    exename=androidtest
+    macros+=ANDROID
+    Source_Files{
+        main.cpp
+    }
+}
+</pre> <p>build64.bat </p><pre class="fragment">set NDK_ROOT=D:/AndroidEclipse/android-ndk-r21
+mwc.pl -type make -value_template "CXX=clang++ --target=aarch64-linux-android21 -static-libstdc++"  --features arm64=1
+set PATH=D:/AndroidARM/bin64;D:/AndroidARM/aarch64-linux-android/bin;%PATH%
+make 
+</pre> <h1><a class="anchor" id="dfgdgdskduyqw"></a>
+第五步 生成与测试</h1>
+<ul>
+<li>执行相应的build*.bat生成可执行文件</li>
+<li>将生成的可执行文件使用adb push到/data/local/tmp下面</li>
+<li>使用chmod +x 给上传的文件添加可执行属性</li>
+<li>运行，测试，观察结果 </li>
+</ul>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

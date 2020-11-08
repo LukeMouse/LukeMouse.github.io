@@ -1,0 +1,48 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">TAO维基百科翻译 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><hr/>
+ <p>TAO是一个免费、开源，基于ACE（自适应通讯环境）遵从CORBA标准的实时C++实现版本。它意在提供高效、可预测、规模化的端到端的QOS（quality of Service）。TAO应用最好的软件实践和模式实现分布式应用程序的高性能传输和实时QoS自动化。TAO目标用户为迫切要求性能的分布式和嵌入式应用程序开发人员。</p>
+<h1><a class="anchor" id="doa"></a>
+应用领域</h1>
+<p>实时应用程序可以从TAO的使用中获利，后者使用大家熟悉的软件方法为具有挑战性的实时软件问题提供了解决方案。一般来说，由于实时系统常用于关键任务领域，这要求可预测的时间特性和健壮性。TAO声称这两项通过已经实现的通用目的的通讯框架保证，该框架采用了软件行业中非实时部分熟悉的概念。</p>
+<h1><a class="anchor" id="advan"></a>
+优势</h1>
+<p>传统上,可行的实时CORBA的障碍是，与端到端的系统设计相关的方面超越了传统与CORBA相关的分层边界。正因如此，TAO将网络接口、操作系统I/O子系统、ORB和中间件服务进行了集成以提供端到端的解决方案。以CORBA的事件服务为例，它通过支持解绑生产者与消费者、异步事件分发和分布式组内通讯简化了应用软件。TAO强化了标准的CORBA事件服务提供了一些重要特色，如实时事件分发和时间规划、定期事件处理、高效事件过滤和管理机制和实时应用程序要求的多播协议。</p>
+<h1><a class="anchor" id="fcpre"></a>
+常用概念列举</h1>
+<p>TAO将软件业中常用的概念借鉴到实时系统中。这些概念包括：CORBA、RPC、面向对象展现和伯克利套接字。在面向对象领域，RPC通常指远程方法调用（RMI)，由于直接与对象或类相关的子程序或过程称作方法，但是这些概念基本一致，这是因为目标对象执行方法时调用端被阻塞。在设计架构阶段，这提供了令人满意的软件开发的简化。 </p>
+<h2><a class="anchor" id="diswa"></a>
+缺点</h2>
+<h3><a class="anchor" id="soex"></a>
+暂停执行</h3>
+<p>与所有的CORBA实现类似，TAO为应用程序提供了一个面向对象的RMI接口。调用一个子过程（下级）暂停了调用者（上级），调用者（上级）代理了操作并将仅有的执行权限移交给了目标对象（下级，代理操作的子过程）的触发方法。或许在代理操作过程中调用者（上级）可以继续执行其他活动，但是调用者（上级）被暂停，等待代理子过程（下级）的完成。</p>
+<p>当上下级在不同的进程中时这边的更加让人头疼。因为上级被暂停只有下级在执行，一个代理操作中两个进程中的两个线程被占用。典型的当使用RMI/RPC时相对应的办法是增加上级的线程数使其与所有下级同步执行的操作数相匹配。线程消耗的资源比每个代理到下级的通讯消耗的资源大。因此当与其他允许上级继续执行实现其他任务的方法相比，使用RPC/RMI方法同步的间接费用成倍的扩大了。</p>
+<p>CORBA对手采用的方案通常是子过程模型使上级与代理方法同步的继续执行。上级简单的向下级发送一个消息。下级接收到执行代理操作时立即反馈消息的接收（此时代理操作还未完成）。上级接下来处理其他事务或者是准备发给其他代理操作的消息，给相同的下级或其他下级。每个下级代理了一个操作，根据消息的优先级或时效将操作请求消息放入一个队列中。一个线程（也许是一个线程池）从队列中取消息并执行。执行完成后以不同的消息反馈给上级。上级以与下级类似的方式处理消息</p>
+<p>TAO通过异步方法调用（asynchronous method invocation AMI)和异步方法处理（Asynchronous Method Handling AMH)机制提供了可选的替代方案。AMI用于客户端进行远程调用而无需等待反馈，它以回调方式获得结果。AMH用于服务端延迟响应。例如，服务端可能需要等待其他远程调用。AMI是CORBA标准的一部分，AMH是TAO对CORBA规范的扩充。 </p>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

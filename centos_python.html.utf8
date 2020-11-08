@@ -1,0 +1,40 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">CentOS6.7 升级安装Python 2.7.9 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><hr/>
+<ol type="1">
+<li>wget <a href="http://www.python.org/ftp/python/2.7.9/Python-2.7.9.tar.xz">http://www.python.org/ftp/python/2.7.9/Python-2.7.9.tar.xz</a> 下载2.7版的最新版本</li>
+<li>解压 tar Jxvf Python-2.7.9.tar.xz</li>
+<li>进入解压目录获得编译文件： ./configure [&ndash;enable-optimizations] &ndash;prefix=/usr/local</li>
+<li>编译进行升级安装：make altinstall （注意不是make install)</li>
+<li>备份旧版本：mv /usr/bin/python /usr/bin/python2.6.6</li>
+<li>使用新版本：ln -s /usr/local/bin/python2.7 /usr/bin/python</li>
+<li>使yum使用旧版本的python：修改/usr/bin/yum 第一行末尾的python为python2.6.6</li>
+<li>使输入法配置正常：修改/usr/bin/ibus-setup和/usr/bin/ibus-table-createdb 文件末尾的python为python2.6.6 </li>
+</ol>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

@@ -1,0 +1,53 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">手动添加swap分区 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>fromweb <a href="http://www.linuxidc.com/Linux/2015-02/113250.htm">http://www.linuxidc.com/Linux/2015-02/113250.htm</a> <hr/>
+<ul>
+<li>首先查看swap大小 <pre class="fragment"># free
+             total       used       free     shared    buffers     cached
+Mem:       7961064    7796028     165036      90264     195104    3729528
+-/+ buffers/cache:    3871396    4089668
+Swap:      0          0    0
+</pre> 显示为0说明交换分区不存在</li>
+<li>使用dd命令创建一个swap分区 <pre class="fragment">#  dd if=/dev/zero of=/home/swap bs=1024 count=8388608
+</pre> 这样就创建了一个8g的交换分区</li>
+<li>格式化新建的分区 <pre class="fragment">#  mkswap /home/swap
+</pre></li>
+<li>把新建的分区变成swap分区 <pre class="fragment">#  swapon /doiido/swap
+</pre> 注:关闭SWAP分区命令为：# swapoff /doiido/swap</li>
+<li>再次查看swap大小 <pre class="fragment">#  free
+             total       used       free     shared    buffers     cached
+Mem:       7961064    7796028     165036      90264     195104    3729528
+-/+ buffers/cache:    3871396    4089668
+Swap:      8388604          0    8388604
+</pre></li>
+<li>开机自动挂载swap <pre class="fragment">#  echo "/doiido/swap swap swap defaults  0 0" &gt;&gt; /etc/fstab
+</pre> 这样SWAP分区就创建完毕 </li>
+</ul>
+</dd></dl>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

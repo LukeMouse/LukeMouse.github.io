@@ -1,0 +1,120 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">solr5.5.4单机部署向SolrCloud迁移 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><hr/>
+ <p>为了快速完成索引创建的工作，测试环境现有的Solr采用单机部署的方式搭建，在内部测试完成后，系统需要到生产环境部署运行，由于数据量的激增，单机部署模式已经不现实，在向多机部署迁移过程中遇到了很多的问题，本文加以整理描述，以期作为生产环境部署的参考，减少不必要的试错。</p>
+<h1><a class="anchor" id="envprep"></a>
+部署相关理论</h1>
+<p>单机部署时，多采用了Solr的默认配置进行搭建，然而集群方式需要考虑存储，优化等信息，需要对Solr的集群配置有一定的深入了解，另外solr集群搭建推荐使用外置的zookeeper，因此zookeeper搭建的相关知识也需要进行了解。在搭建zookeeper集群过程中遇到了各种问题，参考 <a class="el" href="abzooker.html">Zookeeper理论与搭建</a>，这里不再介绍，后文假设zookeeper集群已经搭建完成并正常启动。单机模式下通常索引文件放置到默认位置（$SOLR_ROOT/server/solr）下面以core命名的文件夹下面，SolrCloud模式下默认启动会报告缺失core，这是因为Solrcloud模式下配置文件从Zookeeper中进行设置，后面假设将单机时的三个core文件夹移到了$SOLR_ROOT/coresrc下面（<b>或任意与solr不相关的位置，我放在这个位置是为了后面叙述方便</b>）。</p>
+<p>单机部署与SolrCloud部署的另一个区别是配置schema文件的存放位置，如果放置到默认的位置单机版可以识别，SolrCloud方式需要向zookeeper集群注册后才能生效。同样SolrCloud部署方式下schema文件也不能通过简单的重启来使修改生效，而是需要向zookeeper注册修改，相关操作参考下面的配置更新命令。</p>
+<p>与单机部署不同，集群部署需要了解SolrCloud中有四个关键名词：core、collection、shard、node：</p><ul>
+<li>core：在Solr单机环境中，core本质上就是单个index。若需有多个index，那必须创建多个core。在SolrCloud环境中，单个index可以横跨多个Solr实例，这意味着单个index是由不同机器上的多个cores组成。如单机部署时我们创建了三个core：hisigncore（记录供查询的最终数据）、transcore（记录MD5信息和一些中间信息）和failcore（索引创建过程中的错误日志）</li>
+<li>collection：由core组成的逻辑index叫做collection，一个collection是跨越多个cores的index，这使index可扩展并冗余备份。以前叫core现在称作collection了，collection中的数据分布在多个设备上，这些设备上的数据共同组成完整的数据index，通常为了安全起见，每个collection都有两个或以上的备份。</li>
+<li>shard：在SolrCloud中可以有多个collections。Collections可被分片，每个分片可有多个副本（Replica），同一副本下的相同分片称为shards。每个shards下的有一个分片为leader，该leader通过选举策略产生。shard就是分片，把一个完整的collection分成多少片就创建几个shared，通常和节点数相同。</li>
+<li>node：SolrCloud中，node是运行Solr的Java虚拟机实例，也就是Server（例如Tomcat、Jetty）。 </li>
+</ul>
+<h1><a class="anchor" id="scdemo"></a>
+SolrCloud部署步骤</h1>
+<p>本部署是在现有单机版本发布包的基础上修改进行的，假设现有版本的单机版部署在/opt/solr-5.5.4处，zookeeper集群已经启动，分别使用IP为172.16.0.123，172.16.0.128和172.16.0.131的三台机器进行搭建，在这三台机器上添加相同的用户（如：solradmin）。下面的步骤说明了如何在IP为172.16.0.123的机器上的操作步骤，如无特殊说明，后两台机器也做相应的配置启动。</p>
+<ul>
+<li>清理原有数据，转移原有的core文件夹 <pre class="fragment">cd /opt/solr-5.5.4
+rm -v -f ./server/solr/transcore/data/index/*
+rm -v -f ./server/solr/transcore/data/tlog/*
+rm -v -f ./server/solr/hisigncore/data/tlog/*
+rm -v -f ./server/solr/hisigncore/data/index/*
+mkdir coresrc
+# 123 上移动到coresrc下面，其余两个机器可以删除
+mv ./server/solr/hisigncore ./coresrc/
+mv ./server/solr/transcore ./coresrc/
+</pre></li>
+<li>如使用网络下载的solr5.5需要将hanlp-portable-1.2.11.jar和hanlp-solr-plugin-1.1.2.jar拷贝到/server/solr-webapp/webapp/WEB-INF/lib/下面。</li>
+<li>执行以下拷贝操作，否则向zookeeper注册core时会报错 <pre class="fragment">cp ./dist/solr-dataimporthandler-5.5.4.jar ./server/solr-webapp/webapp/WEB-INF/lib/solr-dataimporthandler-5.5.4.jar
+cp ./dist/solr-dataimporthandler-extras-5.5.4.jar ./server/solr-webapp/webapp/WEB-INF/lib/solr-dataimporthandler-extras-5.5.4.jar  
+</pre></li>
+<li>修改solr.in.sh中的ZK_HOST为 ZK_HOST="172.16.0.123:2181,172.16.0.128:2181,172.16.0.131:2181" #使用实际的zookeeper配置，这样可以避免在命令行中输入</li>
+<li>修改solr.in.sh中的SOLR_HOST为 SOLR_HOST="172.16.0.123" #本机IP </li>
+</ul>
+<h2><a class="anchor" id="bigdisk"></a>
+独立存储部署</h2>
+<p>如果有较大的存储用于存放solr生成的索引文件，或者是数据较少，可以采用这种配置，配置步骤如下：</p><ul>
+<li>创建索引数据存放位置文件夹，并拷贝solr.xml文件到该文件夹，否则solr不能正常访问，然后在bin/solr.in.sh中进行SOLR_HOME、zookeeper等配置 <pre class="fragment">sudo mkdir /var/solrdata
+cp /opt/solr-5.5.4/server/solr/solr.xml /var/solrdata/solr.xml
+</pre></li>
+<li>修改solr.in.sh中的SOLR_HOME为 SOLR_HOME=/var/solrdata #根据实际情况修改 </li>
+</ul>
+<h2><a class="anchor" id="usehdfs"></a>
+使用hdfs进行存储</h2>
+<p>如果想借助现有的hdfs存储进行索引数据保存，可以参考以下配置：</p><ul>
+<li>修改solr.in.sh中的GC_TUNE，添加-XX:MaxDirectMemorySize=20g，修改后的取值为： <pre class="fragment">GC_TUNE="-XX:NewRatio=3 \
+-XX:SurvivorRatio=4 \
+-XX:TargetSurvivorRatio=90 \
+-XX:MaxTenuringThreshold=8 \
+-XX:+UseConcMarkSweepGC \
+-XX:+UseParNewGC \
+-XX:ConcGCThreads=4 -XX:ParallelGCThreads=4 \
+-XX:+CMSScavengeBeforeRemark \
+-XX:PretenureSizeThreshold=64m \
+-XX:+UseCMSInitiatingOccupancyOnly \
+-XX:CMSInitiatingOccupancyFraction=50 \
+-XX:CMSMaxAbortablePrecleanTime=6000 \
+-XX:+CMSParallelRemarkEnabled \
+-XX:+ParallelRefProcEnabled \
+-XX:MaxDirectMemorySize=20g"
+</pre> -在最后增加hdfs相关配置： <pre class="fragment">SOLR_OPTS="$SOLR_OPTS -Dsolr.directoryFactory=HdfsDirectoryFactory \
+-Dsolr.lock.type=hdfs \
+-Dsolr.hdfs.home=hdfs://10.1.20.174:8020/solr \
+-XX:MaxDirectMemorySize=20g"
+</pre> 其中hdfs.home的取值为实际的hdfs地址。</li>
+<li>以SolrCloud方式启动，<b>注意，下面的操作要在三台机器上的solr都启动后才能进行</b> <pre class="fragment">bin/solr restart -c -m 8g
+</pre></li>
+<li>在任意一台机器上向zookeeper注册已有的core配置，使用3个分片，索引数据生成两份副本（hdfs模式下可以使用hdfs生成的副本）<b>下面的步骤只需在其中的一台机器上进行：</b> <pre class="fragment">bin/solr create_collection -c hisigncore -d coresrc/hisigncore/conf -n hisigncore -shards 3 -replicationFactor 2
+bin/solr create_collection -c transcore -d coresrc/transcore/conf -n transcore -shards 3 -replicationFactor 2
+</pre> 这里-c后面是collection的名称（单机版本的core），-d 用于指定schema配置路径，-n用于表示在zookeeper中的配置名称，可以与-c后面的不同，-shards指定分片数，-replicationFactor指定副本数。</li>
+<li>如发生异常可以使用下面的语句删除配置好的collection及里面的数据 <pre class="fragment">bin/solr delete -c hisigncore -deleteConfig true
+bin/solr delete -c transcore -deleteConfig true
+</pre></li>
+<li>更新zookeeper里面的配置使用下面的命令 <pre class="fragment">bin/solr zk -upconfig -n hisigncore -d coresrc/hisigncore/conf
+</pre></li>
+</ul>
+<h1><a class="anchor" id="apdehid"></a>
+注意事项：</h1>
+<ul>
+<li>jdk版本1.7.0.67使用过程中出现了各种诡异现象，推荐使用的jdk版本为1.7.0.79，如果删除core的时候出现 <pre class="fragment">Java not found, or an error was encountered when running java.
+A working Java 7 or later is required to run Solr!
+Please install Java or fix JAVA_HOME before running this script.
+Command that we tried: '/usr/java/jdk1.7.0_67-cloudera/bin/java -version'
+Active Path:
+/usr/java/jdk1.7.0_67-cloudera/bin:/usr/lib64/qt-3.3/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/zookeeper/bin:/home/solradmin/bin:/usr/local/zookeeper/bin
+</pre> 执行java -version，提示： <pre class="fragment">Error occurred during initialization of VM
+Could not reserve enough space for object heap
+Error: Could not create the Java Virtual Machine.
+Error: A fatal exception has occurred. Program will exit.
+</pre> 需要执行一下：export _JAVA_OPTIONS="-Xmx256M"</li>
+</ul>
+<p>完成上述操作后就可以向solrcloud中导入数据了。</p>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

@@ -1,0 +1,62 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">C/S架构和B/S架构的概念和区别 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>(from:http://www.blogjava.net/junglesong/archive/2008/04/29/197270.html) <hr/>
+ </dd></dl>
+<h1><a class="anchor" id="abcsa"></a>
+C/S 架构</h1>
+<p>C/S 架构是一种典型的两层架构，其全程是Client/Server，即客户端服务器端架构，其客户端包含一个或多个在用户的电脑上运行的程序，而服务器端有两种，一种是数据库服务器端，客户端通过数据库连接访问服务器端的数据；另一种是Socket服务器端，服务器端的程序通过Socket与客户端的程序通信。C/S 架构也可以看做是胖客户端架构。因为客户端需要实现绝大多数的业务逻辑和界面展示。这种架构中，作为客户端的部分需要承受很大的压力，因为显示逻辑和事务处理都包含在其中，通过与数据库的交互（通常是SQL或存储过程的实现）来达到持久化数据，以此满足实际项目的需要。</p>
+<h2><a class="anchor" id="proagcs"></a>
+C/S 架构的优缺点</h2>
+<p>优点：</p><ul>
+<li>C/S架构的界面和操作可以很丰富。</li>
+<li>安全性能可以很容易保证，实现多层认证也不难。</li>
+<li>由于只有一层交互，因此响应速度较快。 </li>
+</ul>
+<p>缺点：</p><ul>
+<li>适用面窄，通常用于局域网中。</li>
+<li>用户群固定。由于程序需要安装才可使用，因此不适合面向一些不可知的用户。</li>
+<li>维护成本高，发生一次升级，则所有客户端的程序都需要改变。 </li>
+</ul>
+<h1><a class="anchor" id="absbs"></a>
+B/S架构</h1>
+<p>B/S架构的全称为Browser/Server，即浏览器/服务器结构。Browser指的是Web浏览器，极少数事务逻辑在前端实现，但主要事务逻辑在服务器端实现，Browser客户端，WebApp服务器端和DB端构成所谓的三层架构。B/S架构的系统无须特别安装，只有Web浏览器即可。B/S架构中，显示逻辑交给了Web浏览器，事务处理逻辑在放在了WebApp上，这样就避免了庞大的胖客户端，减少了客户端的压力。因为客户端包含的逻辑很少，因此也被成为瘦客户端。</p>
+<h2><a class="anchor" id="proagbs"></a>
+B/S架构的优缺点</h2>
+<p>优点：</p><ul>
+<li>客户端无需安装，有Web浏览器即可。</li>
+<li>BS架构可以直接放在广域网上，通过一定的权限控制实现多客户访问的目的，交互性较强。</li>
+<li>BS架构无需升级多个客户端，升级服务器即可。 </li>
+</ul>
+<p>缺点：</p><ul>
+<li>在跨浏览器上，BS架构不尽如人意。</li>
+<li>表现要达到CS程序的程度需要花费不少精力。</li>
+<li>在速度和安全性上需要花费巨大的设计成本，这是BS架构的最大问题。</li>
+<li>客户端服务器端的交互是请求-响应模式，通常需要刷新页面，这并不是客户乐意看到的。（在Ajax风行后此问题得到了一定程度的缓解） </li>
+</ul>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

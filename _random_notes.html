@@ -1,0 +1,142 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">小老鼠随笔 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section date"><dt>日期</dt><dd>2013-12-20 <hr/>
+ </dd></dl>
+<h1><a class="anchor" id="getcpu"></a>
+获取CPU线程数和当前进程的线程数</h1>
+<p>研究核查中心多CPU限制方案时，对部分技术进行了调研，得到了如下代码，记录之</p>
+<pre class="fragment">    SYSTEM_INFO sysInfo;
+    GetSystemInfo(&amp;sysInfo);
+    int nCpuNum = sysInfo.dwNumberOfProcessors;
+
+    int nThreadNumber = 0;
+    PROCESSENTRY32 pe32;
+    pe32.dwSize = sizeof(pe32);
+
+    HANDLE hProcessSnap = ::CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD,0);
+    if (hProcessSnap == INVALID_HANDLE_VALUE)
+    {
+        printf("CreateToolhelp32Snapshot 调用失败.\n");
+        return ;
+    }
+    BOOL bMore = ::Process32First(hProcessSnap,&amp;pe32);
+
+    while(bMore)
+    {
+        bMore = Process32Next(hProcessSnap,&amp;pe32);
+        ++nThreadNumber;
+    }
+</pre> <h1><a class="anchor" id="dsmerit"></a>
+DirectShow Filter 组件中的merit值(From 陆其明《DirectShow开发指南》)</h1>
+<p>DShow中Merit值定义在注册表如下位置：</p>
+<pre class="fragment">HKEY_CLASSES_ROOT\CLSID\{083863F1-70DE-11D0-BD40-00A0C911CE86}\Instance
+HKEY_CLASSES_ROOT\Wow6432Node\CLSID\{083863F1-70DE-11D0-BD40-00A0C911CE86}\Instance
+</pre> <p>下面每一个CLSID下面的FilterData中存放着merit信息，FilterData值开始部分的数据块，结构定义如下：</p>
+<pre class="fragment">typedef struct
+{
+    DWORD dwVersion;        // 版本号
+    DWORD dwMerit;          // Merit值
+    DWORD dwPonCount;       // Pin的数量
+    DWORD dwReserved;       // 保留
+}FILTER_HEADER;
+</pre> <p>使用下面的代码可以修改Merit值</p>
+<pre class="fragment">BOOL SetFilterMerit(const TCHAR * inClsid, DWORD inMerit)
+{
+    const TCHAR * cRegisterEntey = _T("CLSID\\{083863F1-70DE-11D0-BD40-")
+        _T("00A0C911CE86}\\Instance\\");
+    const long cMaxLEngth = 1024 * 16;
+    BYTE filterData[cMaxLEngth];
+    DWORD actualLength = 0;
+    // 生成Filter信息注册部分的注册表入口
+    TCHAR szEntry[1000];
+    _tcscpy_s(szEntry, 1000, cRegisterEntey);
+    _tcscat(szEntry, inClsid);
+
+    HKEY hKey = NULL;
+    LONG result = ::RegOpenKeyEx(HKEY_CLASSES_ROOT, szEntry, 0, KEY_ALL_ACCESS, &amp;hKey);
+
+    BOOL pass = (result == ERROR_SUCCESS);
+    if (pass)
+    {
+        // 读取FilterData的值
+        result = ::RegQueryValueEx(hKey, _T("FilterData"), NULL,
+            NULL, filterData, &amp;actualLength);
+        pass = (result == ERROR_SUCCESS);
+    }
+
+    if (pass)
+    {
+        // 修改FilterData中的Merit部分，然后写回到注册表
+        FILTER_HEADER * filterHeader = (FILTER_HEADER *)filterData;
+        filterHeader-&gt;dwMerit = inMerit;
+        result = ::RegSetValueEx(hKey, _T("FilterData"), NULL,
+            REG_BINARY, filterData, actualLength);
+        pass = (result == ERROR_SUCCESS);
+    }
+
+    if (hKey)
+    {
+        ::RegCloseKey(hKey);
+    }
+    return pass;
+}
+</pre> <h1><a class="anchor" id="tooltip"></a>
+为对话框上的控件添加ToolTip</h1>
+<p>在对话框类中定义变量：CToolTipCtrl m_tooltip;在OnInitDialog函数中，添加如下代码：</p>
+<div class="fragment"><div class="line">m_tooltip.Create(<span class="keyword">this</span>);</div><div class="line">m_tooltip.Activate(TRUE);</div><div class="line">m_tooltip.AddTool(GetDlgItem(IDC_BUTTON_OPEN), _T(<span class="stringliteral">&quot;打开媒体文件&quot;</span>));</div><div class="line">m_tooltip.AddTool(GetDlgItem(IDC_BUTTON_PLAY), _T(<span class="stringliteral">&quot;Play Media File&quot;</span>));</div><div class="line">m_tooltip.AddTool(GetDlgItem(IDC_BUTTON_PAUSE), _T(<span class="stringliteral">&quot;Pause Media File&quot;</span>));</div><div class="line">m_tooltip.AddTool(GetDlgItem(IDC_BUTTON_STOP), _T(<span class="stringliteral">&quot;Stop Media File&quot;</span>));</div><div class="line">m_tooltip.AddTool(GetDlgItem(IDC_BUTTON_GRASP),_T(<span class="stringliteral">&quot;Grasp Image&quot;</span>));</div><div class="line">m_tooltip.AddTool(GetDlgItem(IDC_BUTTON_EXIT),_T(<span class="stringliteral">&quot;Exit the App&quot;</span>));</div><div class="line">m_tooltip.AddTool(GetDlgItem(IDC_SLIDER_PLAY),_T(<span class="stringliteral">&quot;Slider of Player&quot;</span>));</div><div class="line">m_tooltip.AddTool(GetDlgItem(IDC_SLIDER_VOLUME),_T(<span class="stringliteral">&quot;Slider of Volume&quot;</span>));</div><div class="line">m_tooltip.AddTool(GetDlgItem(IDC_VIDEO_WINDOW),_T(<span class="stringliteral">&quot;Display Pictures&quot;</span>));</div></div><!-- fragment --> <h1><a class="anchor" id="linuxpass"></a>
+修改CentOS root权限密码</h1>
+<p>不小心忘了CentOS的密码，谷歌了一下，找到如下解决方法，备忘之：</p>
+<ol type="1">
+<li>在grub选项菜单按e进入编辑模式</li>
+<li>编辑kernel那行 /init 1 (或/single)</li>
+<li>按B重启</li>
+<li>进入后执行下列命令 <pre class="fragment">　　root@#passwd root (配置root的密码)
+　　Enter new unix password:输入新的密码
+　　root@#init 6
+</pre> </li>
+</ol>
+<h1><a class="anchor" id="signunsing"></a>
+不要忽略有符号类型和无符号类型比对时的警告</h1>
+<p>以前总觉得有符号类型和无符号类型比较时编译器给出的警告多余，直到调试程序是发现了一个很奇怪的问题，用下面的代码简单进行描述，以助记忆：</p>
+<pre class="fragment">int _tmain(int argc, _TCHAR* argv[])
+{
+    unsigned int iCount = 234;
+    int jCount = -15;
+    if (iCount &gt; jCount)
+    {
+        std::cout&lt;&lt;"right match"&lt;&lt;std::endl;
+    }
+    else
+    {
+        std::cout&lt;&lt;"Wrong match"&lt;&lt;std::endl;
+    }
+    return 0;
+}
+</pre><p> 上述代码运行时将输出：Wrong match </p>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

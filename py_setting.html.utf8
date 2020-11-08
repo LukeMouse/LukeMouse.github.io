@@ -1,0 +1,43 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">python环境配置 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><hr/>
+ <h1><a class="anchor" id="cpypipe"></a>
+CentOS下安装pip</h1>
+<p>pip是python的包安装和管理工具，在CentOS下安装需要配置EPEL仓库，配置方法如下： CentOS6 </p><pre class="fragment">rpm -iUvh http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+</pre><p> CentOS7 </p><pre class="fragment">rpm -iUvh http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
+</pre><p> 然后运行：yum clean all ; yum -y update和yum -y install python-pip 即可完成安装 </p>
+<h1><a class="anchor" id="ugsetpip"></a>
+升级python到2.7后重新安装pip</h1>
+<ol type="1">
+<li>卸载原有的pip：yum -y erase python-pip</li>
+<li>使用最新版本的python执行：python distribute_setup.py <a href="addin/distribute_setup.py">distribute_setup.py脚本 </a></li>
+<li>执行/usr/local/bin/easy_install pip 重新安装pip</li>
+<li>使用硬连接将pip放到path路径：ln -s /usr/local/bin/pip /usr/bin/pip </li>
+</ol>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

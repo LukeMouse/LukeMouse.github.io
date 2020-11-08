@@ -1,0 +1,58 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">VS2008使用问题集锦 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><hr/>
+ <h1><a class="anchor" id="abatl"></a>
+ATL添加方法或属性的问题</h1>
+<p>现象：IE升级到8后,在VS2008中创建ATL项目,为接口添加方法或属性的时候,就会出现 <a href="file:///D:/memese/Microsoft%20Visual%20Studio%209.0/VC/VCWizards/CodeWiz/ATL/Method/HTML/1033/default.htm">file:///D:/memese/Microsoft%20Visual%20Studio%209.0/VC/VCWizards/CodeWiz/ATL/Method/HTML/1033/default.htm</a> 当前页面脚本发生错误,对象不支持此属性和方法.</p>
+<p>解决办法：</p>
+<ol type="1">
+<li>打开注册表编辑器</li>
+<li>找到 HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Zones</li>
+<li>在Zones下新建一个子项，名称为“1000”（注意不要引号）</li>
+<li>在"1000"里新建一个 DWORD(32位）的数值，数值名称为 1207，数值数据为 0</li>
+<li>重启VS </li>
+</ol>
+<h1><a class="anchor" id="breakpointprb"></a>
+不能进入断点的问题</h1>
+<p>The breakpoint will not currently be hit. No symbols have been loaded for this document.</p>
+<p>I'm posting this blog mostly to remind myself how to fix this if ever I run into it again, but if anyone else benefits from it, then awesome.</p>
+<p>In the Visual Studio IDE, when I set a breakpoint at a line of code, and start debugging, the breakpoint becomes that hollow maroon circle with a warning that says The breakpoint will not currently be hit. No symbols have been loaded for this document.</p>
+<p>I've read a bunch of articles about makiing sure you're running in debug versus release mode, and making sure you deleted your obj AND bin folders. None of that worked for me. After some digging, and some help from John Alexander and Jeff Julian, I found one way that works for me. 1.While debugging in Visual Studio, click on Debug &gt; Windows &gt; Modules. The IDE will dock a Modules window, showing all the modules that have been loaded for your project. 2.Look for your project's DLL, and check the Symbol Status for it. 3.If it says Symbols Loaded, then you're golden. If it says something like Cannot find or open the PDB file, right-click on your module, select Load Symbols, and browse to the path of your PDB.</p>
+<p>I've found that it's sometimes necessary to</p><ol type="1">
+<li>stop the debugger</li>
+<li>close the IDE</li>
+<li>close the hosting application</li>
+<li>nuke the obj and bin folders</li>
+<li>restart the IDE</li>
+<li>rebuild the project</li>
+<li>go through the Modules window again</li>
+</ol>
+<p>Once you browse to the location of your PDB file, the Symbol Status should change to Symbols Loaded, and you should now be able to set and catch a breakpoint at your line in code.</p>
+<p>I'm not really an expert on this, but I welcome any questions anyone may have, and I'll try to help out if you still can't get it to work. </p>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

@@ -1,0 +1,46 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">没有oracle客户端使用PL/SQL访问远程的Oracle </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><hr/>
+ <p>在windows机器上不想安装oracle或者oracle的客户端，可以参照下文使用PLSQL Developer工具</p><ol type="1">
+<li>下载并安装PLSQL Developer</li>
+<li>在http://www.oracle.com/technetwork/topics/winx64soft-089540.html或http://www.oracle.com/technetwork/topics/winsoft-085727.html下载特定版本的 instantclient-basic-windowsxxxx版本。</li>
+<li>将下载的instantclient-basic-windowsxxxx解压到PLSQL的安装路径【也可以是其他路径】以PLSQL安装路径D:\Program Files\PLSQL Developer为例，将我下载的instantclient-basic-windows.x64-11.2.0.4.0.zip解压到该路径</li>
+<li>进入到instantclient_11_2下创建目录NETWORK，然后再NETWORK下建立目录ADMIN。在ADMIN目录下建立tnsnames.ora文件，在该tnsnames.ora文件中添加如下内容： <pre class="fragment">ORCL_XJ =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = 172.16.0.247)(PORT = 1521))
+    )
+    (CONNECT_DATA =
+      (SERVICE_NAME = zhckpt)
+    )
+  )
+</pre> 172.16.0.247为数据库所在机器IP</li>
+<li>启动PLSQL Developer，直接点击“取消”按钮进入，选择tools-&gt;preferences-&gt;connection，在Oracle Home中填写instantclient-basic-windowsxxxx的解压路径，我的是D:\Program Files\PLSQL Developer\instantclient_11_2，在OCI library填写oci的路径，我的是D:\Program Files\PLSQL Developer\instantclient_11_2\oci.dll </li>
+</ol>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

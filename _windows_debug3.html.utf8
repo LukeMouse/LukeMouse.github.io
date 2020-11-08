@@ -1,0 +1,220 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">Windows调试技术第三部分&ndash;调试应用程序崩溃（自动生成转储） </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>shailesh91082 </dd></dl>
+<dl class="section date"><dt>日期</dt><dd>2014-02-13 <hr/>
+ </dd></dl>
+<h1><a class="anchor" id="intr3"></a>
+简介</h1>
+<p>这是Windows调试技巧的第三部分。本文关注如何让应用程序自动生成转储。</p>
+<h1><a class="anchor" id="background3"></a>
+背景信息</h1>
+<p>正如你所看到的，在前两部分中，在需要的时候我们生成转储信息，这意味着我们需要重现问题，并且我们需要将procdump部署到目标机器上以获得转储数据。然而，在生产系统上用户往往不同意任何的应用程序。另一方面，我们可能不能复现问题，该问题可能是间歇性的，虽然有时还会出现，但是用户不能给出重新问题的具体步骤。对于产品管理来说这是一个非常棘手的问题。如果应用程序在崩溃的时候能够自己生成崩溃转储供日后进行分析，将是一件令人神往的事情。</p>
+<h1><a class="anchor" id="definition"></a>
+定义</h1>
+<p>转储文件：应用程序在转储采样时间点的快照。它记录了哪个进程正在执行和哪些模块被加载。转储主要用于调试开发人员无权访问的机器上发生的问题。例如：当你不能在你的机器上复现用户的崩溃或挂起时，你可以在用户的机器上使用转储文件。转储类型有两种：</p>
+<ol type="1">
+<li>微型转储：仅存储少量的进程信息，主要是关于线程堆栈、进程环境等信息。微型转储体积较小，约15M或更小。</li>
+<li>完整转储：储存关于进程的虚拟内存的所有信息，如线程、调用堆栈（Call Stack）、堆状态、加载的库。基本上包含了一个进程可以获取的所有信息。完整转储与进程的虚拟内存一样大，通常有几百M甚至到G字节。 </li>
+</ol>
+<p>定位我们程序中的问题最好使用完整转储，但是微型转储有时也很有用。下面逐步讲解如何生成自动转储。 </p>
+<h1><a class="anchor" id="SC"></a>
+源代码</h1>
+<p>异常是一个会引起应用程序退出的反常状况，因此我们需要监测异常，怎么做？Windows平台下有一个API</p>
+<pre class="fragment">LPTOP_LEVEL_EXCEPTION_FILTER WINAPI SetUnhandledExceptionFilter(
+  _In_  LPTOP_LEVEL_EXCEPTION_FILTER lpTopLevelExceptionFilter
+);
+</pre> <p>指定进程内部任意线程发生未处理的异常时都将调用该API。该API需要在应用程序的第一个入口处被调用【通常在非托管代码中这个位置是main()函数】。该API需要一个异常句柄作为参数，该句柄定义了该异常产生时应该做什么。代码看起来像下面的样子：</p>
+<pre class="fragment">int main()
+{
+ SetUnhandledExceptionFilter( unhandled_handler);
+}
+
+LONG CALLBACK unhandled_handler(EXCEPTION_POINTERS* e)
+{
+    return EXCEPTION_CONTINUE_SEARCH;
+}
+</pre> <p>接下来我们需要考虑，在unhandled_handler中需要做些什么，我们这里是生成转储。</p>
+<pre class="fragment">int main()
+{
+ SetUnhandledExceptionFilter( unhandled_handler);
+}
+
+LONG CALLBACK unhandled_handler(EXCEPTION_POINTERS* e)
+{
+    make_minidump(e);
+    return EXCEPTION_CONTINUE_SEARCH;
+}
+
+void make_minidump(EXCEPTION_POINTERS* e)
+{
+    TCHAR tszFileName[MAX_BUFF_SIZE] = {0};
+    TCHAR tszPath[MAX_BUFF_SIZE] = {0};
+    SYSTEMTIME stTime = {0};
+    GetSystemTime(&amp;stTime);
+    SHGetSpecialFolderPath(NULL,tszPath, CSIDL_APPDATA, FALSE);
+    StringCbPrintf(tszFileName, 
+                   _countof(tszFileName), 
+                   _T("%s\\%s__%4d%02d%02d_%02d%02d%02d.dmp"), 
+                   tszPath, _T("CrashDump"),  
+                   stTime.wYear, 
+                   stTime.wMonth, 
+                   stTime.wDay, 
+                   stTime.wHour, 
+                   stTime.wMinute, 
+                   stTime.wSecond);
+
+    HANDLE hFile = CreateFile(tszFileName, GENERIC_WRITE, FILE_SHARE_READ, 0, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
+    if(hFile == INVALID_HANDLE_VALUE)
+        return;
+
+    MINIDUMP_EXCEPTION_INFORMATION exceptionInfo;
+    exceptionInfo.ThreadId = GetCurrentThreadId();
+    exceptionInfo.ExceptionPointers = e;
+    exceptionInfo.ClientPointers = FALSE;
+
+    MiniDumpWriteDump(
+        GetCurrentProcess(),
+        GetCurrentProcessId(),
+        hFile,
+        MINIDUMP_TYPE(MiniDumpWithIndirectlyReferencedMemory | MiniDumpScanMemory | MiniDumpWithFullMemory),
+        e ? &amp;exceptionInfo : NULL,
+        NULL,
+        NULL);
+
+    if(hFile)
+    {
+        CloseHandle(hFile);
+        hFile = NULL;
+    }
+    return; 
+}
+</pre> <p>在unhandled_handler中我们调用函数make_minidump写转储文件。unhandled_handler是一个接收EXCEPTION_POINTERS的回调函数。这个结构中包含了基于设备产生的异常信息。EXCEPTION_POINTERS被传给了make_minidump函数，该函数负责将转储信息写到磁盘上。make_minidump函数的前面的部分只是根据应用程序名和时间戳生成文件名，然后用“CreateFile”生成文件。</p>
+<p>MINIDUMP_EXCEPTION_INFORMATION被CurrentThreadID和从父函数接收到的异常指针所填充。然后调用MiniDumpWriteDump。这里最有趣的参数是MINIDUMP_TYPE。如果我们查阅MSDN帮助，这个API有一个很长的列表，然而基于我的分析我增加了三个标识，这三个标识中最重要的是MiniDumpWithFullMemory。这将提供特定进程在主内存（main memory）中的所有参照位置，该信息将大大的有利于我们的调试。</p>
+<p>使用完整内存转储将使文件的尺寸非常巨大，但这些信息对分析转储非常有用。使用相同的策略我们可以探索转储类型，并按您的需求进行更改。下面我们通过实例看看它怎样工作。</p>
+<pre class="fragment">#include &lt;Windows.h&gt;
+#include &lt;Dbghelp.h&gt;
+#include &lt;iostream&gt;
+#include &lt;tchar.h&gt;
+#include &lt;strsafe.h&gt;
+#include &lt;shlobj.h&gt;
+
+#pragma comment(lib, "DbgHelp")
+#define MAX_BUFF_SIZE 1024
+
+using namespace std;
+DWORD WINAPI func();
+
+void make_minidump(EXCEPTION_POINTERS* e)
+{
+    TCHAR tszFileName[MAX_BUFF_SIZE] = {0};
+    TCHAR tszPath[MAX_BUFF_SIZE] = {0};
+    SYSTEMTIME stTime = {0};
+    GetSystemTime(&amp;stTime);
+    SHGetSpecialFolderPath(NULL,tszPath, CSIDL_APPDATA, FALSE);
+    StringCbPrintf(tszFileName, 
+                   _countof(tszFileName), 
+                   _T("%s\\%s__%4d%02d%02d_%02d%02d%02d.dmp"), 
+                   tszPath, _T("CrashDump"),  
+                   stTime.wYear, 
+                   stTime.wMonth, 
+                   stTime.wDay, 
+                   stTime.wHour, 
+                   stTime.wMinute, 
+                   stTime.wSecond);
+
+    HANDLE hFile = CreateFile(tszFileName, GENERIC_WRITE, FILE_SHARE_READ, 0, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
+    if(hFile == INVALID_HANDLE_VALUE)
+        return;
+
+    MINIDUMP_EXCEPTION_INFORMATION exceptionInfo;
+    exceptionInfo.ThreadId = GetCurrentThreadId();
+    exceptionInfo.ExceptionPointers = e;
+    exceptionInfo.ClientPointers = FALSE;
+
+    MiniDumpWriteDump(
+        GetCurrentProcess(),
+        GetCurrentProcessId(),
+        hFile,
+        MINIDUMP_TYPE(MiniDumpWithIndirectlyReferencedMemory | MiniDumpScanMemory | MiniDumpWithFullMemory),
+        e ? &amp;exceptionInfo : NULL,
+        NULL,
+        NULL);
+
+    if(hFile)
+    {
+        CloseHandle(hFile);
+        hFile = NULL;
+    }
+    return; 
+}
+
+LONG CALLBACK unhandled_handler(EXCEPTION_POINTERS* e)
+{
+    make_minidump(e);
+    return EXCEPTION_CONTINUE_SEARCH;
+}
+
+int main()
+{
+    SetUnhandledExceptionFilter( unhandled_handler);
+    DWORD dwThreadID = 0;
+    HANDLE hThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)func, NULL, 0, &amp;dwThreadID);
+    if(hThread == NULL)
+    {
+        return 1;
+    }
+    WaitForSingleObject(hThread, INFINITE);
+    return 0;
+    
+}
+
+DWORD WINAPI func()
+{
+    int *p = NULL;
+    *p = 10;
+    return 0;
+}
+</pre> <p>该例与第一部分的例子类似，只是增加了一个线程来产生崩溃，运行这段代码后将会在Appdata文件夹下生成转储文件。启动WinDbg，设置symbols并进行分析，会得到下图所示的输出：</p>
+<div class="image">
+<img src="WDT021.png" alt="WDT021.png"/>
+</div>
+<p>这里面有一些有趣的东西：</p>
+<ol type="1">
+<li>DEFAULT_BUCKET_ID: NULL_POINTER_WRITE说明我们对一个空指针进行了写操作。</li>
+<li>AppCrashThread!func+e [l:\ruralmousedocument\_notcollecttions\ruralmousenotes\translation\appcrashthread\<a class="el" href="_crash_demo_thread_8cpp.html">crashdemothread.cpp</a> @ 85]给出了崩溃发生的位置</li>
+<li>栈信息跟踪 <pre class="fragment">00d9fce0 7729338a 00000000 00d9fd2c 77919f72 AppCrashThread!func+0xe [l:\\ruralmousedocument\\\_notcollecttions\\ruralmousenotes\\translation\\appcrashthread\\crashdemothread.cpp \@ 85]
+00d9fcec 77919f72 00000000 76e3c08d 00000000 kernel32!BaseThreadInitThunk+0xe
+00d9fd2c 77919f45 01381360 00000000 ffffffff ntdll!__RtlUserThreadStart+0x70
+00d9fd44 00000000 01381360 00000000 00000000 ntdll!_RtlUserThreadStart+0x1b
+</pre> 通过堆栈跟踪，说明了异常线程并不是主线程。 </li>
+</ol>
+<h1><a class="anchor" id="summary3"></a>
+小结</h1>
+<p>通过这部分的学习，我们知道了无论何时何地我们的应用程序发生崩溃，如何向我们的程序中添加代码保存转储信息。这应该是任何在开发的程序中一个重要的部分。</p>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

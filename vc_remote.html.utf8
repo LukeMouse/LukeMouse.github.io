@@ -1,0 +1,38 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">Visual Studio 远程调试 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><hr/>
+ <h1><a class="anchor" id="prief"></a>
+简介</h1>
+<p>本文使用的Visual C++是Viusual Studio 2008版本，介绍了如何使用Visual Studio的远程调试功能进行程序的调试。</p>
+<h1><a class="anchor" id="mainbody"></a>
+正文</h1>
+<p>我们通常习惯于使用Debug版本进行调试，但是在发布时我陷入了一个误区，总是认为Debug版本不能部署运行到客户的机器上，所谓无知者无耻吧，今天终于把这一点想通了，故写下本文以备遗忘。</p>
+<h2><a class="anchor" id="rundebug"></a>
+如何编写可以部署到用户机器上的Debug版本？</h2>
+<p>google一下_BIND_TO_CURRENT_VCLIBS_VERSION，但是网上说这个宏有问题，推荐使用下面的宏 </p><div class="fragment"><div class="line"><span class="preprocessor">#define _BIND_TO_CURRENT_MFC_VERSION 1</span></div><div class="line"><span class="preprocessor">#define _BIND_TO_CURRENT_CRT_VERSION 1</span></div></div><!-- fragment --> </div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

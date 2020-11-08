@@ -1,0 +1,318 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">c++中如何实现事务 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>Andrei Alexandrescu &amp; Petru Marginean 翻译：ye_feng（摘自：http://blog.sina.com.cn/s/blog_48ebca64010002fx.html） <hr/>
+ </dd></dl>
+<p>编者按：这是 Generic&lt;Programming&gt;系列中又一篇极好的文章。资源管理一直是程序设计中挥之不去的阴影，而其中最常见的就是资源泄露问题。以Java为代表的语言引入了垃圾收集（Garbage Collection）的机制，然而也只能勉强算解决内存泄露的一个方向，而更广义的资源同步问题，又该如何是好呢？有没有更好的解决方案呢？这，就是本文的话题。感谢Andrei Alexandrescu先生授权，本文原文请见http://www.cuj.com/experts/1812/alexandr.htm? topic=experts，有兴趣的朋友不妨参考一下。</p>
+<p>尽管有点自卖自夸，我还是要在一开始就告诉你，这篇文章里有精彩内容。因为我说服我的好朋友Petru Marginean和我合作写这篇文章。Petru开发了一个对处理异常很有用的库。我们一起改进其实现，由此我们得到一个精炼的库，在特定的情况下，它可以大大简化异常安全代码的编写。在有异常的情况下要写出正确的代码不是一件容易的事，让我们一起来面对它。异常建立了一个单独的控制流，它和应用程序的主控制流几乎没有关系。要了解异常的控制流需要一种不同的思维方式，并且需要新的工具。</p>
+<p>写异常安全的代码是困难的：一个例子，比如说你正在开发一个现在时髦的即时消息服务器程序。用户可以登录和注销，并且可以互相发送消息。你有一个服务器端的数据库保存用户信息，并且在内存里记录已登录的用户。每个用户可以有好友列表，这个列表同时在内存里和数据库里保存。当一个用户增加或者删除一个好友时，你需要做两件事：更新数据库，并且更新内存中那个用户的缓存。就这么简单的一件事。假设你的模型里每个用户的信息用一个叫User的类来表示，用户数据库用UserDatabase类表示。增加一个好友的操作看起来就象下面这样：</p>
+<pre class="fragment">class User
+{
+   // ...
+   string GetName();
+   void AddFriend(User&amp; newFriend);
+private:
+   typedef vector&lt;User*&gt; UserCont;
+   UserCont friends_;
+   UserDatabase* pDB_;
+};
+void User::AddFriend(User&amp; newFriend)
+{
+   // Add the new friend to the database
+   pDB_-&gt;AddFriend(GetName(), newFriend.GetName());
+   // Add the new friend to the vector of friends
+   friends_.push_back(&amp;newFriend);
+}
+</pre> <p>令人吃惊的是，只有两行的User::AddFriend里隐藏了一个致命的错误。在内存用尽的情况下，vector::push_back会通过抛出异常来表示操作失败。在那种情况下，你最终只把好友加到数据库里去，但是没有加到内存信息里。现在我们遇到了问题，是吗？在任何情况下，缺少信息一致性是危险的。很可能在你的应用程序里的很多地方都假设数据库里的信息和内存里的是同步的。一个简单的解决方法是考虑交换两行代码的顺序：</p>
+<pre class="fragment">void User::AddFriend(User&amp; newFriend)
+{
+   // Add the new friend to the vector of friends
+   // If this throws, the friend is not added to
+   //     the vector, nor the database
+   friends_.push_back(&amp;newFriend);
+   // Add the new friend to the database
+   pDB_-&gt;AddFriend(GetName(), newFriend.GetName());
+}
+</pre> <p>这确实能在vector::push_back失败的情况下保护数据一致性。不幸的是，当你查看UserDatabase::AddFriend的文档，你发现它也会抛出异常。现在你会把好友加到vector里，但没有加到数据库里。这时候你会质问做数据库的人们：“为什么你们不返回出错代码，而要抛出异常呢？”他们会说：“我们使用的是一个运行在TZN网络上的高可靠性的集群数据库服务器，极少出错。因此，我们认为应该用异常来表示出错是最好的，因为异常只出现在异常的情况下，不是吗？”这个理由讲得通，但是你还是要处理出错情况。你不会希望因为数据库出错而导致整个系统一片混乱。这样你修复数据库时，不必关闭整个服务器程序。本质上，你必须做两个操作，它们中的任何一个都可能失败。当其中一个失败时，你必须撤销全部操作。让我们来看看怎么做这件事。</p>
+<p><b>方法1：粗鲁的方法【相当得粗鲁，代码量爆炸】</b>一个简单的办法是在try-catch块中抛出异常。</p>
+<pre class="fragment">void User::AddFriend(User&amp; newFriend)
+{
+   friends_.push_back(&amp;newFriend);
+   try
+   {
+       pDB_-&gt;AddFriend(GetName(), newFriend.GetName());
+   }
+   catch (...)
+   {
+       friends_.pop_back();
+       throw;
+   }
+}
+</pre> <p>如果vector::push_back失败，那没有问题，因为UserDatabase::AddFriend不会被执行。如果 UserDatabase::AddFriend失败，你捕获这个异常（不管什么类型），然后你调用vector::pop_back撤销 push_back的操作，然后再次抛出同样类型的异常。</p>
+<p>这样的代码可以工作，代价是增加了代码量，并显得臃肿。本来两行的程序变成了六行。想象一下如果你的代码到处是这样的try-catch语句，那太可怕了，所以这个方法一点也不吸引人。而且，这个方法也不好扩展。假如你有三个操作要做，用这个方法写出来的代码将臃肿得多。你有两个差不多坏的写法可选：用嵌套的try语句，或者用使流程更复杂的附加标志。这个方法会导致很多问题，如代码膨胀、效率下降，以及最重要的可理解性和可维护性降低。</p>
+<p><b> 方法2：原则（politically）上正确的方法</b> </p>
+<p>如果你把上面的代码给任何一个C++专家看，它很可能会告诉你：“啊，那方法不好。你应该使用惯用法RAII（Resource Acquisition Is Initialization，资源分配即初始化）[1]，在出错的情况下，依靠析构函数来释放资源。”OK，让我们沿着这条路走下去。对于每一个你需要撤销的操作，都需要有一个对应的类，这个类的构造函数“做”这个操作，而析构函数“撤销”这个操作，除非你调用了一个“提交”函数，那样的话析构函数就什么也不做。用一些代码可以把这一切说清楚。对于push_back操作，我们写一个VectorInserter类，就像这样：</p>
+<pre class="fragment">class VectorInserter
+{
+public:
+   VectorInserter(std::vector&lt;User*&gt;&amp; v, User&amp; u)
+   : container_(v), user_(u), commit_(false)
+   {
+       container_.push_back(&amp;u);
+   }
+   void Commit() throw()
+   {
+       commit_ = true;
+   }
+   ~VectorInserter()
+   {
+       //如果没有执行过commit，析构函数将会恢复环境
+       //利用的是局部变量即使在异常产生的情况下，也能自动析构的原则
+       if (!commit_) container_.pop_back();
+       
+   }
+private:
+   std::vector&lt;User*&gt;&amp; container_;
+   User&amp; user_;
+   bool commit_;
+};
+</pre> <p>大概上面代码里最重要的东西就是Commit后面的throw()。它说明了一个事实，就是Commit调用永远成功（不会抛出异常）。因为你已经完成你的工作——Commit只是告诉VectorInserter：“一切顺利，不用恢复任何东西。”你可以像这样使用整个机制：</p>
+<pre class="fragment">void User::AddFriend(User&amp; newFriend)
+{
+   VectorInserter ins(friends_, &amp;newFriend);
+   pDB_-&gt;AddFriend(GetName(), newFriend.GetName());
+   // Everything went fine, commit the vector insertion
+   ins.Commit();
+}
+</pre> <p>AddFriend现在有两个不同的部分：动作阶段——完成操作；提交阶段——不会抛出异常，只是停止所有的撤销工作。AddFriend的工作方式很简单：如果任何一个操作失败，那么就不能到达提交点，全部操作都会被取消。VectorInserter会把加入的数据pop_back掉，所以程序会保持在调用AddFriend以前的状态。这个方法在所有情况下都工作得很好。比如，当vector插入失败时，ins的析构函数不会被调用，因为ins没有被成功构造出来。</p>
+<p>这个方法很好，但是在现实世界里，做不到那么简洁。你必须编写一大堆很小的类来支持这个方法。额外的类意味着要写额外的代码，多费脑筋，以及在你的 class browser里会有更多的条目。而且，你会有更多的地方需要处理异常安全问题。仅仅为了在析构函数里撤销一个操作而不断增加新的类，从生产率来看，这不是最聪明的办法。</p>
+<p>哦，还有，VectorInserter里有一个bug，你注意到了吗？编译器为你隐式生成的拷贝构造函数会导致错误：如果被复制的对象还没有提交过，那么在以后的析构函数里，就可能做过多的pop_back操作。定义一个类是很困难的，这是我们要避免写很多类的另一个理由。</p>
+<p><b>方法3：现实中的方法</b> </p>
+<p>在现实世界里，当程序员坐下来编写AddFriend时，要么他看过上面的几个选择，要么他没有时间去关心这些。一天过去后，你知道真实的结果通常是什么吗？你当然知道：</p>
+<pre class="fragment">void User::AddFriend(User&amp; newFriend)
+{
+   friends_.push_back(&amp;newFriend);
+   pDB_-&gt;AddFriend(GetName(), newFriend.GetName());
+}
+</pre> <p>这是个基于“not-too=scientific”论调的解决方法：(译者注：我觉得作者的观点是，现实中的程序员会排斥为了“不太”会出现的错误而采用“太”复杂难用的技术或者编程规范，从而在改善程序的安全性和保证开发进度的权衡中选择进度，并认为这是“科学”的做法。其实这两者并不是“鱼与熊掌，不可得兼”的东西，这是作者在这一系列文章中介绍GP可重用类模板技术的目的。)</p><ol type="1">
+<li>“谁说过内存会用完？这机器有半G内存呢！”</li>
+<li>“程序会因为没有内存而崩溃？要那样的话，内存交换早就让系统慢得像蜗牛了。”</li>
+<li>“做数据库的那帮家伙说AddFriend几乎不可能失败。他们用的是XYZ和TZN！”</li>
+<li>“这太麻烦了，不值得。以后review的时候再考虑它吧。” </li>
+</ol>
+<p>一个方法如果需要很多约束规则和受到抱怨的工作，那么它就不具有吸引力。在进度的压力下，一个好的但是笨拙的方法会变得不实用。虽然每个人都知道应该按照书本上说的那样去做，但他们始终都喜欢走捷径。唯一的方法是提供一个可重用的解决方案，正确而容易使用。</p>
+<p>当你走捷径时，因为你知道你的代码不完美，你会怀着某种不愉快的心情check in（译者注：我觉得这里是代码管理的check in，在一个项目的coding阶段，一个模块完成的标志就是把代码check in到全体代码中去。我觉得原文的意思是，虽然coding做完了，也可以通过测试，符合check in的标准，迫于进度，你可以也必须check in代码，但是因为你知道还有隐患，所以有不完美的感觉）你的代码。但是这种心情会逐渐消失，因为所有的测试都可以通过。但是随着时间推移，那些“理论上”会引起问题的地方，还是会开始从现实中冒出来。</p>
+<p>你知道你遇到了问题，而且是个大问题：你放弃了对应用程序正确性的控制。现在，当服务器程序崩溃时，你没有很多线索去找错：硬件故障？真正的bug？还是因异常而引起的混乱状态？你遇到的不是无心的bug，而是你自己故意引入的。</p>
+<p>即使在一段时间内程序可以工作，但是事情总是会变化的。用户数目会增加，导致内存使用到达极限。你的网络管理员可能为了保证性能而禁止内存分页系统。你的数据库可能不是那么可靠。你对这一切都没有准备。</p>
+<p><b>方法4：Petru的方法</b>用ScopeGuard——我们稍后详细介绍——你很容易就可以写出简洁、正确而高效的代码：</p>
+<pre class="fragment">void User::AddFriend(User&amp; newFriend)
+{
+   friends_.push_back(&amp;newFriend);
+   ScopeGuard guard = MakeObjGuard(
+       friends_, &amp;UserCont::pop_back);
+   pDB_-&gt;AddFriend(GetName(), newFriend.GetName());
+   guard.Dismiss();
+}
+</pre> <p>上面代码里，guard对象唯一的任务就是在它离开作用域时，调用friends_.pop_back，除非你调用了Dismiss。如果你调用了，那么guard就什么也不做。ScopeGuard在它的析构函数里实现自动调用某个全局函数或者成员函数。在有异常的情况下，你会想要实现自动撤销原子操作的功能，这时候ScopeGuard会很有用。</p>
+<p>你可以这样使用ScopeGuard：如果你希望几个操作按照“要么全做，要么全不做”的方式工作，你可以在紧接着每个操作后面放一个ScopeGuard，这个ScopeGuard可以取消前面的操作：</p>
+<pre class="fragment">friends_.push_back(&amp;newFriend);
+ScopeGuard guard = MakeObjGuard(friends_, &amp;UserCont::pop_back);
+</pre> <p>ScopeGuard也可用于普通函数：</p>
+<pre class="fragment">void* buffer = std::malloc(1024);
+ScopeGuard freeIt = MakeGuard(std::free, buffer);
+FILE* topSecret = std::fopen("cia.txt");
+ScopeGuard closeIt = MakeGuard(std::fclose, topSecret);
+</pre> <p>当整个原子操作成功时，你Dismiss所有guard对象。否则每个ScopeGuard对象会忠实的调用你构造它时所传的那个函数。有了ScopeGuard，你可以简单的安置各种撤销操作，而不再需要写特别的类来做诸如删除vector的最后一个元素、释放内存、关闭文件这样的事情。这使ScopeGuard成为编写异常安全代码的一个极其有用、并且可重用的解决方案，它使一切变得很简单。</p>
+<p><b>实现ScopeGuard</b>ScopeGuard是对C++惯用法RAII（资源分配即初始化）典型实现的一个推广。它们的区别在于ScopeGuard只关注资源清理的那部分——资源分配由你自己做，而ScopeGuard处理资源的释放（事实上，可以论证清理工作是这个谚语里最重要的部分）。</p>
+<p>释放资源有很多种形式，比如调用一个函数、调用一个functor、或者调用一个对象的成员函数，而每种方式都可能有零个、一个或者更多的参数。自然，我们通过一个类层次关系来对这些变体建模。层次中各个类的对象的析构函数完成实际工作。层次中的根为ScopeGuardImplBase类，如下：</p>
+<pre class="fragment">class ScopeGuardImplBase
+{
+public:
+   void Dismiss() const throw()
+   {
+       dismissed_ = true;
+   }
+protected:
+   ScopeGuardImplBase() : dismissed_(false)
+   {}
+   ScopeGuardImplBase(const ScopeGuardImplBase&amp; other)
+   : dismissed_(other.dismissed_)
+   {
+       other.Dismiss();
+   }
+   ~ScopeGuardImplBase() {} // nonvirtual (see below why)
+   mutable bool dismissed_;
+private:
+   // Disable assignment
+   ScopeGuardImplBase&amp; operator=(
+       const ScopeGuardImplBase&amp;);
+};
+</pre> <p>ScopeGuardImplBase集中了对dismissed_标志的管理，这个标志控制派生类是否要执行清理工作。如果dismissed_为真，则派生类在他们的析构函数里什么也不做。现在我们来看看ScopeGuardImplBase析构函数定义里缺少的virtual。如果析构函数不是virtual的，你怎么可以期望析构函数有正确的多态行为呢？好，把你的好奇心再保持一会儿，我们手里还有张王牌，我们可以通过它得到多态的析构行为，而不必付出虚函数的代价。</p>
+<p>现在我们先来看看怎么实现这样一个对象，它在析构函数里调用一个带一个参数的函数或者functor。然而当你调用了Dismiss，那么这个函数或者functor就不会被调用。</p>
+<pre class="fragment">template &lt;typename Fun, typename Parm&gt;
+class ScopeGuardImpl1 : public ScopeGuardImplBase
+{
+public:
+   ScopeGuardImpl1(const Fun&amp; fun, const Parm&amp; parm)
+   : fun_(fun), parm_(parm)
+   {}
+   ~ScopeGuardImpl1()
+   {
+       if (!dismissed_) fun_(parm_);
+   }
+private:
+   Fun fun_;
+   const Parm parm_;
+};
+</pre> <p>为了方便使用ScopeGuardImpl1，我们写一个辅助函数。</p>
+<pre class="fragment">template &lt;typename Fun, typename Parm&gt;
+ScopeGuardImpl1&lt;Fun, Parm&gt;
+MakeGuard(const Fun&amp; fun, const Parm&amp; parm)
+{
+   return ScopeGuardImpl1&lt;Fun, Parm&gt;(fun, parm);
+}
+</pre> <p>MakeGuard 依靠编译器推导出模板函数中的模板参数，这样你就不用自己指定ScopeGuardImpl1的模板参数了——事实上你不需要显式创建 ScopeGuardImpl1对象。这个技巧也被一些标准库中的函数所使用，如make_pair和bind1st。你还对不使用虚构造函数而得到多态性析构行为的方法感到好奇吗?下面是ScopeGuard的定义，会让你大吃一惊的是，它仅仅是一个typedef：</p>
+<pre class="fragment">typedef const ScopeGuardImplBase&amp; ScopeGuard;
+</pre> <p>好了现在让我们来揭开全部神秘机制。<b>根据C++标准，如果const的引用被初始化为对一个临时变量的引用，那么它会使这个临时变量的生命期变得和它自己一样。</b>让我们举个例子来解释这件事。如果你写：</p>
+<pre class="fragment">FILE* topSecret = std::fopen("cia.txt");
+ScopeGuard closeIt = MakeGuard(std::fclose, topSecret);
+</pre> <p>那么MakeGuard创建了一个临时变量，它的类型为（看以前做一下深呼吸）：</p>
+<pre class="fragment">ScopeGuardImpl1&lt;int (&amp;)(FILE*), FILE*&gt;
+</pre> <p>这是因为std::fclose是接受FILE*类型参数返回int的函数。具有上面那个类型的临时变量被指派给了const引用closeIt。根据上面提到的C++语言规则，这个临时变量会和它的引用closeIt有同样长的生存期——当这个临时变量被析构时，会调用正确的析构函数。接着，析构函数关闭文件。ScopeGuardImpl1支持有带参数的函数（或functor）。很容易就可以写出不带参数、带两个参数或带更多参数的类（ScopeGuardImpl0、ScopeGuardImpl2……）。当你有了这些类，你就可以重载MakeGuard，从而得到一个优美、统一的语法：</p>
+<pre class="fragment">template &lt;typename Fun&gt;
+ScopeGuardImpl0&lt;Fun&gt;
+MakeGuard(const Fun&amp; fun)
+{
+   return ScopeGuardImpl0&lt;Fun &gt;(fun);
+}
+...
+</pre> <p>到现在为止，我们已经有了一个强大的工具来表达调用一组函数的原子操作。MakeGuard是一个优秀的工具，特别是它同样可以用于C语言的API，而不需要写很多包装类。更好的是，它不损失效率，因为它不涉及到虚函数调用。针对对象和成员函数的ScopeGuard到现在为止，一切都很好，但是怎么调用对象的成员函数呢？其实这一点也不难。让我们来实现ObjScopeGuardImpl0，一个可以调用对象的无参数成员函数的类模板。</p>
+<pre class="fragment">template &lt;class Obj, typename MemFun&gt;
+class ObjScopeGuardImpl0 : public ScopeGuardImplBase
+{
+public:
+   ObjScopeGuardImpl0(Obj&amp; obj, MemFun memFun)
+   : obj_(obj), memFun_(memFun)
+   {}
+   ~ObjScopeGuardImpl0()
+   {
+       if (!dismissed_) (obj_.*memFun_)();
+   }
+private:
+   Obj&amp; obj_;
+   MemFun memFun_;
+};
+</pre> <p>ObjScopeGuardImpl0有一点特别，因为它用了不太为人所知的语法：指向成员函数的指针和operator.*()。为了理解它是如何工作的，让我们来看看MakeObjGuard的实现（我们在本节开始已经利用过MakeObjGuard了）。</p>
+<pre class="fragment">template &lt;class Obj, typename MemFun&gt;
+ObjScopeGuardImpl0&lt;Obj, MemFun, Parm&gt;
+MakeObjGuard(Obj&amp; obj, Fun fun)
+{
+   return ObjScopeGuardImpl0&lt;Obj, MemFun&gt;(obj, fun);
+}
+</pre> <p>现在，如果你调用：</p>
+<pre class="fragment">ScopeGuard guard = MakeObjGuard(friends_, &amp;UserCont::pop_back);
+</pre> <p>会创建一个如下类型的对象：</p>
+<pre class="fragment">ObjScopeGuardImpl0&lt;UserCont, void (UserCont::*)()&gt;
+</pre> <p>幸好，MakeObjGuard让你免于写那些跟字符型图标一样单调的类型。工作机制还是一样——当guard离开作用域，临时对象的析构函数会被调用。析构函数通过指向成员的指针调用成员函数。这里我们用到了.*操作符。</p>
+<p>错误处理，如果你读过Herb Sutter关于异常的著作[2]，你就会知道一条基本原则：析构函数不应该抛出异常。一个会抛出异常的析构函数会让你无法写出正确的代码，并且会再没有任何警告的情况下终止你的应用程序。在C++里，当一个异常被抛出，在堆栈展开（unwinding）的时候某个析构函数又抛出另一个异常，应用程序会被马上终止。</p>
+<p>ScopeGuardImplX和ObjScopeGuardImplX分别调用了一个未知的函数或成员函数，那个函数可能会抛出异常。这会终止程序，因为我们设计guard的析构函数的目的就是：当有异常被抛出，在展开（unwinding）堆栈时，调用这个未知函数！理论上，你不应该把可能抛出异常的函数传给MakeGuard或者MakeObjGuard。在实用中（你可以从供下载的代码中看到），析构函数对异常采取了防御措施。</p>
+<pre class="fragment">template &lt;class Obj, typename MemFun&gt;
+class ObjScopeGuardImpl0 : public ScopeGuardImplBase
+{
+   ...
+public:
+   ~ScopeGuardImpl1()
+   {
+       if (!dismissed_)
+           try { (obj_.*fun_)(); }
+           catch(...) {}
+   }
+}
+</pre> <p>是的，catch(...)块什么事也不做。这可不是随手写的，这在异常处理的领域中是很基本的：如果你的“撤销/恢复”操作也失败了，那么你几乎没有什么事情可以做了。你尝试恢复，但是不管恢复操作是否成功，你都应该继续下去。以我们的即时消息为例，一个可能动作顺序是：你向数据库里加入了一个好友数据，但当把它插入friends_ vector时失败了，当然你会尝试把它从数据库里再删掉。虽然可能性很小，但是从数据库里删除数据时，不知道为什么也失败了，这种情况就很讨厌了。一般来说，你应该在那些保证可以成功撤销的操作上使用guard。支持传引用的参数，在Petru和我很高兴地使用ScopeGuard一段时间以后，我们遇到一个问题。考虑下面的代码：</p>
+<pre class="fragment">void Decrement(int&amp; x) { --x; }
+void UseResource(int refCount)
+{
+   ++refCount;
+   ScopeGuard guard = MakeGuard(Decrement, refCount);
+   ...
+}
+</pre> <p>上面代码中的guard对象确保refCount的值在UseResource函数退出时保持不变。（这个惯用法在一些共享资源的情况下很有用。）尽管有用，但上面的代码不能工作。问题在于，ScopeGuard保存了refCount的一个拷贝（看一下ScopeGuardImpl1的定义，在成员变量parm_里）而不是对它的引用。然而在这个例子里，我们需要的是保存refCount的一个引用，这样才能让Decrement对它进行操作。</p>
+<p>一个解决办法是再实现一些类，例如ScopeGuardImplRef，以及MakeGuardRef。这会有很多重复劳动，并且在实现处理多参数的类时，这个办法就很难应付了。我们采取的办法是：使用一个辅助类，它把引用转变为一个值。</p>
+<pre class="fragment">template &lt;class T&gt;
+class RefHolder
+{
+   T&amp; ref_;
+public:
+   RefHolder(T&amp; ref) : ref_(ref) {}
+   operator T&amp; () const
+   {
+       return ref_;
+   }
+};
+template &lt;class T&gt;
+inline RefHolder&lt;T&gt; ByRef(T&amp; t)
+{
+   return RefHolder&lt;T&gt;(t);
+}
+</pre> <p>RefHolder以及和它配套的辅助函数ByRef可以无缝地使引用适合于值的语义，并且使ScopeGuardImpl1不需要任何改变就可以使用引用。你要做的只是把引用形式的参数用ByRef包装一下，就象这样：</p>
+<pre class="fragment">void Decrement(int&amp; x) { --x; }
+void UseResource(int refCount)
+{
+   ++refCount;
+   ScopeGuard guard = MakeGuard(Decrement, ByRef(refCount));
+   ...
+}
+</pre> <p>我们发现这个方法很有说明性，它提醒你正在用引用方式传递参数。这个支持引用的办法最好的一点是在ScopeGuardImpl1中的const修饰。这里是相关的代码摘要：</p>
+<pre class="fragment">template &lt;typename Fun, typename Parm&gt;
+class ScopeGuardImpl1 : public ScopeGuardImplBase
+{
+   ...
+private:
+   Fun fun_;
+   const Parm parm_;
+};
+</pre> <p>这个小小的const非常重要。它防止使用非const引用的代码通过编译和不正确地运行。换句话说，如果你忘记使用ByRef，编译器不会让这样的错误代码通过。再等一下，还有一点，到现在为止，你有了一个好工具可以帮助你写出正确的代码，而不用发愁。然而有时候你会想要ScopeGuard在退出一个代码块时始终执行。这种情况下，定义一个ScopeGuard类型的哑变量很麻烦——你只需要一个临时变量，而不需要给它命名。宏ON_BLOCK_EXIT可以做到这样，你可以这样写出表达力更好的代码：</p>
+<pre class="fragment">{
+   FILE* topSecret = fopen("cia.txt");
+   ON_BLOCK_EXIT(std::fclose, topSecret);
+   ... use topSecret ...
+} // topSecret automagically closed
+</pre> <p>ON_BLOCK_EXIT表示：“我希望在当前代码块退出时做这个动作。”类似的，ON_BLOCK_EXIT_OBJ对于成员函数调用实现相同的功能。这些宏使用了不太正统的（虽然合法的）花招，这里就不公开了。如果你好奇，你可以到代码里去查看这些宏（因为编译器的bug，用Microsoft VC++的朋友必须关闭“Program Database for Edit and Continue”设定，否则ON_BLOCK_EXIT会有问题）。</p>
+<p>现实中的ScopeGuard，我们喜欢 ScopeGuard是因为它易于使用和概念简单。这篇文章详细讲了整个实现，但是要解释ScopeGuard的用法只要几分钟。ScopeGuard在我们的同事中间象野火一样迅速传播开来，每个人都认为它是一个很有价值的工具，很多情况下有助于防止因为异常而过早返回。有了ScopeGuard，你可以轻松地编写异常安全的代码，而且理解和维护也同样简单。每个工具都有推荐的使用方法，ScopeGuard也不例外。你应该象 ScopeGuard期望的那样使用它——作为函数中的自动变量。你不应该把ScopeGuard对象用作成员变量，或者在堆上分配它们。为此，供下载的代码中包含了一个Janitor类，它和ScopeGuard做的事情一样，但是采取了更通用的做法——代价是损失了一些效率。因为编译器的bug， Borland C++ 5.5的用户需要使用Janitor而不是ScopeGuard。</p>
+<h1><a class="anchor" id="conclu"></a>
+结论</h1>
+<p>我们讨论了一些在编写异常安全代码中出现的一些情况。在比较了几个在这些情况下获得异常安全性的方法以后，我们介绍了一个方法，适用于有防错性（并且不会再throw）撤销操作可用的情况。ScopeGuard使用了若干泛型编程的技术，让你指定在ScopeGuard退出代码块时调用的函数和成员函数。作为可选项，你也可以解除 ScopeGuard对象的动作。</p>
+<p>当你需要实行资源的自动释放，并且可以依靠防错的撤销操作，ScopeGuard在着这种情况下对你很有帮助。当你把几个可能会失败，但是也可以撤销的操作组成一个原子操作，这个惯用法就变得很重要了。当然这个方法也有不适用的情况。</p>
+<h1><a class="anchor" id="sthanks"></a>
+致谢</h1>
+<p>Herb Sutter对本文进行了特别的技术审查。作者也感谢Mihai Antonescu和Dan Pravat对本文所做的修正以及所提的建议。</p>
+<h1><a class="anchor" id="refmat"></a>
+参考资料</h1>
+<p>[1]. Bjarne Stroustrup. The C++ Programming Language, 3rd Edition (Addison-Wesley, 1997), page 366.</p>
+<p>[2]. Herb Sutter. Exceptional C++: 47 Engineering Puzzles, Programming Problems, and Solutions (Addison-Wesley. 2000)</p>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

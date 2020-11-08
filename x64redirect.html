@@ -1,0 +1,47 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">windows x64 file/registry redirection </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="section author"><dt>作者</dt><dd>from:http://bc-programming.com/blogs/2009/12/windows-x64-fileregistry-redirection/ <hr/>
+ </dd></dl>
+<p>When first encountering a x64 based system running windows, one of the first questions posed is often, “what is C:\program files (x86)?” The simple response is that it is the equivalent of Program files on 32-bit systems; that is, 32-bit program files are installed there. This is true; but this is far from the only difference between the two systems and their file systems.</p>
+<p>There is, however, further redirection within both other folders as well as The registry. </p>
+<p>For example, the “real” systemroot%\system32 folder actually stores the x64 system files; the 32-bit files are stored in %systemroot%\syswow64. However, when a 32-bit application access this system32, Windows automatically redirects all requests to the syswow64 folder, so accessing, say, “C:\windows\system32\file.txt” is actually accessing C:\windows\syswow64\file.txt. This includes any file operation at all. creation, editing, etc. there are a few folders exempt from this redirection- that is, they are not redirected. these folders include %windir%\system32\catroot,%windir%\system32\catroot2,%windir%\system32\driversstore (this folder is redirected on all pre-windows 7 systems),%windir%\system32\drivers\etc,%windir%\system32\logfiles,%windir%\system32\spool. There are a few other features, for example, running “C:\windows\regedit.exe” from a 32-bit program will in fact run the program from C:\windows\syswow64\regedit.exe. </p>
+<p>An additional feature is that a 32-bit program can access the 64-bit folder, Vista adds a “sysnative” alias folder in the windows folder, by accessing C:\windows\sysnative instead of C:\windows\system32, one gains access to the real C:\windows\system32 folder rather then being redirected to C:\windows\syswow64. The caveat of this feature is that most programs have validations before they accept a filename; since sysnative is not an actual folder but rather an alias used by the redirector, many validations (including the standard Open/Save dialog) can fail, meaning that one cannot “force” the access to a specific file. the main purpose is for use by the application for various reasons, not so users can access files within the folder from 32-bit applications. </p>
+<p>The registry posesses redirection as well; the HKEY_LOCAL_MACHINE hive on x64 systems contains a key called “Wow6432node”, when a 32-bit program accesses, for example, “HKEY_LOCAL_MACHINE\Software\company\app”, they are in fact accessing “HKEY_LOCAL_MACHINE\Wow6432node\company\app”- basically, it separates 32-bit machine-specific data from 64-bit data. The only caveat is that, unlike the file system redirections, registry accesses are “mirrored” across the two; for example, COM classes are stored in HKEY_LOCAL_MACHINE\software\classes. when either HKEY_LOCAL_MACHINE\software\classes or HKEY_LOCAL_MACHINE\wow6432node\classes are have keys within changed, the change is reflected to the other location. </p>
+<p>Additionally, certain 32-bit compiled applications can be given special treatment; if the image file (exe,dll, ocx) has the IMAGE_FILE_LARGE_ADDRESS_AWARE flag set, wow64 (the windows 32 on windows 64 emulation layer) gives it a 4GB user-mode address space, whereas with a 32-bit system it would be given a 2GB user mode address space. the flag is required, rather then being the default behaviour, because such large addresses may not have been expected when the program was written; therefore, by adding the compiler flag, you are telling windows “yes, I understand and am able to deal with the larger address space in my program”. It doesn’t actually do anything to the program itself, just changes how windows deals it memory. </p>
+<p>another special-case is with regard to program installers for some older 32-bit programs. Many such programs used a stub 16-bit windows 3.1 program to determine the windows version, and then, launch the 32-bit installer if possible. Since 64-bit windows cannot run 16-bit applications, Microsoft decided to hack about a little fix; the followint 16-bit installer technologies have 64-bit equivalents that will be launched instead: </p>
+<ul>
+<li>Microsoft Setup for Windows 1.2</li>
+<li>Microsoft Setup for Windows 2.6</li>
+<li>Microsoft Setup for Windows 3.0</li>
+<li>Microsoft Setup for Windows 3.01</li>
+<li>InstallShield 5.x </li>
+</ul>
+<p>the list of such redirections can be found in HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\NtVdm64, the 64-bit equivalents are found in Syswow64. </p>
+<p>For the most part, these changes make using a 64-bit operating system nearly indistiguishable from using it’s 32-bit equivalent; windows itself bears the brunt of the change, and the application developers pick up a little of the tail-end of it. </p>
+</div></div><!-- PageDoc -->
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>

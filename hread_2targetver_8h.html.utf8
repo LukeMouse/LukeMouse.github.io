@@ -1,0 +1,70 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+  <title>乡下小老鼠日常笔记</title>
+  <link href="TryDoxygen.css" rel="stylesheet" type="text/css">
+  <meta name="robots" content="index,nofollow">
+</head>
+<table width="100%" bgColor="#99CCFF">
+<tr align=left>
+	<td align=left height=46 class="style1"><a href="index.html">
+<img class="logo" src="logo.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></a></td> <td align=center>
+        <font size=6 color="#FFFFFF" face=""><b>乡下小老鼠日常笔记</b></font>
+	</td><td align=left height=46 class="style1">
+<img class="space" src="space.png" height="46" alt="" 
+            style="background-color: #99CCFF; background-image: none;" /></td>
+</tr> </table>
+<!-- 制作者 Doxygen 1.8.15 -->
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_d0f2c36edb6a50530b794a1208b26ce9.html">RuralMouseNotes</a></li><li class="navelem"><a class="el" href="dir_ac683163d9dea956196ec4a7572d50dc.html">Debug</a></li><li class="navelem"><a class="el" href="dir_cfdab29e8040c9bd6f9e648046899983.html">Translation</a></li><li class="navelem"><a class="el" href="dir_386ae72221f4784799bca9c42481380d.html">AppCrashThread</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#define-members">宏定义</a>  </div>
+  <div class="headertitle">
+<div class="title">hread/targetver.h 文件参考</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> 此图展示该文件直接或间接的被哪些文件引用了:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="hread_2targetver_8h__dep__incl.png" border="0" usemap="#targetver_8hdep" alt=""/></div>
+<map name="targetver_8hdep" id="targetver_8hdep">
+<area shape="rect"  title=" " alt="" coords="112,5,195,32"/>
+<area shape="rect"  href="hread_2stdafx_8h.html" title=" " alt="" coords="119,80,187,107"/>
+<area shape="rect"  href="_crash_demo_thread_8cpp.html" title=" " alt="" coords="5,155,160,181"/>
+<area shape="rect"  href="hread_2stdafx_8cpp.html" title=" " alt="" coords="184,155,267,181"/>
+</map>
+</div>
+</div>
+<p><a href="hread_2targetver_8h_source.html">浏览源代码.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+宏定义</h2></td></tr>
+<tr class="memitem:ac50762666aa00bd3a4308158510f1748"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hread_2targetver_8h.html#ac50762666aa00bd3a4308158510f1748">_WIN32_WINNT</a>&#160;&#160;&#160;0x0600</td></tr>
+<tr class="separator:ac50762666aa00bd3a4308158510f1748"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">宏定义说明</h2>
+<a id="ac50762666aa00bd3a4308158510f1748"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac50762666aa00bd3a4308158510f1748">&#9670;&nbsp;</a></span>_WIN32_WINNT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define _WIN32_WINNT&#160;&#160;&#160;0x0600</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
+<hr>
+<MARQUEE behavior="alternate">乡下小老鼠倾力打造 &reg</MARQUEE>
+</html>
